@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+
+# Platform-specific settings for AIX
+
+ifeq (64bit, ${findstring 64bit, $(BLD_USER_TARGET)})
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_ibm64
+else
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_ibm32
+endif
+
+# version
+# $Id: AIX-5.1.def,v 1.2 2004/09/17 22:26:37 cummings Exp $
+
+#
+# End of file

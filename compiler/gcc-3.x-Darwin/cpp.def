@@ -1,0 +1,70 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2004 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# Definitions for GNU C++ compiler on Darwin
+#
+    CXX_ID = gcc-3.x-Darwin
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = g++
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -Wall -Wno-long-double
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -fPIC -fno-common
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O3 -funroll-loops -faltivec
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SARFLAGS = -dynamiclib -flat_namespace -undefined suppress -single_module
+    COMPILER_LCXX_SOFLAGS = -bundle -flat_namespace -undefined suppress
+    COMPILER_LCXX_FORSHARED = 
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lstdc++ -lm -lgcc -lc -lgcc
+#
+# This compiler does not support precompiled headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = -no-cpp-precomp
+#
+# End of file

@@ -1,0 +1,77 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for MIPSPro 7.4 C++ compiler
+#
+    CXX_ID = MIPSpro-7.4
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = CC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -LANG:std -woff 3439 -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -KPIC
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O2 -OPT:Olimit=0:alias=typed:swp=ON \
+	-INLINE:aggressive=ON
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MDupdate $*.$(EXT_DEPEND)
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -J $(NCPUS) -ar -o
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = -J $(NCPUS) -LANG:std -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_FORSHARED =
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lCsup -lC -lCio 
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = so_locations
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/ii_files
+#
+# End of file

@@ -1,0 +1,26 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Win32-4.0.def,v $
+# Revision 1.2  1999/10/20 21:14:49  mga
+# Added dfor.lib on the link. This is a hack, not a permanent solution.
+# The problem is that __matherr is multiply defined in dfor and libc
+#
+# Revision 1.1  1999/10/20 20:31:24  mga
+# Original source
+#
+
+#
+# Win32 settings for math
+#
+
+MATH_INCLUDES =
+MATH_LIBS = $(MATH_LIBDIR)/MKL_I.lib dfor.lib
+
+#
+# End of file

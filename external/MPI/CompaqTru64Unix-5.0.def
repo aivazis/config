@@ -1,0 +1,34 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: CompaqTru64Unix-5.0.def,v $
+# Revision 1.3  2003/07/28 19:46:37  cummings
+# Added $(MPI_INCDIR) to MPI_INCLUDES and -L$(MPI_LIBDIR) to MPI_LIBPATH.  The
+# proper flags for MPI don't seem to be automatically included by the compiler
+# since the recent update of modules on the Little Q machine, so I am assuming
+# that the user will define MPI_INCDIR and MPI_LIBDIR in the environment.
+#
+# Revision 1.2  2001/08/18 03:53:15  cummings
+# Properly separated library search paths and libraries needed for MPI
+# into MPI_LIBPATH and MPI_LIBS, respectively.
+#
+# Revision 1.1  2001/04/26 02:43:29  cummings
+# Configuration file for using MPI library on Compaq Tru64 system.
+#
+#
+
+#
+# Compaq Tru64 Unix 5.0 on alpha settings for MPI -- TCS1
+#
+
+MPI_INCLUDES = $(MPI_INCDIR)
+MPI_LIBS = -lmpi -lelan
+MPI_LIBPATH = -L$(MPI_LIBDIR)
+
+#
+# End of file

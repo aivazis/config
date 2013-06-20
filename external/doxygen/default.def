@@ -1,0 +1,72 @@
+# -*- Makefile -*-
+
+#
+# Default settings for doxygen 
+#
+
+
+# Usage:
+# 1. set the following variables if you want
+#   
+#    DOC_HTML_FOOTER     --  doxygen will create a link (as a footer) pointing to 
+#                            the address given by this variable
+#
+# 2. create local Doxyfile to override default doxygen configuration
+#    if necessary
+#
+# 
+
+
+include std-docs.def
+
+# export root directory of documentation 
+#EXPORT_DOCDIR = $(EXPORT_ROOT)/docs/$(PROJECT)/$(PACKAGE)
+
+# doxygen configuration file. if it does not exist, 
+# config/external/doxygen/Doxyfile.in will be used
+LOCAL_DOXYFILE = Doxyfile
+
+# path to config/external/doxygen
+DOXYGEN_CONFIG_DIR = $(DIR_CONFIG)/external/doxygen
+
+# doxygen executable
+Doxygen_exe = doxygen
+
+# command to get revision number
+GetRevision = svn info|grep Revision
+
+# temporary file for sed
+sed_tmp = .doxygen.sed.tmp
+
+# the echo command
+ECHO = /bin/echo
+
+
+#$(EXPORT_DOCDIR):
+#	$(MKDIR) $(MKPARENTS) $(EXPORT_DOCDIR)
+
+export-doxygen-docs:  $(EXPORT_DOCDIR)
+	if [ ! -f $(LOCAL_DOXYFILE) ] ; then { \
+	  $(ECHO) "Copy default doxygen configuration file to local directory" ; \
+	  $(CP_F) $(DOXYGEN_CONFIG_DIR)/Doxyfile.in $(LOCAL_DOXYFILE) ; \
+	} fi
+	$(ECHO) "Touch doxygen configuration file to reflect local package facts"
+	$(ECHO) 's|PROJECT_NAME[ ]*=.*$$|PROJECT_NAME  =  $(PACKAGE)|g' > $(sed_tmp)
+	$(ECHO) -n 's|PROJECT_NUMBER[ ]*=.*$$|PROJECT_NUMBER  =  ' >> $(sed_tmp)
+	$(ECHO) -n `$(GetRevision)` >> $(sed_tmp)
+	$(ECHO) '|g' >> $(sed_tmp)
+	$(ECHO) 's|HTML_FOOTER[ ]*=.*$$|HTML_FOOTER  =  $(DOC_HTML_FOOTER)|g' >> $(sed_tmp)
+	$(ECHO) 's|OUTPUT_DIRECTORY[ ]*=.*$$|OUTPUT_DIRECTORY  =  $(EXPORT_DOCDIR)|g' >> $(sed_tmp)
+	sed -f $(sed_tmp) < Doxyfile > .Doxyfile
+	$(ECHO) "Create documentations"
+	$(Doxygen_exe) .Doxyfile
+	$(RM_F)   .Doxyfile  $(sed_tmp)
+
+
+
+#	cat Doxyfile | sed -e 's|xxOUTPUTDIRxx|${EXPORT_DOCDIR}|g' -e 's|xxPROJECT_NAMExx|${PACKAGE}|g' -e 's|xxHTML_FOOTERxx|${DOXYGEN_HTML_FOOTER}|g' > Doxyfile
+#	$(Doxygen_exe)
+
+
+#
+# End of file

@@ -1,0 +1,85 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cwchar,v $
+// Revision 1.4  2001/11/30 03:01:07  cummings
+// Since wchar_t is provided as a keyword by the SGI C++ compiler, we
+// cannot inject this symbol into the std namespace.  I have removed
+// this to avoid confusing the EDG parser used by PDT/TAU.
+//
+// Revision 1.3  2001/06/12 19:10:57  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.2  2001/05/25 21:12:32  cummings
+// Check if wchar_t is a keyword before attempting to import symbol into namespace std.
+//
+// Revision 1.1  2001/04/19 01:40:52  cummings
+// Replacements for the remaining new-style C headers that are
+// missing from the MIPSpro compiler header file set.  Each file
+// includes the corresponding standard C header file and then
+// imports types and functions from the global namespace into
+// namespace std, so that they can be used in the standard way.
+// I have attempted to import only ANSI standard items.
+//
+//
+
+#if !defined(__config_compiler_cwchar__)
+#define __config_compiler_cwchar__
+
+//
+// Deficiency file: route cwchar to wchar.h
+// and import symbols into namespace std
+//
+
+#include <wchar.h>
+
+namespace std {
+  /* Standard C wide-character I/O functions and types */
+  using ::size_t;
+  using ::tm;
+  using ::wint_t;
+  using ::fgetwc;
+  using ::fgetws;
+  using ::fputwc;
+  using ::fputws;
+  using ::getwc;
+  using ::getwchar;
+  using ::putwc;
+  using ::putwchar;
+  using ::ungetwc;
+  using ::wcscat;
+  using ::wcschr;
+  using ::wcscmp;
+  using ::wcscoll;
+  using ::wcsxfrm;
+  using ::wcscpy;
+  using ::wcscspn;
+  using ::wcsftime;
+  using ::wcslen;
+  using ::wcsncat;
+  using ::wcsncmp;
+  using ::wcsncpy;
+  using ::wcspbrk;
+  using ::wcsrchr;
+  using ::wcsspn;
+  using ::wcsstr;
+  using ::wcstod;
+  using ::wcstok;
+  using ::wcstol;
+  using ::wcstoul;
+  using ::wcswcs;
+  using ::wcswidth;
+  using ::wcwidth;
+}
+
+#endif
+
+// End of file

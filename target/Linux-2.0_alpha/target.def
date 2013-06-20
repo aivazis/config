@@ -1,0 +1,60 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2000 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.2  2000/08/29 23:22:33  cummings
+# Changed target compiler from "GNU" to "gcc", since GNU has been renamed.
+#
+# Revision 1.1  2000/08/08 18:37:13  aivazis
+# Original source
+#
+
+#
+# Identify this build target
+#
+    TARGET_ID = Linux-2.0_alpha
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = Linux-2.0
+    TARGET_COMPILER = gcc
+#
+# The list of compilers to use
+#
+    TARGET_CC = $(TARGET_COMPILER)
+    TARGET_CXX = $(TARGET_COMPILER)
+    TARGET_F77 = $(TARGET_COMPILER)
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+#
+# END OF FILE

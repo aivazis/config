@@ -1,0 +1,239 @@
+# -*- Makefile -*-
+#
+#---------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+#---------------------------------------------------------------------------
+#
+
+# clawpack application defines
+CLP_DEFINES = EXTENDED_INTEGRATOR
+ifeq (Linux, ${findstring Linux, $(PLATFORM_ID)})
+    CLP_DEFINES += LINUX_387_DOUBLE
+endif
+
+# clawpack source directories
+CLP_DIR = $(AMROC_DIR)/clawpack
+CLP_BCDIR = $(CLP_DIR)/src/$(DIM)d/bc
+CLP_DUMDIR = $(CLP_DIR)/src/$(DIM)d/dummy-routines
+CLP_EQNDIR = $(CLP_DIR)/src/$(DIM)d/equations/$(EQN)
+CLP_INTEXDIR = $(CLP_DIR)/src/$(DIM)d/integrator_extended
+CLP_OPDIR = $(CLP_DIR)/src/$(DIM)d/operators
+CLP_UTILDIR = $(CLP_DIR)/src/utils
+CLP_ODEDIR = $(AMROC_DIR)/../third-party/ODEF
+CLP_UTILFDIR = $(AMROC_DIR)/UtilityF
+
+# Chemkin source directories
+CK_DIR = $(AMROC_DIR)/../third-party/chemkin
+CK_UTILDIR = $(CK_DIR)/utils
+CKDEFAULTGEN = $(CLP_DIR)/applications/euler_chem/Mechanisms/Default
+
+# clawpack includes 
+CLP_INCLUDES = $(CLP_EQNDIR) $(CLP_DIR)
+
+# clawpack object files
+CLP_TMPDIR = $(BLD_TMPDIR)/AMROC/clawpack
+CLP_BCOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_BCSRC)}}}
+CLP_DUMOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_DUMSRC)}}}
+CLP_EQNOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_EQNSRC)}}}
+CLP_INTEXOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_INTEXSRC)}}}
+CLP_OPOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_OPSRC)}}}
+CLP_UTILOBJ =	${addprefix $(CLP_TMPDIR)/utils/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_UTILSRC)}}}
+CLP_ODEOBJ =	${addprefix $(BLD_TMPDIR)/ODEF/, \
+		${addsuffix .$(EXT_OBJ), ${basename $(CLP_ODESRC)}}}
+CLP_UTILFOBJ =	${addprefix $(BLD_TMPDIR)/AMROC/UtilityF/, \
+		${addsuffix .$(EXT_OBJ), ${basename $(CLP_UTILFSRC)}}}
+CLP_OBJ =	$(CLP_BCOBJ) $(CLP_DUMOBJ) $(CLP_EQNOBJ) $(CLP_INTEXOBJ) \
+		$(CLP_OPOBJ) $(CLP_UTILOBJ) $(CLP_ODEOBJ) $(CLP_UTILFOBJ) 
+
+# Chemkin object files
+CK_EQNOBJ =	${addprefix $(PROJ_TMPDIR)/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CK_EQNSRC)}}}
+CK_UTILOBJ =	${addprefix $(PROJ_TMPDIR)/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CK_UTILSRC)}}}
+CK_GENOBJ =	${addprefix $(PROJ_TMPDIR)/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CK_GENSRC)}}}
+CK_OBJ =	$(CK_EQNOBJ) $(CK_UTILOBJ) $(CK_GENOBJ)
+
+# clawpack libraries
+CLP_LIBRARIES = $(BLD_LIBDIR)/libclawpack$(DIM)dex.$(EXT_LIB)
+CLP_LIBFLAGS = -lclawpack$(DIM)dex
+
+# Chemkin libraries
+CK_LIBRARIES =	$(BLD_LIBDIR)/libchemF.$(EXT_LIB)
+CK_LIBFLAGS = -lchemF
+ifneq ($(CK_TRANLIB),)
+CK_LIBRARIES +=	$(BLD_LIBDIR)/libtranF.$(EXT_LIB)
+CK_LIBFLAGS += -ltranF
+endif
+
+# clawpack application driver
+EXT_CXX = C
+CLP_MAINSRC = amr_main.$(EXT_CXX)
+CLP_MAINOBJ = $(PROJ_TMPDIR)/amr_main.$(EXT_OBJ)
+
+# C++ application
+PROJ_CXX_DEFINES += $(AMROC_DEFINES) $(CLP_DEFINES)
+PROJ_CXX_INCLUDES += $(AMROC_INCLUDES) $(CLP_INCLUDES)
+PROJ_LCXX_FLAGS += $(PLATFORM_PAREXE_FLAGS)
+
+# cleanup items
+PROJ_CLEAN += $(CLP_MAINOBJ) $(PROJ_BIN) $(CLP_EQNOBJ) $(CK_OBJ)
+PROJ_TIDY += 	$(CLP_MAINSRC)
+
+# local cxx template repository for Compaq compiler
+ifeq (Compaq, ${findstring Compaq, $(PLATFORM_ID)})
+    PROJ_LCXX_FLAGS += -ptr cxx_repository
+    PROJ_CLEAN += cxx_repository/*.$(EXT_OBJ)
+    PROJ_DISTCLEAN += cxx_repository
+endif
+
+# export items
+EXPORT_BINS += $(PROJ_BIN)
+
+# clawpack application targets
+all:	clawpack-bc clawpack-dum clawpack-eqn clawpack-intex clawpack-op \
+	clawpack-util clawpack-ode clawpack-utilf $(CK_EQNOBJ) $(CK_UTILOBJ) \
+	$(CK_GENOBJ) $(PROJ_BINDIR) $(PROJ_BIN)
+
+# build binary executable
+$(PROJ_BIN): 	$(CLP_OBJ) $(CK_OBJ) $(PROJ_OBJS) $(CLP_MAINOBJ) \
+		$(AMROC_LIBRARIES) $(CLP_LIBRARIES) $(CK_LIBRARIES)
+	$(CXX) $(LCXXFLAGS) -o $@ $(CLP_MAINOBJ) $(CLP_OBJ) $(CK_OBJ) $(PROJ_OBJS) \
+	$(AMROC_LIBFLAGS) $(CLP_LIBFLAGS) $(CK_LIBFLAGS) \
+	$(EXTERNAL_LIBS) $(LCXX_FORTRAN)
+
+$(PROJ_BINDIR):
+	$(MKDIR) $(MKPARENTS) $(PROJ_BINDIR)
+
+# compile clawpack main
+ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
+ifdef NO_TAU_INSTRUMENTATION
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+else
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(PDTCXXPARSE) $< $(CXX_BUILD_DEFINES) -DWITH_TAU $(CXX_BUILD_INCLUDES)
+	$(TAUINSTR) $(basename $<).pdb $< -o $(basename $<).inst.$(EXT_CXX) \
+	-g $(PROJ_TAU_GROUP) -f $(PROJ_TAU_SELECT)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(basename $<).inst.$(EXT_CXX)
+	$(RM) $(RMFLAGS) $(basename $<).pdb $(basename $<).inst.$(EXT_CXX)
+endif
+else
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+endif
+
+# compile clawpack sources
+ifneq ($(CLP_BCSRC),)
+clawpack-bc:
+	(cd $(CLP_BCDIR); $(MM) $(CLP_BCOBJ))
+else
+clawpack-bc:
+
+endif
+
+ifneq ($(CLP_DUMSRC),)
+clawpack-dum:
+	(cd $(CLP_DUMDIR); $(MM) $(CLP_DUMOBJ))
+else
+clawpack-dum:
+
+endif
+
+ifneq ($(CLP_EQNSRC),)
+clawpack-eqn:
+	(cd $(CLP_EQNDIR)/$(CHEM); $(MM) $(CLP_EQNOBJ))
+else
+clawpack-eqn:
+
+endif
+
+ifneq ($(CLP_INTEXSRC),)
+clawpack-intex:
+	(cd $(CLP_INTEXDIR); $(MM) $(CLP_INTEXOBJ))
+else
+clawpack-intex:
+
+endif
+
+ifneq ($(CLP_OPSRC),)
+clawpack-op:
+	(cd $(CLP_OPDIR); $(MM) $(CLP_OPOBJ))
+else
+clawpack-op:
+
+endif
+
+ifneq ($(CLP_UTILSRC),)
+clawpack-util:
+	(cd $(CLP_UTILDIR); $(MM) $(CLP_UTILOBJ))
+else
+clawpack-util:
+
+endif
+
+ifneq ($(CLP_ODESRC),)
+clawpack-ode:
+	(cd $(CLP_ODEDIR); $(MM) $(CLP_ODEOBJ))
+else
+clawpack-ode:
+
+endif
+
+ifneq ($(CLP_UTILFSRC),)
+clawpack-utilf:
+	(cd $(CLP_UTILFDIR); $(MM) $(CLP_UTILFOBJ))
+else
+clawpack-utilf:
+
+endif
+
+# chemkin mechanism generated Fortran files
+$(PROJ_TMPDIR)/genckwcfs.$(EXT_OBJ): genckwcfs.$(EXT_F77)
+	$(F77) $(F77FLAGS) -c -o $@ $<
+$(PROJ_TMPDIR)/genckwcft.$(EXT_OBJ): genckwcft.$(EXT_F77)
+	$(F77) $(F77FLAGS) -c -o $@ $<
+
+genckwcfs.$(EXT_F77):
+	$(LN) $(LNFLAGS) $(CKDEFAULTGEN)/genckwcfsxxx.$(EXT_F77) genckwcfs.$(EXT_F77)
+genckwcft.$(EXT_F77):
+	$(LN) $(LNFLAGS) $(CKDEFAULTGEN)/genckwcftxxx.$(EXT_F77) genckwcft.$(EXT_F77)
+
+clean-genck:
+	$(RM_F) $(CK_GENOBJ)
+
+# build rules for detailed chemistry eqn sources
+CK_EQNDIR = $(CLP_EQNDIR)/$(CHEM)
+include $(CK_EQNDIR)/chem.def
+
+# compile Chemkin sources using application-specific include files
+$(PROJ_TMPDIR)/approxtemp.$(EXT_OBJ): $(CK_UTILDIR)/approxtemp.$(EXT_F77) ck.i
+	$(F77) $(F77FLAGS) -c -o $@ $(CK_UTILDIR)/approxtemp.$(EXT_F77)
+$(PROJ_TMPDIR)/chem.$(EXT_OBJ): $(CK_UTILDIR)/chem.$(EXT_F77) ck.i
+	$(F77) $(F77FLAGS) -c -o $@ $(CK_UTILDIR)/chem.$(EXT_F77)
+$(PROJ_TMPDIR)/tabular.$(EXT_OBJ): $(CK_UTILDIR)/tabular.$(EXT_F77) ck.i
+	$(F77) $(F77FLAGS) -c -o $@ $(CK_UTILDIR)/tabular.$(EXT_F77)
+
+
+# main source code file 
+$(CLP_MAINSRC): $(CLP_DIR)/mains/$(CLP_MAINSRC)
+	@$(CP_F) $< .
+
+
+# version
+# $Id: chemkin.def,v 1.9 2004/06/10 00:27:18 cummings Exp $
+
+#
+# End of file

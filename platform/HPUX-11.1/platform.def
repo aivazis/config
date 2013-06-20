@@ -1,0 +1,82 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.4  2001/02/02 19:23:33  cummings
+# Include 32-bit target definitions file by default if
+# no format is specified in the TARGET.
+#
+# Revision 1.3  2000/09/02 18:35:01  aivazis
+# EXT_SO appears to have to be sl
+#
+# Revision 1.2  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  2000/03/02 01:40:07  rapa
+# added HPUX11.1
+#
+# Revision 1.3  1999/07/01 05:24:58  aivazis
+# Added headers
+#
+
+# include 32-bit target by default if none specified
+ifeq ($(findstring bit,$(TARGETS)),)
+    include 32bit/target.def
+endif
+
+#
+# Definitions for HP-UX
+#
+
+    PLATFORM_ID = HPUX-11.1
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    EXT_SO = sl
+
+    RANLIB = touch
+    RANFLAGS =
+
+    SYSLIB =
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lXext -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXt $(LIB_X)
+    LIB_MOTIF = -lXm $(LIB_XT)
+#
+# END OF FILE

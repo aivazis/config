@@ -1,0 +1,61 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cwctype,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/20 01:43:16  cummings
+// Original source for remaining replacement files for new-style
+// C header files, copied from the MIPSpro-7.3 area and modified
+// for Linux86.
+//
+//
+
+#if !defined(__config_compiler_cwctype__)
+#define __config_compiler_cwctype__
+
+//
+// Deficiency file: route cwctype to wctype.h
+// and import symbols into namespace std
+//
+
+#include <wctype.h>
+
+namespace std {
+  /* Standard C wide-character classification functions and types */
+  using ::wint_t;
+  using ::wctrans_t;
+  using ::wctype_t;
+  using ::iswalnum;
+  using ::iswalpha;
+  using ::iswcntrl;
+  using ::iswdigit;
+  using ::iswgraph;
+  using ::iswlower;
+  using ::iswprint;
+  using ::iswpunct;
+  using ::iswspace;
+  using ::iswupper;
+  using ::iswxdigit;
+  using ::iswctype;
+  using ::wctype;
+  using ::towlower;
+  using ::towupper;
+#ifdef _WCTYPE_H
+  using ::wctrans;
+  using ::towctrans;
+#endif
+}
+
+#endif
+
+// End of file

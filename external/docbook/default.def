@@ -1,0 +1,335 @@
+#-*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                                  Jiao Lin
+#                        California Institute of Technology
+#                          (C) 2007  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+
+# ****************************** Prerequisites ******************************
+# - stylesheets
+#  * docbook xsl
+#    Set the env var DB2HTML_XSL_DIR in .tools
+#    DB2HTML_XSL_DIR = $(HOME)/install/docbook/xsl/docbook-xsl-1.72.0/html
+#
+#  * db2latex xsl
+#    Set the env var DB2LATEX_XSL_DIR in .tools
+#    DB2LATEX_XSL_DIR = $(HOME)/install/db2latex-xsl-0.8pre1/xsl
+#    *** NOTE ***
+#    There is a problem in db2latex stylesheets: qandset.mod.xsl:
+#    duplication of "question.answer.label" template.
+#    The temporary solution is to comment out that template.
+#
+# - dvi2bitmap
+#  To instal div2bitmap, please install source distribtution
+#  from http://dvi2bitmap.sourceforge.net/
+#  and then install by
+#   ./configure --prefix=/path/to/prefix --with-png=/path/to/libpng
+#  for example
+#   ./configure --prefix=/path/to/prefix --with-png=/sw
+#   make 
+#   make install
+#
+#  Please make sure it is in your path, or set the env var
+#    DVI2BITMAP = /path/to/dvi2bitmap
+#
+# - xsltproc
+#  It is usually available on any normal linux/Mac OS X system.
+#
+#  Please make sure it is in your path, or set the env var
+#    XSLTPROC = /path/to/xsltproc
+#
+
+
+
+
+# ****************************** Usage ******************************
+# - there must be a directory "figures", and there must be at least
+#   one file. for example, "README"
+#
+# - there must be a directory "equations" under directory "figures".
+#
+# - An equation example:
+#    <equation id="equation">
+#      <title>An Equation</title>
+#      <mediaobject>
+#	<imageobject role="html">
+#	  <imagedata fileref="figures/equations/eeqmc2.png" format="PNG"/>
+#	</imageobject>
+#	<textobject role="tex">
+#	  <phrase>e=mc^2</phrase>
+#	</textobject>
+#      </mediaobject>
+#    </equation>
+#
+#   Please note that the image file name of an equation always starts
+#   with "figures/equations" for easier maintenance.
+#   Please also note that you should give each equation a different
+#   image file name.
+#
+# - customize your docbook project by providing following vars
+#   *website target
+#    WEBSITE = http://target.web.site
+#
+#   *Where is the doxgen documentation?
+#    DOXYGEN_DOCS = $WEBSITE/doxygen-docs
+#  
+#   *A list of all docbook xml source templates
+#    DOCBOOKSOURCETEMPLATES = \
+#	Introduction.txml \
+#
+#   *A list of all figure files that are going to be created under
+#    "figures/equations":
+#    EQUATION_FIGURES = \
+#	eeqmc2.png \
+#
+# 
+
+
+# ****************************** TIPS ******************************
+# - You might want to add the following to your Make.mm
+#tidy:: tidy-tmpxml tidy-tmpxsl
+#	BLD_ACTION="tidy" $(MM) recurse
+
+
+
+# modify the following to use a different python file to specify
+# the template:value url dictionary. abolute path is used. This is
+# useful in generating latex and pdf
+TXML2XML_PDF = txml2xml_pdf
+
+# modify the following to use a different python file to specify
+# the template:value url dictionary. relative path is used. This is
+# useful in generating html tar ball
+TXML2XML_HTML = txml2xml_html
+
+
+#modify the following line to specify the binary of
+#xsltproc. maybe this should go into .tools
+XSLTPROC = xsltproc
+
+DVI2BITMAP = dvi2bitmap 
+
+
+
+#this is the name of the main xml file of the docbook document
+DOCBOOKMAIN = main
+#this means there must be a main.xml in your docbook project.
+
+
+
+#
+
+#docbook source file extension
+EXT_XML = xml
+#docbook source could contain things that are pointing to 
+#moving target. For example, a html link that might move.
+#So I do not really create docbook xml by hand, but rather 
+#generate docbook xml file from a txml file. This might not
+#be a very good idea. It works for now.
+EXT_TXML = txml
+
+
+
+#docbook style sheet file for creating html chunks.
+#the style sheet contains a reference to a local copy of
+#"official" style sheet. Please modify the style sheet whenever 
+#necessary.
+CUSTOM_DB2HTML_XSL = mydocbook.xsl
+
+
+#docbook style sheet file for creating latex file
+#the style sheet contains a reference to local copy of
+#official db2latex style sheet. Please modify the style sheet whenever 
+#necessary.
+CUSTOM_DB2LATEX_XSL = mydb2latex.xsl
+
+
+
+
+# --- no more configurable items ---
+
+#custom style sheets contain references to system style sheets
+#those references are created using make rules
+$(CUSTOM_DB2HTML_XSL): $(CUSTOM_DB2HTML_XSL).t
+	cat $< | sed 's|xxxDB2HTML_XSL_DIRxxx|$(DB2HTML_XSL_DIR)|g' > $@ 
+
+$(CUSTOM_DB2LATEX_XSL): $(CUSTOM_DB2LATEX_XSL).t
+	cat $< | sed 's|xxxDB2LATEX_XSL_DIRxxx|$(DB2LATEX_XSL_DIR)|g' > $@ 
+
+
+
+# path to config/external/docbook
+DOCBOOK_CONFIG_DIR = $(DIR_CONFIG)/external/docbook
+
+
+# the dbxmlFromTemplate tool
+DBXMLFROMTEMPLATE = $(DOCBOOK_CONFIG_DIR)/dbxmlFromTemplate.py
+
+# the dummy tex file
+DUMMY_TEX_MATH_EQUATIONS = $(DOCBOOK_CONFIG_DIR)/tex-math-equations.tex.dummy
+
+
+$(CUSTOM_DB2HTML_XSL).t:
+	$(CP_F) $(DOCBOOK_CONFIG_DIR)/$(CUSTOM_DB2HTML_XSL).t $(CUSTOM_DB2HTML_XSL).t 
+
+$(CUSTOM_DB2LATEX_XSL).t:
+	$(CP_F) $(DOCBOOK_CONFIG_DIR)/$(CUSTOM_DB2LATEX_XSL).t $(CUSTOM_DB2LATEX_XSL).t
+
+
+
+tidy-tmpxsl:
+	for i in $(CUSTOM_DB2LATEX_XSL)  $(CUSTOM_DB2HTML_XSL); do rm -f $$i; done
+
+
+
+#%.$(EXT_XML): %.$(EXT_TXML)
+#	cat $< | sed 's|xxxDoxygenDocsxxx|$(DOXYGEN_DOCS)|g' | sed 's|xxxWEBSITExxx|$(WEBSITE)|g'  >   $@ 
+
+
+tidy-tmpxml::
+	for i in $(DOCBOOKSOURCETEMPLATES) ; do \
+	 root=`python -c "import os, sys; print os.path.splitext(sys.argv[1])[0]" $$i` ; \
+	 xml=$$root.xml ; \
+	 rm -f $$xml; \
+	done
+
+
+DOCBOOKMAINFILE = $(DOCBOOKMAIN).$(EXT_XML)
+
+
+include std-docs.def
+EXPORT_HTML_DOC_DIR = $(EXPORT_DOCDIR)/html
+EXPORT_LATEX_DOC_DIR = $(EXPORT_DOCDIR)/latex
+
+$(EXPORT_HTML_DOC_DIR):
+	$(MKDIR) $(MKPARENTS) $(EXPORT_HTML_DOC_DIR)
+
+$(EXPORT_LATEX_DOC_DIR):
+	$(MKDIR) $(MKPARENTS) $(EXPORT_LATEX_DOC_DIR)
+
+
+
+HTML_INDEX = $(EXPORT_HTML_DOC_DIR)/index.html
+HTML_TARBALL = $(EXPORT_DOCDIR)/$(PROJECT)-$(PACKAGE)-docs.tgz
+
+
+EXPORT_HTML_FIGURES = $(EXPORT_HTML_DOC_DIR)/figures
+EXPORT_HTML_EQUATION_FIGURES = $(EXPORT_HTML_DOC_DIR)/figures/equations
+
+
+export-html-figures::
+	mkdir -p $(EXPORT_HTML_FIGURES)/
+	rsync --exclude=.svn  -av figures/ $(EXPORT_HTML_FIGURES)/
+
+
+$(EXPORT_HTML_EQUATION_FIGURES): figures/equations/tag
+	rsync --exclude=.svn  -av figures/equations/ $(EXPORT_HTML_FIGURES)/equations/
+
+
+htmldoc: $(HTML_INDEX)
+
+generate-docbook-sources-for-html-output: $(DOCBOOKSOURCETEMPLATES)
+	for i in $(DOCBOOKSOURCETEMPLATES) ; do \
+	 $(DBXMLFROMTEMPLATE) $$i $(TXML2XML_HTML) ; \
+	done
+	touch $(DOCBOOKMAINFILE)
+
+
+$(HTML_INDEX): $(EXPORT_HTML_EQUATION_FIGURES)
+
+
+figures/equations/tag: tex-math-equations.dvi
+	$(DVI2BITMAP) tex-math-equations
+	touch figures/equations/tag
+
+
+tex-math-equations.dvi: tex-math-equations.tex
+	hasequations=`grep document tex-math-equations.tex | wc -l` \
+	&& if [ $$hasequations -gt 0 ] ; then \
+	  latex tex-math-equations ; \
+	fi 
+
+
+
+tex-math-equations.tex: $(EXPORT_HTML_DOC_DIR) *.xml export-html-figures  $(CUSTOM_DB2HTML_XSL)
+	$(XSLTPROC) --nonet --stringparam base.dir $(EXPORT_HTML_DOC_DIR)/ $(CUSTOM_DB2HTML_XSL) $(DOCBOOKMAINFILE)
+	if [ ! -f tex-math-equations.tex ] ; then \
+	  $(CP) $(DUMMY_TEX_MATH_EQUATIONS) tex-math-equations.tex ; \
+	fi
+
+
+htmltarball: $(HTML_TARBALL)
+$(HTML_TARBALL): $(HTML_INDEX)
+	cd $(EXPORT_DOCDIR) && tar cvfz $(HTML_TARBALL) html && cd -
+
+
+
+EXPORT_LATEX_FIGURES = $(EXPORT_LATEX_DOC_DIR)/figures
+TEXFILE = $(EXPORT_LATEX_DOC_DIR)/$(DOCBOOKMAIN).$(EXT_TEX)
+PDFFILE = $(EXPORT_LATEX_DOC_DIR)/$(DOCBOOKMAIN).$(EXT_PDF)
+
+#override the std-latex because pdflatex is automatically called by the 
+#latex document generated by db2latex
+$(PDFFILE): $(TEXFILE)
+	cd $(EXPORT_LATEX_DOC_DIR) && TEXINPUTS=.:: $(TEX_LATEX) $(DOCBOOKMAIN) && cd -
+	cd $(EXPORT_LATEX_DOC_DIR) && makeindex $(TEXFILE) && cd -
+	cd $(EXPORT_LATEX_DOC_DIR) && TEXINPUTS=.:: $(TEX_LATEX) $(DOCBOOKMAIN) && cd -
+	cd $(EXPORT_LATEX_DOC_DIR) && TEXINPUTS=.:: $(TEX_LATEX) $(DOCBOOKMAIN) && cd -
+#	cd $(EXPORT_LATEX_DOC_DIR) && TEXINPUTS=.:$(PWD):: $(TEX_LATEX) $< && cd -
+
+texdoc: $(TEXFILE) $(PDFFILE)
+
+
+generate-docbook-sources-for-latex-output: $(DOCBOOKSOURCETEMPLATES)
+	for i in $(DOCBOOKSOURCETEMPLATES) ; do \
+	 $(DBXMLFROMTEMPLATE) $$i $(TXML2XML_PDF) ; \
+	done
+	touch $(DOCBOOKMAINFILE)
+
+
+
+$(TEXFILE): $(EXPORT_LATEX_DOC_DIR) *.xml $(EXPORT_LATEX_FIGURES) $(CUSTOM_DB2LATEX_XSL)
+	$(XSLTPROC) --nonet $(CUSTOM_DB2LATEX_XSL) $(DOCBOOKMAINFILE) > $(TEXFILE)
+
+
+DB2LATEX_FIGURES = $(DB2LATEX_XSL_DIR)/figures
+
+
+export-latex-figures: figures $(DB2LATEX_FIGURES)
+	$(MKDIR) $(MKPARENTS) $(EXPORT_LATEX_FIGURES)
+	rsync --exclude=.svn  -av figures/ $(EXPORT_LATEX_FIGURES)/
+	rsync --exclude=.svn  -av $(DB2LATEX_FIGURES)/ $(EXPORT_LATEX_FIGURES)/
+
+
+#index.html in this directory is wrtten by hand.
+#it serves as documentation index.
+#It gives links to online
+#html document, pdf document, and tar ball of html documents.
+MAIN_HTML_INDEX = $(EXPORT_DOCDIR)/index.html
+$(MAIN_HTML_INDEX): index.html
+	cp index.html $(MAIN_HTML_INDEX)
+
+mainindex: $(MAIN_HTML_INDEX)
+
+export-docbook-docs: 
+	$(MM) export-html-figures 
+	$(MM) export-latex-figures 
+	$(MM) generate-docbook-sources-for-html-output
+	$(MM) htmldoc 
+	$(MM) htmltarball 
+	$(MM) generate-docbook-sources-for-latex-output
+	$(MM) texdoc 
+	$(MM) mainindex
+
+
+# version
+# $Id: default.def,v 1.1 2009/04/06 17:28:26 linjiao Exp $
+
+# End of file

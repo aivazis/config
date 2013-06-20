@@ -1,0 +1,19 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Win32 default settings for Python
+#
+
+PYTHON_INCLUDES= $(PYTHON_INCDIR)
+PYTHON_LIBS = -L$(PYTHON_LIBDIR)/config -lpython$(PYTHON_VERSION)
+
+PYTHON_APIREQS = -lpthread
+
+#
+# End of file

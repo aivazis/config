@@ -1,0 +1,27 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Irix-6.5.def,v $
+# Revision 1.3  2001/04/21 20:09:15  aivazis
+# Added support for embedding python
+#
+# Revision 1.2  1999/06/09 01:38:47  mga
+# Fixed typos and added header
+#
+
+#
+# Irix settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS =
+
+PYTHON_APIREQS = -lpthread -lmpc -lm
+
+#
+# End of file

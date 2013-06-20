@@ -1,0 +1,37 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+
+# Platform-independent settings
+
+    ZOLTAN_DIR = $(TOOLS_DIR)/zoltan
+    ZOLTAN_FLAGS = 
+
+# Include platform-specific definitions file
+
+    include zoltan/$(TARGET_PLATFORM).def
+
+#
+# Adjust the external variables to include zoltan
+#
+    ZOLTAN_INCDIR = $(ZOLTAN_DIR)/include
+
+#
+# Add directories just to fix bugs in zoltan distribution
+#
+    ZOLTAN_INCLUDES = \
+        $(ZOLTAN_INCDIR) $(ZOLTAN_DIR)/Utilities/Communication $(ZOLTAN_DIR)/Utilities/Memory \
+        $(ZOLTAN_DIR)/Utilities/DDirectory
+
+    EXTERNAL_DEFINES += HAVE_LIBZOLTAN
+    EXTERNAL_INCLUDES += $(ZOLTAN_INCLUDES)
+    EXTERNAL_LIBPATH += -L$(ZOLTAN_LIBDIR)
+    ZOLTAN_LIBS = -lzoltan -lzoltan_comm -lzoltan_mem -lzoltan_dd
+
+#
+# End of file

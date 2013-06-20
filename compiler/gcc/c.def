@@ -1,0 +1,14 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the GNU C compiler
+#
+include gcc-4.x/c.def
+#
+# End of file

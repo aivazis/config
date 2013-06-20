@@ -1,0 +1,23 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Generate dependencies for YACC source
+#
+
+%.$(EXT_DEPEND): %.$(EXT_YACC)
+	@echo $(LOGTAG_DEPENDS) "$< -> $@"
+	@echo "$$(PROJ_LIB)($*.$(EXT_OBJ)) $@: $*.$(EXT_YACC)" > $@
+
+
+# version
+# $Id: std-depends.def,v 1.5 2003/02/27 18:34:43 cummings Exp $
+
+#
+# End of file 

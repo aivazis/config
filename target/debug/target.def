@@ -1,0 +1,33 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Here are the build-specific flags
+#
+# C
+#
+    TARGET_CC_DEFINES += DEBUG
+    TARGET_CC_FLAGS += $(CC_DEBUG_FLAGS)
+    TARGET_LCC_FLAGS += $(CC_DEBUG_FLAGS)
+#
+# C++
+#
+    TARGET_CXX_DEFINES += DEBUG
+    TARGET_CXX_FLAGS += $(CXX_DEBUG_FLAGS)
+    TARGET_LCXX_FLAGS += $(CXX_DEBUG_FLAGS)
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS += $(FORT_DEBUG_FLAGS)
+    TARGET_LF77_FLAGS += $(FORT_DEBUG_FLAGS)
+#
+# Python
+#
+    TARGET_PYTHON_FLAGS += -d
+#
+# END OF FILE

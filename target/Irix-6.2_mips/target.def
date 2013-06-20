@@ -1,0 +1,44 @@
+#
+# Identify this build target
+#
+    TARGET_ID = Irix-6.2_mips
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = Irix-6.2
+    TARGET_COMPILER = MIPSpro-7.2
+#
+# The list of compilers to use
+#
+    TARGET_CC = $(TARGET_COMPILER)
+    TARGET_CXX = $(TARGET_COMPILER)
+    TARGET_F77 = $(TARGET_COMPILER)
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+#
+# END OF FILE

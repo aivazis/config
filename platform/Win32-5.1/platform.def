@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Win32-5.1
+#
+
+    PLATFORM_ID = Win32-5.1
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = ranlib
+    RANFLAGS =
+
+    SYSLIB =
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXmu -lXt $(LIB_X)
+    LIB_MOTIF = -lXaw $(LIB_XT)
+
+#
+# The default extensions for tools on this platform
+#
+
+
+#    EXT_OBJ = o
+#    EXT_AR = a
+   EXT_SAR = dll.a
+   EXT_SO = dll
+
+#
+# END OF FILE

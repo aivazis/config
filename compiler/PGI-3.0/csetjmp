@@ -1,0 +1,43 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: csetjmp,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/20 01:43:16  cummings
+// Original source for remaining replacement files for new-style
+// C header files, copied from the MIPSpro-7.3 area and modified
+// for Linux86.
+//
+//
+
+#if !defined(__config_compiler_csetjmp__)
+#define __config_compiler_csetjmp__
+
+//
+// Deficiency file: route csetjmp to setjmp.h
+// and import symbols into namespace std
+//
+
+#include <setjmp.h>
+
+namespace std {
+  /* Standard C library stack unwinding */
+  using ::jmpbuf;
+/* setjmp is a macro in the ISO C standard */
+/*  using ::setjmp;  */
+  using ::longjmp;
+}
+
+#endif
+
+// End of file

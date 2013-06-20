@@ -1,0 +1,100 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2002 All Rights Reserved
+#
+# <LicenseText>
+#
+#--------------------------------------------------------------------------------
+#
+
+pyre: debug-python solvers geometry #pyre-bindings
+
+solvers: adlib rm3d rm3dge grace
+
+geometry: cpt metis
+
+support: debug-python debug-cpp hdf5 io
+
+pyre-bindings: debug-cpp pyadlib pyrm3d pyrm3dge pympi pyacis 
+
+
+#--------------------------------------------------------------------------
+#
+# Solvers
+
+adlib: tetra metis debug-cpp io
+	(cd $(ADLIB_DIR); $(MM))
+
+rm3d: cpt
+	(cd $(RM3D_DIR); $(MM))
+
+rm3dge: cpt io
+	(cd $(RM3DGE_DIR); $(MM))
+
+tetra: 
+	(cd $(TETRA_DIR); $(MM))
+
+grace: 
+	(cd $(GRACE_DIR); $(MM))
+
+#--------------------------------------------------------------------------
+#
+# geometry
+
+cpt:
+	(cd $(CPT_DIR); $(MM))
+
+metis:
+	(cd $(METIS_DIR); $(MM))
+
+
+#--------------------------------------------------------------------------
+#
+# Pyre bindings
+
+pyacis: debug-cpp
+	-(cd $(PYACIS_DIR); $(MM))
+
+pyadlib: cpt metis adlib debug-cpp
+	(cd $(PYADLIB_DIR); $(MM))
+
+pyrm3d: cpt rm3d debug-cpp
+	(cd $(PYRM3D_DIR); $(MM))
+
+pyrm3dge: cpt rm3dge debug-cpp
+	(cd $(PYRM3DGE_DIR); $(MM))
+
+pympi: debug-cpp
+	(cd $(PYMPI_DIR); $(MM))
+
+# support
+
+debug: debug-cpp
+
+debug-python:
+	(cd $(DEBUGPYTHON_DIR); $(MM) export)
+
+debug-cpp:
+	(cd $(DEBUGCPP_DIR); $(MM))
+
+pablo:
+	(cd $(PABLO_DIR); $(MM))
+
+ifneq ($(findstring pablo, $(BLD_USER_TARGET)),)
+hdf5:	pablo
+	(cd $(HDF5_DIR); $(MM))
+else
+hdf5:
+	(cd $(HDF5_DIR); $(MM))
+endif
+
+io:	hdf5
+	(cd $(IO_DIR); $(MM))
+
+
+
+# End of file

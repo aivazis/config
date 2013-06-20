@@ -1,0 +1,15 @@
+#
+# $Log: TODO,v $
+# Revision 1.1  1999/10/07 20:58:32  aivazis
+# Original
+#
+#
+
+(o) Select compiler or compiler set at build time and overide the default
+
+(o) How do you handle the coexistence of code compiled by different C++ compilers
+
+(o) How do you allow external packages to enable compiler features on a per platform basis
+    or vica versa?
+
+# End of file

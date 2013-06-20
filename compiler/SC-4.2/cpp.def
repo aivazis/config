@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+
+# $Log: cpp.def,v $
+# Revision 1.5  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.4  1999/10/23 03:12:47  aivazis
+# Fixed typo in compiler id
+#
+# Revision 1.3  1999/06/16 20:41:47  aivazis
+# Added headers
+#
+
+#
+# Definitions for MIPSPro 7.20 C++ compiler
+#
+    CXX_ID = SC-4.2
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = CC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -pts
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -G -KPIC
+#
+    CXX_OPT_FLAGS = -O2      # Optimization flags
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = CC -xM
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = so_locations
+    COMPILER_CXX_DISTCLEAN =
+#
+# Mixed language linking
+#
+    COMPILER_LCXX_FORTRAN = -lF77 -lM77 -lpfc -lsunmath
+#
+# End of file

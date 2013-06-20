@@ -1,0 +1,66 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.3  2000/10/03 02:50:31  cummings
+# Changed to use definition files in IBM-5.1.1 for C/C++, as these
+# files now correspond to settings for the IBM Visual Age compiler.
+#
+# Revision 1.2  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  1999/08/27 22:34:02  sharon
+# added AIX-3.0 platform and IBM-3.6.6 compilers
+#
+# Revision 1.2  1999/06/20 16:32:05  aivazis
+# Added header
+#
+
+#
+# Identify this build target
+#
+    TARGET_ID = AIX-3.0_rios
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = AIX-3.0
+#
+# The list of compilers to use
+#
+    TARGET_CC =  IBM-5.1.1
+    TARGET_CXX =   IBM-5.1.1
+    TARGET_F77 =   IBM-5.1.1
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+#
+# END OF FILE

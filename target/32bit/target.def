@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.1  2001/01/29 18:50:07  cummings
+# New 32-bit target definitions file for building 32-bit libraries
+# and executables, for platforms with both 32-bit and 64-bit options.
+#
+#
+
+#
+# Compiler-specific 32-bit library and executable format flags
+#
+    COMPILER_LIB_FORMAT = $(COMPILER_LIB_32BIT)
+    COMPILER_EXE_FORMAT = $(COMPILER_EXE_32BIT)
+#
+# END OF FILE

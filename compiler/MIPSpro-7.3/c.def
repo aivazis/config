@@ -1,0 +1,103 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: c.def,v $
+# Revision 1.8  2001/11/30 20:22:05  cummings
+# Test for NO_MAKEDEPENDS_COMBINED macro before turning on combined
+# compile/makedepends capability in SGI MIPSpro C compiler.
+#
+# Revision 1.7  2001/05/04 00:20:25  cummings
+# Performing combined makefile dependency info generation and code
+# compilation does not work with the insure target because it will
+# not properly pass along the makedepend command.  So I've added a
+# check that the insure target is not being used before utilizing
+# the combined makedepend and compile feature.
+#
+# Revision 1.6  2001/03/21 01:21:46  cummings
+# Changed MAKEDEPENDS command to version which generates dependency
+# info and compiles the source file as one step.  Set indicator flag
+# for this compiler feature to true.
+#
+# Revision 1.5  2001/01/29 18:55:58  cummings
+# Replaced hard-wired 64-bit format flag with flag defined in 32-bit
+# or 64-bit target definitions file.  You should add "32bit" or "64bit"
+# to your TARGET environment variable when building on the SGI platform
+# with MIPSpro, in order to choose n32 or 64-bit format.
+#
+# Revision 1.4  2000/09/08 01:23:54  cummings
+# Added some fancier optimization flags.  Changed SOFLAG to -KPIC.
+# Added special C++ archiving flags to cpp.def.  Added -mips4 flag
+# as default for all compiles.
+#
+# Revision 1.3  2000/08/30 20:52:59  aivazis
+# Turned on 64bit ABI
+#
+# Revision 1.2  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  1999/10/21 18:09:15  aivazis
+# Original source
+#
+
+#
+# Definitions for MIPSPro 7.3 C compiler
+#
+    CC_ID = MIPSpro-7.3
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = cc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = -KPIC
+#
+# Optimization flags
+    CC_OPT_FLAGS = -O2 -OPT:Olimit=0:alias=typed:swp=ON \
+	-INLINE:aggressive=ON     
+    CC_DEBUG_FLAGS = -g     # Debug flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -M
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MDupdate $*.$(EXT_DEPEND)
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LCC_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN = so_locations
+    COMPILER_CC_DISTCLEAN =
+#
+# Mixed language linking
+#
+    COMPILER_LCC_FORTRAN = -lftn
+#
+# End of file

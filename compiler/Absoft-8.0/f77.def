@@ -1,0 +1,74 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the Absoft FORTRAN compiler
+#
+#
+    F77_ID = Absoft-8.0
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f77
+    COMPILER_F90_NAME = f90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -w -W -N109 -K
+    COMPILER_F90_FLAGS = -w -W132 -YCSLASH=1 -YDEALLOC=MINE
+    COMPILER_F77_INCLUDES =
+    COMPILER_F77_DEFINES =
+
+    COMPILER_F77_SOFLAGS = 
+#
+    F77_OPT_FLAGS = -O2      # Optimization flags
+    F77_DEBUG_FLAGS = -g -trap=INVALID,DIVBYZERO,OVERFLOW -et -C  # Debug flags
+    F90_OPT_FLAGS = -O3
+    F90_DEBUG_FLAGS = -g -trap=INVALID,DIVBYZERO,OVERFLOW -et -Rb -Rc -Rp -Rs 
+    F77_PROF_FLAGS = -P      # Profiling flags
+    F77_MODULE_FLAGS = -p
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = mm_dummy
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME =
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH = -L$(ABSOFT_LIBDIR)
+    COMPILER_LF77_SOFLAGS = -X -shared
+    COMPILER_LF77_SARFLAGS = -X -shared
+#
+# Extensions: input format, etc
+#
+    COMPILER_F77_VAX_TABS = -V
+    COMPILER_F77_STATIC_LOCALS = -s
+#
+# Mixed language linking
+#
+    COMPILER_LF77_LIBRARIES = -lfio -lU77 -lf77math -lfio
+
+    COMPILER_LF90_LIBRARIES = -lfio -lf90math -lU77 -lf77math -lfio
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = *.mod
+    COMPILER_F77_DISTCLEAN =
+
+# version
+# $Id: f77.def,v 1.28 2004/05/15 00:32:44 aivazis Exp $
+
+#
+# End of file

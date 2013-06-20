@@ -1,0 +1,29 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Standard rules
+#
+
+# Compile YACC source and add object module to archive
+#
+.$(EXT_YACC).$(EXT_AR):
+	@echo "$(LOGTAG_COMPILING) $< -> $@($%)"
+	$(YACC) $*.$(EXT_YACC)
+	@$(MV_F) $(YACC_CFILE) $*.$(EXT_C)
+	$(CC) $(CC_FLAGS) $(CC_DEFINES) $(CC_INCLUDES) -c $*.$(EXT_C)
+	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_C) $*.$(EXT_CH)
+	$(AR_UPDATE) $@ $*.$(EXT_OBJ)
+	@-$(RM) $(RMFLAGS) $*.$(EXT_C) $(YACC_HFILE) $*.$(EXT_OBJ)
+
+# version
+# $Id: std-rules.def,v 1.10 2003/02/27 18:34:43 cummings Exp $
+
+#
+# End of file

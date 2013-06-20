@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="us-ascii" ?>
+
+<!--
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Jiao Lin
+California Institute of Technology
+(C) 2007 All Rights Reserved
+
+{LicenseText}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-->
+
+
+<chapter>
+  
+  <title>Introduction</title>
+  
+  <para>
+    Here is a paragraph. ajdf dfalj d fklsjfls dfsdfs.
+  </para>
+
+  <para>
+    <ulink url="xxxWEBSITExxx/hello">
+      <citetitle>Here</citetitle>
+    </ulink>
+    is a url.
+  </para>
+  
+  <para>
+    Here is a list of codes
+  </para>
+  
+  <programlisting>
+    from histogram import makeHistogram
+    taxis = 't', [1.,2.,3.]
+    axes = [taxis]
+    data = [3, 10, 5]
+    errs = [3, 10, 5]
+    h = makeHistogram( "intensity", axes, data, errs)
+    print h
+    help(h)
+  </programlisting>
+  
+  <para>
+    This demonstrates cross references:
+    The <xref linkend="Introducion-Section1"/> has more details about that.
+  </para>
+  
+  <sect1 id="Introducion-Section1"> 
+    <title >Section One</title>
+    <para>
+      Texts for section one.
+    </para>
+    
+    <para>
+      Try an Equation:
+    </para>
+    
+    <equation id="equation">
+      <title>An Equation</title>
+      <mediaobject>
+	<imageobject role="html">
+	  <imagedata fileref="figures/equations/eeqmc2.png" format="PNG"/>
+	</imageobject>
+	<textobject role="tex">
+	  <phrase>e=mc^2</phrase>
+	</textobject>
+      </mediaobject>
+    </equation>
+
+    <para>
+      <xref linkend="equation"/> is well-known as Einstein
+      <indexterm>
+	<primary>Einstein</primary>
+      </indexterm>
+      's mass-energy relation.
+    </para> 
+    
+    <equation id="equation2">
+      <title>Action of electromagnetic field</title>
+      <mediaobject>
+	<imageobject role="html">
+	  <imagedata fileref="figures/equations/emaction.png" format="PNG"/>
+	</imageobject>
+	<textobject role="tex">
+	  <phrase>S = \int \left( -\frac{1}{4\mu_0} F_{\mu\nu} F^{\mu\nu} \right){\rm d}^4 x </phrase>
+	</textobject>
+      </mediaobject>
+    </equation>
+
+  </sect1>
+  
+</chapter>
+

@@ -1,0 +1,42 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2001 All Rights Reserved
+#
+# <LicenseText>
+#
+#--------------------------------------------------------------------------------
+#
+
+    GRACE_DEFINES = Want_c_files VAMPIRE ACEVectorGridFunction ANSI_HEADERS
+
+ifeq (CompaqTru64, ${findstring CompaqTru64, $(PLATFORM_ID)})
+    GRACE_DEFINES += USE_TESTSOME
+endif
+ifeq (Irix, ${findstring Irix, $(PLATFORM_ID)})
+    GRACE_DEFINES += SGI SGINEW
+endif
+ifeq (AIX, ${findstring AIX, $(PLATFORM_ID)})
+    GRACE_DEFINES += SPX SPXNEW USE_DELAYED_WAITS
+endif
+ifeq (Linux, ${findstring Linux, $(PLATFORM_ID)})
+    GRACE_DEFINES += USE_STAGGERED_SENDS
+endif
+ifeq (PGI, ${findstring PGI, $(TARGET_CXX)})
+    GRACE_DEFINES += PORT_GROUP
+endif
+ifeq (Absoft, ${findstring Absoft, $(TARGET_F77)})
+    GRACE_DEFINES += LINUX_ABSOFT
+endif
+ifeq (mpi, ${findstring mpi, $(BLD_USER_TARGET)})
+    GRACE_DEFINES += ACE_MPI_CPP
+else
+    GRACE_DEFINES += ACE_NO_MPI
+endif
+
+    GRACE_INCLUDES = $(BLD_ROOT)/tools/vampire
+#
+# End of file

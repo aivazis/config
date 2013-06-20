@@ -1,0 +1,15 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+
+# Platform-specific settings for Darwin
+
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_gcc
+
+#
+# End of file

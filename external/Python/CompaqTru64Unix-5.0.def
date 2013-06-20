@@ -1,0 +1,18 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Default settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS = 	-L/usr/local/packages/tcl8.4.1/lib -ltk8.4 -ltcl8.4 \
+		-L/usr/lib -lX11 -lpthread -lm
+
+#
+# End of file

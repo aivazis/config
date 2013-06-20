@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for MIPSPro 7.4 FORTRAN compiler
+#
+#
+    F77_ID = MIPSpro-7.4
+#
+# The name of the binary
+#
+    COMPILER_F90_NAME = f90
+    COMPILER_F77_NAME = f77
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_F90_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -KPIC
+#
+# Optimization flags
+    F77_OPT_FLAGS = -O2 -OPT:Olimit=0:swp=ON -INLINE:aggressive=ON      
+    F90_OPT_FLAGS = -O2 -OPT:Olimit=0:swp=ON -INLINE:aggressive=ON      
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+    F77_MODULE_FLAGS = -I
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy #$(COMPILER_F77_NAME) -MDupdate[file]
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LF77_LIBPATH =
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBRARIES = -lfortran -lffio -lftn
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = so_locations
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

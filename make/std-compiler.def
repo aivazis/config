@@ -1,0 +1,55 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+
+# Default settings for all auxiliary compiler variables
+#
+
+    COMPILER_CC_CLEAN =
+    COMPILER_CC_DISTCLEAN =
+
+    COMPILER_CXX_CLEAN =
+    COMPILER_CXX_DISTCLEAN =
+
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+
+    COMPILER_CUCC_CLEAN =
+    COMPILER_CUCC_DISTCLEAN =
+
+# Turn the provisional compiler names into the actual ones (unless someone overrides)
+
+    CC = $(COMPILER_CC_NAME)
+    F77 = $(COMPILER_F77_NAME)
+    CXX = $(COMPILER_CXX_NAME)
+    CUCC = $(COMPILER_CUCC_NAME) --compiler-bindir $(COMPILER_CUCC_CC_NAME) 
+
+# Command line generation
+
+# These macros get used by std-c.def to build the C command line
+    CC_BUILD_DEFINES = ${addprefix -D, $(CC_DEFINES)}
+    CC_BUILD_INCLUDES = ${addprefix -I, $(CC_INCLUDES)}
+
+# These macros get used by std-c.def to build the C++ command line
+    CXX_BUILD_DEFINES = ${addprefix -D, $(CXX_DEFINES)}
+    CXX_BUILD_INCLUDES = ${addprefix -I, $(CXX_INCLUDES)}
+
+#
+# These macros get used by std-fortran.def to build the FORTRAN command line
+    F77_BUILD_DEFINES = ${addprefix -D, $(F77_DEFINES)}
+    F77_BUILD_INCLUDES = ${addprefix -I, $(F77_INCLUDES)}
+    F90_BUILD_MODULES = ${addprefix $(F77_MODULE_FLAGS), $(F90_MODULES)}
+
+# Use F77 standard/debug/opt flags by default, unless someone overrides
+    COMPILER_FORT_FLAGS = $(COMPILER_F77_FLAGS)
+    FORT_DEBUG_FLAGS = $(F77_DEBUG_FLAGS)
+    FORT_OPT_FLAGS = $(F77_OPT_FLAGS)
+
+# These macros get used by std-c.def to build the C command line
+    CUCC_BUILD_DEFINES = ${addprefix -D, $(CUCC_DEFINES)}
+    CUCC_BUILD_INCLUDES = ${addprefix -I, $(CUCC_INCLUDES)}
+
+# end of file

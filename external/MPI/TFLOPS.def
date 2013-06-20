@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: TFLOPS.def,v $
+# Revision 1.2  2001/08/18 03:53:15  cummings
+# Properly separated library search paths and libraries needed for MPI
+# into MPI_LIBPATH and MPI_LIBS, respectively.
+#
+# Revision 1.1  2000/10/03 01:45:51  cummings
+# New definitions file for MPI on TFLOPS.  Simply add -lmpi to link line.
+#
+#
+
+#
+# TFLOPS settings for MPI
+#
+
+MPI_INCLUDES =
+MPI_LIBS = -lmpi
+MPI_LIBPATH = 
+
+#
+# End of file

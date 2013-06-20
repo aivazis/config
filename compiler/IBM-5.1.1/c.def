@@ -1,0 +1,67 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+
+#
+# Definitions for IBM Visual Age C compiler
+#
+    CC_ID = IBM-5.1.1
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = xlc_r
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = $(COMPILER_EXE_FORMAT) -qlanglvl=extended -qnoro -qnoroconst
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = 
+#
+    CC_OPT_FLAGS = -O2 -qstrict_induction -Q -qmaxmem=8192 
+    CC_DEBUG_FLAGS = -g   # Debug flags
+    CC_PROF_FLAGS = -pg   # Profiling flags
+#
+# Format flags
+#
+    COMPILER_EXE_32BIT = -q32
+    COMPILER_EXE_64BIT = -q64
+    COMPILER_LIB_32BIT = -X32
+    COMPILER_LIB_64BIT = -X64
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -P -M
+    CC_MAKEDEPENDS_FILE = true
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -M
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+    EXT_DEPEND = u
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS = # -bmaxdata:0x80000000 -bmaxstack:0x10000000
+    COMPILER_LCC_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN = so_locations
+    COMPILER_CC_DISTCLEAN =
+#
+# Archive flag
+#
+    AR = ar $(COMPILER_LIB_FORMAT)
+#
+# End of file

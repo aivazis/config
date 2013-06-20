@@ -1,0 +1,84 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Default settings for C compilation
+#
+
+
+# Developer preferences
+
+    DEV_CUCC_FLAGS ?=
+    DEV_CUCC_INCLUDES ?=
+    DEV_CUCC_DEFINES ?=
+    DEV_LCUCC_FLAGS ?=
+    DEV_LCUCC_LIBPATH ?=
+
+
+# Construction of compiler command line
+
+    CUCC_FLAGS = $(PLATFORM_CUCC_FLAGS) $(COMPILER_CUCC_FLAGS) $(TARGET_CUCC_FLAGS) \
+	     $(DEV_CUCC_FLAGS) $(PROJ_CUCC_FLAGS)
+    CUCC_INCLUDES = $(PLATFORM_CUCC_INCLUDES) $(DIR_COMPILER)/$(CUCC_ID) \
+		$(COMPILER_CUCC_INCLUDES) $(TARGET_CUCC_INCLUDES) \
+		$(DEV_CUCC_INCLUDES) $(PROJ_CUCC_INCLUDES) $(EXTERNAL_INCLUDES) \
+		$(BLD_INCDIR)
+    CUCC_DEFINES = $(PLATFORM_CUCC_DEFINES) $(COMPILER_CUCC_DEFINES) \
+	       $(TARGET_CUCC_DEFINES) $(DEV_CUCC_DEFINES) $(PROJ_CUCC_DEFINES) \
+	       $(EXTERNAL_DEFINES)
+    LCUCC_FLAGS = $(PLATFORM_LCUCC_FLAGS) $(COMPILER_LCUCC_FLAGS) \
+	      $(TARGET_LCUCC_FLAGS) $(DEV_LCUCC_FLAGS) $(PROJ_LCUCC_FLAGS)
+    LCUCC_LIBPATH = $(PLATFORM_LCUCC_LIBPATH) $(TARGET_LCUCC_LIBPATH) \
+		$(DEV_LCUCC_LIBPATH) $(PROJ_LCUCC_LIBPATH) $(EXTERNAL_LIBPATH)
+
+    CUCC_SOFLAGS = $(COMPILER_CUCC_SOFLAGS)
+    LCUCC_SOFLAGS = $(COMPILER_LCUCC_SOFLAGS) $(EXTERNAL_SOFLAGS)
+
+    CUCFLAGS = $(CUCC_BUILD_DEFINES) $(CUCC_BUILD_INCLUDES) $(CUCC_FLAGS) 
+    LCUCFLAGS = $(LCUCC_FLAGS) ${addprefix -L, $(LCUCC_LIBPATH)}
+    LCUCC_FORTRAN = $(COMPILER_LCUCC_FORTRAN)
+
+
+# Compile cuda source
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_CU)
+	@$(LOGEMIT_DEPENDS_START)
+	@$(CUCC_MAKEDEPEND) | \
+          sed -e 's?^[^/].*:?$(PROJ_TMPDIR)/&?' > $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	tr -s '[:space:]' '\n' < $*.$(EXT_DEPEND) > $*.tmp.$(EXT_DEPEND) ; \
+	sed -e 's/^ *//' -e 's/#.*//' -e 's/^[^:]*: *//' \
+	  -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' < $*.tmp.$(EXT_DEPEND) \
+	  >> $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	$(RM) $(RMFLAGS) $*.$(EXT_DEPEND) $*.tmp.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(CUCC_COMPILE_COMMAND)
+	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_C) $*.$(EXT_CH)
+	@$(LOGEMIT_COMPILING_END)
+
+# Compile command
+CUCC_COMPILE_COMMAND = $(CUCC) $(CUCFLAGS) -c -o $@ $<
+
+# Generate dependencies for cuda source
+
+ifdef CUCC_MAKEDEPENDS_FILE
+CUCC_MAKEDEPEND = $(COMPILER_CUCC_DEPENDS) $(CUCC_BUILD_DEFINES) \
+		$(CUCC_BUILD_INCLUDES) $<
+else
+CUCC_MAKEDEPEND = $(COMPILER_CUCC_DEPENDS) $(CUCC_BUILD_DEFINES) \
+		$(CUCC_BUILD_INCLUDES) $< > $*.$(EXT_DEPEND)
+endif
+
+# Generate precompiled headers if supported
+
+ifdef USE_CUCCPRECOMP_HEADERS
+$(CUCCPPRECOMP_HEADERS)
+endif
+
+#
+# End of file

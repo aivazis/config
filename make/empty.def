@@ -1,0 +1,20 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Empty placeholder makefile
+#
+
+
+# version
+# $Id: empty.def,v 1.1 2003/02/27 02:42:48 cummings Exp $
+
+#
+# End of file

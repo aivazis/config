@@ -1,0 +1,37 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: default.def,v $
+# Revision 1.5  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.4  1999/06/26 18:57:36  aivazis
+# Fixed the update of EXTERNAL_DEFINES
+#
+# Revision 1.3  1999/06/26 18:56:22  aivazis
+# Added definition of WITH_ACIS
+#
+# Revision 1.2  1999/06/09 01:34:29  mga
+# Fixed typos and added header
+#
+#
+# Read the local settigs
+#
+
+include ACIS/$(TARGET_PLATFORM).def
+
+#
+# Adjust the external variables to include ACIS
+#
+   EXTERNAL_DEFINES += WITH_ACIS
+   EXTERNAL_INCLUDES += $(ACIS_INCLUDES)
+
+   EXTERNAL_LIBS += $(ACIS_LIBS)
+
+#
+# End of file

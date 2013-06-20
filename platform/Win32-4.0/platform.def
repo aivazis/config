@@ -1,0 +1,63 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.4  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.3  1999/07/01 05:24:59  aivazis
+# Added headers
+#
+
+#
+# Definitions for Win32-4.0
+#
+
+    PLATFORM_ID = Win32-4.0
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = echo
+    RANFLAGS =
+
+    SYSLIB =
+#
+# The default extensions for tools on this platform
+#
+    EXT_OBJ = obj
+    EXT_AR = lib
+    EXT_SAR = lib
+    EXT_SO = dll
+#
+# END OF FILE

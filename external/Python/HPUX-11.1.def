@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: HPUX-11.1.def,v $
+# Revision 1.2  2001/04/21 20:25:52  aivazis
+# Added support for embedding python
+#
+# Revision 1.1  2000/06/03 21:17:57  rapa
+# original source copied from its Linux version, don't really know if something else is needed
+#
+#
+
+#
+# HP settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS =
+
+PYTHON_APIREQS = -lnsl -ldld -ldl  -lpthread -lm
+
+#
+# End of file

@@ -1,0 +1,34 @@
+#
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+# Sample file for setting up the list of responsible parties for module build failures
+#
+
+# Aliases
+
+    Support = aivazis@cacr.caltech.edu  
+    ReleaseManager = rapa@aero.caltech.edu, ortiz@aero.caltech.edu
+    Everybody = adlib@aero.caltech.edu
+
+# Developers
+
+    Raul = rapa@aero.caltech.edu
+    Eduardo = repetto@aero.caltech.edu
+
+# Default recipients
+
+    <All>, <Unknown> : Support, ReleaseManager
+
+# Packages
+
+    mesher2d : Raul, Eduardo
+    mesher2d : ReleaseManager, Support
+
+#
+# End of file

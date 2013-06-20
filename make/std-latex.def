@@ -1,0 +1,52 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+
+# convert a latex document to a pdf
+# runs latex and bibtex enough times to get all references resolved
+
+# temporary files to clean
+
+  CLEAN_LATEX = *.out *.idx *.toc *.bbl *.blg *.aux *.log *.lot *.lof *.dvi *~
+  DISTCLEAN_LATEX = *.pdf *.ps
+
+# rules
+%.$(EXT_DVI): %.$(EXT_TEX)
+	@$(LOGEMIT_COMPILING_START)
+	@$(RM) $(RMFLAGS) $@
+	$(TEX_LATEX) $<
+	-$(TEX_BIBTEX) ${basename $<}
+	$(TEX_LATEX) $<
+	$(TEX_LATEX) $<
+	@$(LOGEMIT_COMPILING_END)
+
+
+%.$(EXT_PDF): %.$(EXT_TEX)
+	@$(LOGEMIT_COMPILING_START)
+	@$(RM) $(RMFLAGS) $@
+	$(TEX_PDFLATEX) $<
+	-$(TEX_BIBTEX) ${basename $<}
+	$(TEX_PDFLATEX) $<
+	$(TEX_PDFLATEX) $<
+	@$(LOGEMIT_COMPILING_END)
+
+
+%.$(EXT_PDF): %.$(EXT_DVI)
+	$(TEX_DVIPDF) ${basename $<}
+
+
+%.$(EXT_PS): %.$(EXT_DVI)
+	$(TEX_DVIPS) ${basename $<}
+
+# version
+# $Id: std-latex.def,v 1.9 2008/01/25 10:45:11 aivazis Exp $
+
+#
+# End of file

@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: SunOS-5.5.def,v $
+# Revision 1.2  1999/06/09 01:38:47  mga
+# Fixed typos and added header
+#
+
+#
+# SunOS settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS =
+
+#
+# End of file

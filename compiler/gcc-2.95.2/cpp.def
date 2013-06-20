@@ -1,0 +1,123 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# $Log: cpp.def,v $
+# Revision 1.13  2001/07/07 02:16:54  cummings
+# Undid my previous change of adding -ftemplate-depth-30
+# to COMPILER_CXX_FLAGS.  This is now handled in blitz/default.def.
+#
+# Revision 1.12  2001/07/05 22:54:01  cummings
+# Added -ftemplate-depth-30 to the list of compile flags for
+# the g++ compiler.  This flag raises the default limit on
+# template nesting depth, which is necessary when using Blitz
+# and writing complex array expressions.  I am adding it to all
+# g++ compiles because it should be harmless to other C++ code
+# that does not require such deep nesting of templates.
+#
+# Revision 1.11  2001/05/04 00:27:14  cummings
+# Added check for "insure" in user's build target before utilizing
+# combined dependency info generation and code compilation.
+#
+# Revision 1.10  2001/03/31 00:24:08  cummings
+# Changed compiler dependency generation flag from -MD to -MMD,
+# so that we skip system and standard headers.
+#
+# Revision 1.9  2001/03/21 22:11:23  cummings
+# Updated gcc compiler definitions to use combined compilation
+# and make dependency file generation.
+#
+# Revision 1.8  2001/02/12 19:19:19  aivazis
+# Added empty CXX_COMPILER_INSTFLAGS to get rid on warning
+#
+# Revision 1.7  2001/01/10 03:23:49  cummings
+# Added the -Wall flag for gcc compiles, to turn on important warnings.
+# This is on by default for most other compilers.
+#
+# Revision 1.6  2000/09/07 22:26:40  cummings
+# Added optimization flags to perform loop unrolling, use strict aliasing
+# assumptions (C/C++ only) and turn off automatic inlining of global
+# functions not marked as "inline" (C++ only).
+#
+# Revision 1.5  2000/09/02 03:11:12  aivazis
+# Removed extra -o from COMPILER_LCXX_SOFLAGS
+#
+# Revision 1.4  2000/09/01 01:28:30  cummings
+# Added definition of macro to set profiling compile option to -pg,
+# which produces data for analysis with gprof.
+#
+# Revision 1.3  2000/08/30 02:10:23  cummings
+# Added -o to end of LCXX_SOFLAGS, since g++ needs this to make shared library.
+#
+# Revision 1.2  2000/08/29 22:58:42  cummings
+# Added define of COMPILER_LF77_CXX that contains list of libraries used
+# when the g++ compiler links an executable, for instances where we need
+# to have the Fortran compiler do the linking instead.
+#
+# Revision 1.1  2000/08/17 22:01:34  cummings
+# Added new build system compiler definition and configuration files
+# for gcc-2.95.2 compiler.
+#
+#
+
+#
+# Definitions for GNU C++ compiler
+#
+    CXX_ID = gcc-2.95.2
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = g++
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -Wall
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -fpic
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O2 -fno-default-inline -funroll-loops -fstrict-aliasing
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifeq (,${findstring insure, $(BLD_USER_TARGET)})
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_FORSHARED = -Xlinker -export-dynamic
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lstdc++ -lm -lgcc -lc -lgcc
+#
+# This compiler does not support precompiled headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# End of file

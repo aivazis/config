@@ -1,0 +1,23 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cmath,v $
+// Revision 1.2  1999/06/24 22:18:13  aivazis
+// Added headers
+//
+
+//
+// Defficiency file: route cmath to math.h
+//
+
+#include <math.h>
+
+// End of file

@@ -1,0 +1,22 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                             Michael A.G. Aivazis
+#                      California Institute of Technology
+#                      (C) 1998-2004  All Rights Reserved
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+# Darwin 8.x settings for math
+#
+
+MATH_LIBS = -Wl,-framework -Wl,vecLib
+
+# version
+# $Id: Darwin-8.x.def,v 1.1 2005/07/08 22:46:36 cummings Exp $
+
+# End of file 

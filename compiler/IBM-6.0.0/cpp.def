@@ -1,0 +1,98 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for IBM Visual Age C++ compiler
+#
+    CXX_ID = IBM-6.0.0
+#
+# The name of the binary
+#
+ifeq (Darwin, ${findstring Darwin, $(PLATFORM_ID)})
+    COMPILER_CXX_NAME = xlc++_r
+else
+    COMPILER_CXX_NAME = xlC_r
+endif
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = $(COMPILER_EXE_FORMAT) -qrtti
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS =
+#
+    CXX_OPT_FLAGS = -O2 -qstrict_induction -qmaxmem=8192 -qhot
+ifneq (Darwin, ${findstring Darwin, $(PLATFORM_ID)})
+    CXX_OPT_FLAGS += -qinline
+endif
+    CXX_DEBUG_FLAGS = -g   # Debug flags
+    CXX_PROF_FLAGS = -pg   # Profiling flags
+#
+# Format flags
+#
+    COMPILER_EXE_32BIT = -q32
+    COMPILER_EXE_64BIT = -q64
+    COMPILER_LIB_32BIT = -X32
+    COMPILER_LIB_64BIT = -X64
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -P -M
+    CXX_MAKEDEPENDS_FILE = true
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+
+ifneq (Darwin, ${findstring Darwin, $(PLATFORM_ID)})
+    EXT_DEPEND = u
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_LIBPATH =
+ifneq (Darwin, ${findstring Darwin, $(PLATFORM_ID)})
+    COMPILER_LCXX_FLAGS = -bmaxdata:0x70000000 -bmaxstack:0x10000000
+    COMPILER_LCXX_SOFLAGS = -G
+    COMPILER_LCXX_FORSHARED = -brtl
+else
+    COMPILER_LCXX_FLAGS = 
+    COMPILER_LCXX_SARFLAGS = -qmkshrobj -flat_namespace -Wl,-undefined,suppress -single_module
+    COMPILER_LCXX_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress
+    COMPILER_LCXX_FORSHARED = 
+endif
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = 
+    COMPILER_CXX_DISTCLEAN =
+#
+# Archive flag
+#
+    AR_CXX = ar $(COMPILER_LIB_FORMAT)
+#
+# This compiler does not support precompiler headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+
+# version
+# $Id: cpp.def,v 1.30 2005/03/15 00:19:27 cummings Exp $
+
+#
+# End of file

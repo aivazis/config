@@ -1,0 +1,64 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Compaq C++ compiler
+#
+    CXX_ID = CompaqCXX-6.3
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = cxx
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -model ansi -std ansi -D__USE_STD_IOSTREAM -nousing_std -pure_cname -noimplicit_include
+    COMPILER_CXX_INSTFLAGS = -ptr $(BLD_TMPDIR)/cxx_repository
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -shared
+#
+    CXX_OPT_FLAGS = -O -fast # Optimization flags
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+ifeq (,${findstring insure, $(BLD_USER_TARGET)})
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = -model ansi $(COMPILER_CXX_INSTFLAGS) -L$(DECF90_LIB_DIR)
+    COMPILER_LCXX_LIBPATH = 
+    COMPILER_LCXX_SOFLAGS = -shared -expect_unresolved "*"
+    COMPILER_LCXX_FORSHARED = -call_shared
+#
+# This compiler does not support precompiled headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = 
+    COMPILER_CXX_DISTCLEAN = 
+#
+# End of file

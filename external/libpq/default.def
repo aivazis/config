@@ -1,0 +1,24 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                (C) 1998-2008  All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Read the local settigs
+#
+
+LIBPQ_LIBRARIES = pq
+
+#
+# Adjust the external variables to include ACIS
+#
+   EXTERNAL_DEFINES += WITH_LIBPQ
+
+   EXTERNAL_INCLUDES += $(LIBPQ_INCDIR)
+   EXTERNAL_LIBS += -L$(LIBPQ_LIBDIR) ${addprefix -l, $(LIBPQ_LIBRARIES)}
+
+#
+# End of file

@@ -1,0 +1,362 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>
+Build Procedure Documentation
+</TITLE>
+
+</HEAD>
+
+<BODY>
+
+<H2>
+Build Procedure Documentation
+</H2>
+
+<H3>
+Introduction
+</H3>
+
+<P>
+This document describes the structure and usage of the build procedure
+that compiles and links our ASCI code projects and other packages
+that they depend on.  The build procedure is designed to make our codes
+easily portable to a very wide variety of compiler and platform targets.
+Furthermore, it allows for customization of the compilation process
+at several different levels.
+
+<P>
+The core of the build procedure is embodied in the shell script <EM>mm</EM>.
+Code packages are built and installed by invoking this script, which
+automatically determines the host target, locates the appropriate compiler
+commands and options for this target platform, and issues the necessary
+commands to build the code packages.  The mm script relies on a layered 
+set of definition files that customize behavior and recursive processing
+of makefiles that describe a package and any subpackages it may contain.
+
+<H3>
+The mm Script
+</H3>
+
+<P>
+The mm script is meant to be used in a manner similar to the standard
+<EM>make</EM> tool.  mm is invoked in the following way:
+
+<PRE>
+mm [-f &lt;makefile&gt;] [target]
+</PRE>
+
+The <TT>-f</TT> option allows a code package to use makefiles with a
+different name other than the default name, which is <TT>Make.mm</TT>.
+If any <TT>target</TT> is specified, then mm will build that target
+rather than the default target given by the makefiles.
+
+<P>
+Before we can properly use the mm script, we must set three environment 
+variables:
+
+<UL>
+<LI>BLD_ROOT --- path of the root of the build tree
+<LI>EXPORT_ROOT --- path of the root of the products tree
+<LI>TARGET --- comma-delineated list of desired compilation options
+</UL>
+
+The source code for any package to be built using the build procedure
+is typically stored in a directory below the common root <TT>BLD_ROOT</TT>.
+(The files for the build system itself are also assumed to be located beneath
+this common root directory in <TT>$BLD_ROOT/config</TT>, although this can
+be overridden by setting the environment variable <TT>BLD_CONFIG</TT> to a
+different path.)  Product libraries and binaries are built in subdirectories
+<TT>lib</TT> and <TT>bin</TT> beneath <TT>$BLD_ROOT</TT>.  Once a code 
+package has been built, we can use the make target <TT>export</TT> to install 
+it in a directory below <TT>EXPORT_ROOT</TT>.  The contents of <TT>TARGET</TT>
+indicate any special compile options.  (These targets are not to be confused 
+with the make targets, which are defined within the makefiles of a code 
+package in the standard way.)  The current valid target options for mm are
+
+<UL>
+<LI>debug --- compile with debugging on
+<LI>opt --- compile with optimization on
+<LI>insure --- instrument code with Insure++ code checking tool
+<LI>purify --- link with Purify memory analysis libraries
+<LI>prof --- generate extra code to write profiling information
+<LI>mpi --- include MPI header and library files
+</UL>
+
+<P>
+When mm is invoked, it will first check for the existence of the directories
+indicated by <TT>BLD_ROOT</TT> and <TT>EXPORT_ROOT</TT>.  Next, it uses the
+<TT>uname</TT> utility to determine the operating system and machine type.
+This information is later used to select a platform-specific definitions file,
+which indicates what compilers and standard options to use.  Once this is 
+done, mm parses the contents of <TT>TARGET</TT> and looks for corresponding 
+target-specific definitions files.  These files contain the special flags 
+and definitions that are needed for these compilation options.  In addition,
+a <EM>target tag</EM> is constructed by combining the name of the target
+platform with any user-specified targets, and this tag is later used to
+create target-specific subdirectories where the code package will be built.
+This allows the build system to simultaneously maintain builds of a code 
+package for many different potential targets.  The final setup step is to
+get the user's name and check for any user-specific file of definitions 
+which may override the standard settings and behaviors.
+
+<P>
+With all of these preliminaries completed, the actual work of processing the
+make command begins.  mm checks for the <TT>-f</TT> option and changes the 
+name of the code package makefile it will look for if requested.  If the 
+environment variable <TT>LOGTAGS</TT> is set, mm will echo the makefile name
+and the selected platform and user targets.  Finally, mm invokes <TT>make</TT>
+on the makefile <TT>std-make.def</TT> and passes along the target (if any)
+from the <TT>mm</TT> command line.  The special makefile <TT>std-make.def</TT>
+coordinates the inclusion of all the various platform-specific, 
+compiler-specific, target-specific and user-specific definitions files that
+set options for the build system.
+
+<H3>
+Definitions Files
+</H3>
+
+<P>
+The build system contains several sets of definitions files with a 
+<TT>.def</TT> extension.  These files set the values of various macros that
+control the behavior of the build system.  <TT>std-make.def</TT>, located in
+directory <TT>$BLD_CONFIG/make</TT>, is the primary file which includes all
+the other definitions files.  It first includes several other files from the
+same directory that provide some default settings.  These files set up things
+such as the standard names for certain Unix tools and standard filename 
+extensions.  They also initialize with no value many compiler- and 
+project-specific macros that may be overridden in other definitions files.
+After this, <TT>std-make.def</TT> includes all of the target-specific 
+definitions files, which are located within <TT>$BLD_CONFIG/target</TT>.
+In this directory are subdirectories named after the possible targets
+(both platform targets and user-specified targets), each containing a
+<TT>target.def</TT> definitions file.  For user-specific targets like debug, 
+the definitions file merely adds the correct flags to the list of 
+target-specific compiler options.  For the various platform targets,
+such as Linux-2.0_x86, this file sets macros indicating the platform we
+are building on and the default compilers we will use for Fortran, C, and C++.
+The platform name is used to locate and include a definitions file 
+<TT>platform.def</TT> from beneath the directory <TT>$BLD_CONFIG/platform</TT>
+that sets any platform-specific compiler or linker flags.  The compiler 
+names are used to locate and include files <TT>f77.def</TT>, <TT>c.def</TT>
+and <TT>cpp.def</TT> from beneath the directory <TT>$BLD_CONFIG/compiler</TT>,
+which set up any compiler-specific flags that are needed.  (The user-specific
+definitions file, if present in <TT>$BLD_CONFIG/make</TT>, is included just
+prior to the compiler-specific files, so that the user can override the 
+default compiler choices for this platform.)
+
+<P>
+Once all of these various macros have been defined, <TT>make</TT> is 
+directed to include the local makefile for the current code package being 
+built, which is normally called <TT>Make.mm</TT>.  This local makefile
+should define macros which include what source files are to be compiled
+and what libraries or binaries need to be built.  The contents of the 
+local makefile will be discussed in the next section.  After the 
+local makefile for the code package has been processed, <TT>std-make.def</TT>
+includes more definitions files from <TT>$BLD_CONFIG/make</TT>.  These files
+give the build rules for compiling Fortran, C and C++ source code files,
+archiving object files into libraries, and linking application codes.  These
+build rules are written in terms of all the macros that were defined earlier.
+In addition, there are definitions for many different standard make targets
+in the files <TT>std-targets.def</TT> and <TT>std-test.def</TT>.  These 
+targets do things such as create new directory structures, export code
+package files, remove old files from previous builds, and print out 
+information about the current build configuration.  All of these targets,
+along with any make targets defined by the local makefile for the code
+package, constitute the set of valid targets that can be passed as an
+argument on the <TT>mm</TT> command line.
+
+<H3>
+The Local Makefile
+</H3>
+
+<P>
+Each code package must provide a makefile or set of makefiles that tells
+the build system what source code files are contained in this package and
+what libraries or binary executables can be produced.  The mm script has
+the ability to recursively invoke <TT>make</TT> commands within the current
+directory and all subdirectories below it.  Thus, each local makefile should
+describe the source files and potential products of the current directory
+and provide a rule for recursing into any subdirectories.  As mentioned
+earlier, the local makefile is normally named <TT>Make.mm</TT>, but this
+choice can be overridden by setting the environment variable
+<TT>LOCAL_MAKEFILE</TT> or using <TT>mm</TT> with the <TT>-f</TT> option.
+
+<P>
+There are several examples of local makefiles in <TT>$BLD_CONFIG/tests</TT>
+that show how to construct a makefile for building a library or an
+application code.  In general, the first thing to do in your <TT>Make.mm</TT>
+file is include a project-specific definitions file (with a <TT>.def</TT>
+filename extension).  This file can be used to set special behaviors for
+this project, such as using certain compiler options or linking with
+certain libraries.  The file <TT>$BLD_CONFIG/tests/local.def</TT> illustrates
+how to do this.  The macros beginning with <TT>PROJ_</TT> are project-specific
+settings.  For each compiler (Fortran, C, and C++), there are macros that
+add compiler flags, <TT>-D</TT> options to define macros for the preprocessor,
+<TT>-I</TT> options for adding directories to the include file search path,
+linker flags, and <TT>-L</TT> options for adding directories to the library
+file search path.  (Note that for the macro defines, include file paths,
+and library file paths, the <TT>-D</TT>, <TT>-I</TT>, or <TT>-L</TT> will
+be prepended automatically, so they do not need to be included here.  Hence,
+setting <TT>PROJ_CC_DEFINES = FOO</TT>, for example, will add the flag 
+<TT>-DFOO</TT> to all C compilation commands for this project.)  This file 
+can also be used to define the library (<TT>PROJ_LIB</TT>) and object files
+(<TT>PROJ_OBJS</TT>) that are produced in this project, although this is 
+typically done within the <TT>Make.mm</TT> file itself.  It is not necessary
+to include a project-specific definitions file if nothing special is required
+for this project; this is merely another degree of freedom for customizing
+the build procedure for each project.
+
+<P>
+After including any project-specific definitions, the local makefile should
+define its make targets, which at the bare minimum includes the default 
+make target <TT>all</TT>.  Let us look at the <TT>Make.mm</TT> file in
+directory <TT>$BLD_CONFIG/tests/projlib</TT> as an example.  The purpose of
+this makefile is to compile a C source file and a C++ source file into
+object files and archive these two object files into a library.  We first
+define the macro <TT>PROJECT</TT> to be the name of our project (in this
+case, <TT>test</TT>).  Next we define <TT>PROJ_LIB</TT> to be the name of
+the library we are building here.  We make use of the macros <TT>LIBDIR</TT>
+and <TT>EXT_AR</TT>, which were previously defined by the build system in 
+file <TT>std-macros.def</TT>.  <TT>LIBDIR</TT> is the full path of the 
+directory where libraries are built, and <TT>EXT_AR</TT> is set to <TT>a</TT>,
+the extension for a static library on Unix systems.  Note that the value
+of <TT>LIBDIR</TT> uses the macro <TT>TARGET_TAG</TT>, so that versions
+of a library for different targets are placed in separate subdirectories.
+After <TT>PROJ_LIB</TT>, we set <TT>PROJ_SRCS</TT> equal to the list of 
+source code files that are to be compiled into the library.  This is
+converted into a list of object files <TT>PROJ_OBJS</TT> by a definition
+in <TT>std-builds.def</TT> that changes the filename extension of each file
+to the value of <TT>EXT_OBJ</TT>, which is normally <TT>o</TT> on Unix 
+file systems.  (The list <TT>PROJ_OBJS</TT> actually contains the library 
+filename followed by each object filename in parentheses, which tells 
+<TT>make</TT> to consider the timestamp of each object file within the 
+library archive separately when checking dependencies.)  
+
+<P>
+In this example, we have source files <TT>c_hello.c</TT> and 
+<TT>cpp_hello.cc</TT> being compiled into a library.  Each file is 
+recognized as a source code file by its filename extension, with the 
+supported extensions being defined in <TT>std-macros.def</TT>.  As usual,
+these conventions for filename extensions can be overridden by redefining
+the appropriate macros in a user-specific or project-specific definitions
+file.  The files <TT>std-fortran.def</TT>, <TT>std-c.def</TT> and
+<TT>std-cpp.def</TT> contain make rules for compiling Fortran, C and C++
+source code files and adding the resulting object files to a library 
+archive.  Note that these files also define macros which gather up all
+of the compiler flags and options from any definitions files specific to
+the current platform, compiler, target, user or project, and pass them
+all on to the appropriate compiler or archiver command.
+
+<P>
+Next in this sample <TT>Make.mm</TT> file are definitions of the macros
+<TT>PROJ_CLEAN</TT> and <TT>PROJ_DISTCLEAN</TT>.  The build system 
+definitions file <TT>std-targets.def</TT> defines make targets <TT>clean</TT>
+and <TT>distclean</TT> which remove the files specified by <TT>PROJ_CLEAN</TT>
+and <TT>PROJ_DISTCLEAN</TT>.  Typically, we use the command <TT>mm clean</TT>
+to remove products previously built using this makefile and the command
+<TT>mm distclean</TT> to remove all files created during previous builds
+(including dependency files, for example).  Thus, we have in this example
+defined <TT>PROJ_CLEAN</TT> to be <TT>PROJ_LIB</TT>, the library produced 
+by this makefile.  <TT>PROJ_DISTCLEAN</TT> is set equal to 
+<TT>PROJ_DEPENDENCIES</TT>, which is defined by <TT>std-builds.def</TT> to
+contain the list of <TT>PROJ_SRCS</TT> with the <TT>EXT_DEPEND</TT> extension 
+appended to each filename.
+
+<P>
+At last, we get to the key definition of the make target <TT>all</TT>.  This
+is the default target that will be built when we invoke <TT>mm</TT> with no
+target specified on the command line.  In this case, our primary build target
+is the <TT>PROJ_LIB</TT>, and the build system already has a rule for how
+to build this in <TT>std-builds.def</TT>.  The rule will first echo to the
+screen information about what library is being updated.  Then it will ensure
+that the directory structure for building the library exists, creating it
+if necessary.  Finally, it will build each of the items in <TT>PROJ_OBJS</TT>
+and add it to the library archive using standard compiler and archiver 
+commands.  Because of the way in which the dependencies have been arranged,
+only source files that have been updated more recently than the corresponding
+object file within the library archive are actually recompiled when rebuilding
+an existing target.
+
+<P>
+This completes our description of the most basic local makefile required
+for placing a code package under the build procedure.  To summarize, the
+local makefile should define <TT>PROJ_LIB</TT> to be the full pathname
+of the library that is the product of this package.  <TT>PROJ_SRCS</TT>
+is a list of the local source code files to be compiled into this product 
+library.  In addition, the makefile should define the make target <TT>all</TT>,
+which is the default product built by the <TT>mm</TT> command.
+
+<P>
+Beyond these basics, there are several other actions that may be defined in 
+<TT>Make.mm</TT> using the make targets in <TT>std-targets.def</TT>.  For 
+example, one can create an <TT>export</TT> make target that will copy the
+source code files and product library into a subdirectory under 
+<TT>$EXPORT_ROOT</TT>.  The pre-defined make targets <TT>export-headers</TT> 
+and <TT>export-libraries</TT> will copy over any files listed in the macros
+<TT>EXPORTABLES</TT> and <TT>EXPORT_LIBS</TT>, respectively.  Another key
+capability is recursion into subdirectories.  If a code package consists
+of several subpackages, this can be handled using the <TT>recurse</TT> make
+target.  This target will visit each of the subdirectories listed in
+<TT>RECURSE_DIRS</TT> and invoke <TT>mm</TT> there with the target specified
+by <TT>BLD_ACTION</TT>.  As an example, the definition
+
+<PRE>
+SUBPACKAGES = Foo Bar
+clean::
+        BLD_ACTION=&quot;clean&quot; RECURSE_DIRS=&quot;$(SUBPACKAGES)&quot; $(MM) recurse
+</PRE>
+
+would indicate that the command <TT>mm clean</TT> should execute not only in
+the current directory, but also in the subdirectories <TT>Foo</TT> and 
+<TT>Bar</TT>.  Using this recursion technique, we can construct libraries 
+that require sources from multiple subpackages in a simple manner.  In
+addition to the top-level <TT>Make.mm</TT> file, we create another
+<TT>Make.mm</TT> file in each subdirectory that describes the local source
+files that must be compiled in this directory.  This allows us to rebuild
+modified source code files only in one directory or recursively below the 
+current directory.
+
+<P>
+Finally, we should note that we have thus far only described the process
+of compiling source code files and archiving the resulting object files
+into libraries.  One can also define in <TT>Make.mm</TT> binary executable
+targets which compile source code files and link them together with libraries
+to form an executable.  There are examples of this in the <TT>Make.mm</TT>
+file in <TT>$BLD_CONFIG/tests/mixed</TT>.  Notice how make targets such as
+<TT>c_f77</TT> write the compile and link commands using macros from the
+<TT>std-fortran.def</TT>, <TT>std-c.def</TT> and <TT>std-cpp.def</TT>
+definition files.  This ensures that these executables will be built with
+the same compilers and options as everything else in the build procedure.
+
+<H3>
+Summary
+</H3>
+
+Here is a list of the steps to take in order to use the build procedure
+with a new code package:
+
+<UL>
+<LI>Check out the CVS module <TT>config</TT>, which contains the <TT>mm</TT>
+script and all the basic definitions files for the build system (as well as
+this documentation).
+<LI>Set <TT>BLD_ROOT</TT> to the root directory for building product 
+libraries and executables and <TT>EXPORT_ROOT</TT> to the root directory
+for exporting header files and pre-built libraries or binaries.  Also
+set <TT>BLD_CONFIG</TT> to the root directory for the build system files
+if this is not the same as <TT>$BLD_ROOT/config</TT>.
+<LI>Ensure that <TT>$BLD_CONFIG/make</TT> is in your <TT>PATH</TT> variable,
+so that you can execute the <TT>mm</TT> script.
+<LI>Create a local makefile for each directory within the directory structure
+of your code package that contains header files to be exported and/or source
+code files to be compiled into libraries or applications.
+<LI>Set <TT>TARGET</TT> to a comma-delineated list of 
+compilation targets such as debug compilation or linking with MPI.
+<LI>Invoke <TT>mm</TT> to build the default target <TT>all</TT> or any other
+make target defined in <TT>std-targets.def</TT> or the local makefile.
+</UL>
+
+</BODY>
+
+</HTML>

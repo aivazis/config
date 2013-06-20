@@ -1,0 +1,24 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: stack,v $
+// Revision 1.1  2000/06/14 21:44:58  sean
+// Original source.
+//
+//
+
+//
+// Defficiency file: route stack to stack.h
+//
+
+#include <stack.h>
+
+// End of file

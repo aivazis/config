@@ -1,0 +1,75 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2004  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#
+# Definitions for Portland Group C++ compiler
+#
+    CXX_ID = PGI-5.1
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = pgCC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = --no_using_std 
+    COMPILER_CXX_INSTDIR = Template.dir
+    COMPILER_CXX_INSTFLAGS = --one_instantiation_per_object \
+	--instantiation_dir $(PROJ_TMPDIR)/$(COMPILER_CXX_INSTDIR)
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -fpic
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O3 -Munroll -Mnoframe --no_exceptions -Minfo=opt 
+    CXX_DEBUG_FLAGS = -O0 -C       # Debug flags (-g doesn't work w/ --one_per)
+    CXX_PROF_FLAGS = -Mprof=func   # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+ifeq (,${findstring insure, $(BLD_USER_TARGET)})
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# Special C++ prelinking for library template closure
+#
+    CXX_PRELINK_CMD = $(COMPILER_CXX_NAME) --prelink_objects \
+	$(COMPILER_CXX_INSTFLAGS) $(CXXFLAGS)
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = $(PROJ_TMPDIR)/$(COMPILER_CXX_INSTDIR)/*.$(EXT_OBJ)
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/*.ii $(PROJ_TMPDIR)/*.ti \
+	*.ii *.ti
+
+# version
+# $Id: cpp.def,v 1.2 2004/06/19 03:02:17 cummings Exp $
+
+# End of file

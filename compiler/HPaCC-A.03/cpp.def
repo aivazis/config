@@ -1,0 +1,156 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: cpp.def,v $
+# Revision 1.16  2002/01/29 22:54:11  cummings
+# Added the -mt compile flag to compile the STL with thread safety on.
+# This is required with the aCC compiler when you use the Pthreads
+# library, which we are doing now in order to support dynamic loading
+# of F90-based shared library code.
+#
+# Revision 1.15  2001/09/27 01:59:16  cummings
+# Removed -w flag that disables warnings, since we have fixed all the
+# problems with "future" errors due to namespace lookup rules for
+# template-dependent names.  You will still see lots of silly warnings
+# coming from the HP MPI header files.
+# Removed the flags for automatic template instantiation and forced
+# library template closure.  We now use the default compile-time
+# template instantiation mechanism provided by the aCC compiler.
+# Added the -AA flag and the exec format flag (32- or 64-bit) to the
+# list of linker flags, so we look for the right libraries.
+# Added the correct link-for-shared flags for building shared exec
+# files such as mpipython.exe.
+#
+# Revision 1.14  2001/05/24 00:25:06  cummings
+# I am adding -w to the compile line for the HP aCC C++
+# compiler to suppress all the annoying warnings it emits
+# about arcane C++ name lookup rules.  The warnings are
+# incorrect and nothing to be concerned with.
+#
+# Revision 1.13  2001/05/04 01:21:58  cummings
+# Added check for "insure" in user's build target before utilizing
+# combined dependency info generation and code compilation.
+#
+# Revision 1.12  2001/03/22 00:41:55  cummings
+# Updated HP C++ compiler definitions file to use combined compilation
+# and generation of make dependency info files.
+#
+# Revision 1.11  2001/01/30 01:38:50  cummings
+# Replaced hard-wired 64-bit compile option with flag
+# set by choosing either 32bit or 64bit target.
+#
+# Revision 1.10  2001/01/16 20:20:05  cummings
+# Added new -AA flag to preprocessing and dependency commands
+# also, so that the directory containing the new HP standard
+# C++ header files is examined.
+#
+# Revision 1.9  2001/01/16 20:05:25  cummings
+# Inserted new -AA flag for the HP aCC compiler,
+# which uses the new ANSI standard C++ library.
+# Also modified the flags used to generate
+# makefile dependency information.  HP has
+# changed their compiler so that it can generate
+# dependency info and send it to stdout without
+# actually compiling the code.
+#
+# Revision 1.8  2000/10/03 02:27:50  cummings
+# Moved +inst_auto flag to COMPILER_CXX_INSTFLAGS and added this
+# to the prelink command line.
+#
+# Revision 1.7  2000/09/30 02:20:02  cummings
+# Fixed typo in optimization flag (changed -O2 to +O2).
+# Changed COMPILER_CLEAN to COMPILER_CXX_CLEAN and
+# COMPILER_DISTCLEAN to COMPILER_CXX_DISTCLEAN.
+#
+# Revision 1.6  2000/09/22 17:44:23  aivazis
+# Moved the wide flag to the end of the line so that I can comment it out ...
+#
+# Revision 1.5  2000/09/19 06:31:09  aivazis
+# Added flag that implements standard compliant for scoping rules
+#
+# Revision 1.4  2000/09/14 22:43:16  cummings
+# Defined CXX_MAKEDEPENDS_FILE to trigger special commands for
+# generating dependency files.  Defined CXX_PROF_FLAGS for
+# building code suitable for profiling with gprof.
+#
+# Revision 1.3  2000/09/14 21:42:07  cummings
+# Added compile flag to select automatic template instantiation and
+# added macro for special prelinking command to perform template
+# closure before archiving a set of object files.  Changed options
+# for making dependencies to "-c -P +Md", which tells the compiler
+# to only run the preprocessor and to put dependency info in a *.d
+# file.  Also added compiler-specific macros for clean and distclean
+# targets.
+#
+# Revision 1.2  2000/09/03 20:04:35  aivazis
+# Turned on +DA2.0W, finexd shared flags and dependency generation
+#
+# Revision 1.1  2000/08/14 23:04:39  aivazis
+# Original source
+#
+
+#
+# Definitions for the Hp aCC compiler
+#
+    CXX_ID = HPaCC-A.03
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = aCC
+#
+# Command line options
+#
+    COMPILER_CXX_ISCXX =
+    COMPILER_CXX_FLAGS = -AA $(COMPILER_EXE_FORMAT) -mt
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = +Z
+#
+    CXX_OPT_FLAGS = +O2      # Optimization flags
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -G      # Profiling flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = pa2.0
+    COMPILER_LIB_64BIT = pa20_64
+    COMPILER_EXE_32BIT = +DA2.0
+    COMPILER_EXE_64BIT = +DA2.0W
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) $(COMPILER_CXX_FLAGS) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_PREPROCESS) +m
+ifeq (,${findstring insure, $(BLD_USER_TARGET)})
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) +md
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = -AA $(COMPILER_EXE_FORMAT) -mt
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -b
+    COMPILER_LCXX_FORSHARED = -Wl,-E -Wl,+s
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = *.i
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/*.I
+#
+# This compiler does not support precompiler headers
+#
+    COMPILER_CXXPRECOMP_FLAGS =
+#
+# End of file

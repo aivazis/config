@@ -1,0 +1,55 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: cpp.def,v $
+# Revision 1.6  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.5  1999/07/01 05:30:51  aivazis
+# Optimization flag is -O; -O2 is not supported
+#
+# Revision 1.4  1999/06/30 21:58:41  aivazis
+# Added dependency generation using g++
+#
+# Revision 1.3  1999/06/24 22:18:12  aivazis
+# Added headers
+#
+
+#
+# Definitions for GNU C++ compiler
+#
+    CXX_ID = HPCXX-11.0
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = CC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+#
+    CXX_OPT_FLAGS = -O       # Optimization flags
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = g++ -M
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+#
+# End of file

@@ -1,0 +1,14 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the GNU Fortran compiler
+#
+include gcc-4.x/f77.def
+#
+# End of file

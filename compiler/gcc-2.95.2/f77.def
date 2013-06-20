@@ -1,0 +1,72 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: f77.def,v $
+# Revision 1.4  2000/11/03 07:19:56  rapa
+# added -fdebug-kludge
+#
+# Revision 1.3  2000/09/07 22:26:40  cummings
+# Added optimization flags to perform loop unrolling, use strict aliasing
+# assumptions (C/C++ only) and turn off automatic inlining of global
+# functions not marked as "inline" (C++ only).
+#
+# Revision 1.2  2000/09/01 01:28:30  cummings
+# Added definition of macro to set profiling compile option to -pg,
+# which produces data for analysis with gprof.
+#
+# Revision 1.1  2000/08/17 22:01:34  cummings
+# Added new build system compiler definition and configuration files
+# for gcc-2.95.2 compiler.
+#
+#
+
+#
+# Definitions for GNU FORTRAN compiler
+#
+#
+    F77_ID = gcc-2.95.2
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = g77
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -fno-second-underscore
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+#
+# Optimization flags
+    F77_OPT_FLAGS = -O2 -funroll-loops
+    F77_DEBUG_FLAGS = -g  -fdebug-kludge   # Debug flags
+    F77_PROF_FLAGS = -pg     # Profiling flags
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -M
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+#
+# Mixed language linking
+#
+    COMPILER_LCC_FORTRAN = -lg2c
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

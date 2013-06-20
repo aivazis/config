@@ -1,0 +1,23 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: TFLOPS.def,v $
+# Revision 1.1  2000/10/03 01:48:54  cummings
+# New definitions file for Python on TFLOPS, copied from Linux version.
+#
+#
+
+#
+# TFLOPS settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS =
+
+#
+# End of file

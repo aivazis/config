@@ -1,0 +1,26 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log $
+
+#
+# Pablo includes and trace libraries
+#
+
+ifneq ($(findstring pablo, $(BLD_USER_TARGET)),)
+    # define Pablo public include directory (must be target dependent)
+    PABLO_INCDIR = $(BLD_INCDIR)/pablo
+
+    EXTERNAL_DEFINES += WITH_PABLO
+    EXTERNAL_INCLUDES += $(PABLO_INCDIR)
+    EXTERNAL_LIBS += $(BLD_LIBDIR)/libPabloTraceExt.$(EXT_LIB) \
+                     $(BLD_LIBDIR)/libPabloTrace.$(EXT_LIB)
+endif
+
+#
+# END OF FILE

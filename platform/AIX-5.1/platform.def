@@ -1,0 +1,69 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# include 32-bit target by default if none specified
+ifeq ($(findstring bit,$(TARGETS)),)
+    include 32bit/target.def
+endif
+
+#
+# Definitions for AIX 5
+#
+
+    PLATFORM_ID = AIX-5.1
+
+# Compiler command line
+
+#
+# C
+#
+    PLATFORM_CC_FLAGS = 
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS = 
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = touch
+    RANFLAGS = 
+
+    SYSLIB =
+
+    PLATFORM_PAREXE_FLAGS = -binitfini:poe_remote_main
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lXext -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXt $(LIB_X)
+    LIB_MOTIF = -lXm $(LIB_XT)
+
+# version
+# $Id: platform.def,v 1.7 2004/01/24 02:49:47 cummings Exp $
+
+#
+# END OF FILE

@@ -1,0 +1,595 @@
+#!/bin/sh
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: mm,v $
+# Revision 1.75  2011/12/12 06:39:15  aivazis
+# silenced mm a bit more
+#
+# Revision 1.74  2011/11/04 00:58:05  aivazis
+# added support for linux 3.x
+#
+# Revision 1.73  2011/08/08 03:04:25  aivazis
+# added support for lion
+#
+# Revision 1.72  2011/07/16 22:06:00  aivazis
+# mm: simplified the markers
+#
+# Revision 1.71  2010/09/24 23:05:26  aivazis
+# Added Darwin-10.x with x86_64 as the architecture
+#
+# Revision 1.70  2010/01/15 17:00:36  aivazis
+# mm no longer aborts when the current directory has no Make.mm; it just prints an error message
+# and continues
+#
+# Revision 1.69  2009/11/21 23:24:12  aivazis
+# Added Darwin 10.x
+#
+# Revision 1.68  2008/05/06 06:18:25  aivazis
+# Added Darwin 9.x
+#
+# Revision 1.67  2007/09/07 17:35:04  mmckerns
+# Added Linux Darwin-8.x_x86 case for Intel-based Mac running Tiger
+#
+# Revision 1.66  2005/08/02 02:06:12  leif
+# Zero-configuration 'mm':  added new, reasonable defaults for BLD_ROOT,
+# EXPORT_ROOT, and BLD_CONFIG which are derived from the full pathname of
+# 'mm' itself.  Now, none of these variables need to be set; and 'mm'
+# doesn't even need to be on the user's PATH.
+#
+# Revision 1.65  2005/06/30 01:20:47  leif
+# Silence 'gmake' check by redirecting to /dev/null.
+#
+# Revision 1.64  2005/06/15 23:49:32  leif
+# Added MM_MAKE_OPTIONS so I can turn off evil environment overrides
+# (there isn't a --no-environment-overrides switch).
+#
+# Revision 1.63  2005/06/06 17:22:22  leif
+# Fixed last checkin.
+#
+# Revision 1.62  2005/06/05 19:12:29  leif
+# Switch to 'make' if 'gmake' is not found.
+#
+# Revision 1.61  2005/05/27 02:09:47  cummings
+# Added new case for identifying the Darwin-8.x_ppc target.  This target
+# corresponds to Power Macs running the new Tiger OS X.
+#
+# Revision 1.60  2005/05/14 00:14:00  leif
+# Fail gracefully -- printing an error message -- when the build root is
+# not set.  (The exiting code tried to do the right thing, but failed.)
+#
+# Revision 1.59  2004/07/27 01:05:03  cummings
+# Modified the get_target_tag() method to use an underscore as the separator
+# in the TARGET variable rather than a comma if working on the Cygwin platform.
+# Otherwise, some of the build rules fail because of the use of commas to
+# separate compiler command-line options.
+#
+# Revision 1.58  2004/05/18 19:48:14  aivazis
+# Added Linux x86_64 case for Opteron based systems
+#
+# Revision 1.57  2004/01/24 02:17:33  cummings
+# Updated command for constructing standard target name on AIX platforms.
+#
+# Revision 1.56  2003/12/25 06:37:01  sean
+# Added new cygwin target.
+#
+# Revision 1.55  2003/11/29 06:59:25  aivazis
+# Added panther support
+#
+# Revision 1.54  2003/02/27 19:46:30  aivazis
+# Repaired the Mac id string
+#
+# Revision 1.53  2003/02/27 19:37:51  aivazis
+# Added support from Darwin (MacOS X)
+#
+# Revision 1.52  2002/04/23 23:15:58  cummings
+# Just noticed a problem on Blue Horizon with the way we identify the
+# platform we are running on.  We use "uname -srm" to do this, but AIX
+# reports the OS version number with the "-v" option to uname and the
+# release number of that OS version with the "-r" option.  For example,
+# currently on Blue Horizon "uname -v" yields "5" while "uname -r" yields
+# "1", indicating that the machine is running AIX 5.1.  This is different
+# from what most other platforms seem to do.  Argh!
+#
+# Since we do not currently do anything different for differing versions
+# and releases of the AIX operating system, I have simply replaced the "3"
+# in our pattern match for AIX with a wildcard to match any release number.
+#
+# Revision 1.51  2002/04/12 12:47:27  aivazis
+# Added current working directory and local makefile name to the xml header
+#
+# Revision 1.50  2002/01/21 00:34:34  aivazis
+# Added SunOS 5.8
+#
+# Revision 1.49  2001/12/23 20:25:07  aivazis
+# Added logic to retain the exit code of the make command and make sure it is
+# the value returned to the operating system by this script
+#
+# Revision 1.48  2001/10/05 20:09:56  cummings
+# Added case for Linux-2.0_ia64 target.
+#
+# Revision 1.47  2001/09/20 22:58:46  aivazis
+# Added support for general log tag generation and an implementation for
+# XML-based markup of the log files
+#
+# Revision 1.46  2001/09/04 23:32:29  cummings
+# Added -j flag to the basic make command that we use in the mm script.  This
+# option launches the desired number of build commands in parallel.  This option
+# is useful when there are several independent compilations to be performed and
+# we have multiple CPUs available to handle the work in parallel.  The number
+# of make jobs is controlled by the environment variable NCPUS, which is set
+# to 1 by default if the user has not set it to anything.  Try setting NCPUS on
+# SMP platforms such as ASCI Blue Mountain; it should speed things up.
+#
+# Revision 1.45  2001/07/10 18:31:19  cummings
+# Generalized test for Compaq build target to accept any version 5.x of Compaq Tru64 Unix.
+#
+# Revision 1.44  2001/04/26 02:17:48  cummings
+# Added test for new standard build target CompaqTru64Unix-5.0_alpha.
+#
+# Revision 1.43  2001/02/07 02:41:07  cummings
+# Fixed glitch in the case where the user sets TARGET_TAG manually,
+# overriding the automatically generated directory name.
+#
+# Revision 1.42  2000/10/03 00:58:12  cummings
+# Modified to check if BLD_STANDARD_TARGET has already been set by
+# the user.  If so, just use this value rather than trying to
+# generate it from the output of "uname".  This is useful on cross-
+# compiling systems, where the uname info from the compile server
+# is not a reliable indicator for the back-end target system.
+#
+# Revision 1.41  2000/09/29 15:17:51  aivazis
+# Exit if there is no $LOCAL_MAKEFILE in the current directory
+#
+# Revision 1.40  2000/09/11 19:41:22  cummings
+# Added a check if GNU_MAKE is unset.  If so, set it to "gmake".
+#
+# Revision 1.39  2000/09/01 00:45:21  cummings
+# Minor change to allow user to specify TARGET_TAG, rather than accepting
+# the default value of $BLD_STANDARD_TARGET-$TARGET.  If TARGET_TAG is set,
+# its contents will be used to name the product directories.
+#
+# Revision 1.38  2000/08/12 02:13:21  aivazis
+# Repaired the HPUX 11 regexp
+#
+# Revision 1.37  2000/08/08 18:35:35  aivazis
+# Added Linux-2.0_alpha
+#
+# Revision 1.36  2000/03/31 16:26:58  aivazis
+# Added Win98 support
+#
+# Revision 1.35  2000/03/02 01:34:11  rapa
+# added HP11
+#
+# Revision 1.34  1999/12/13 22:29:35  aivazis
+# Set the environment variable LOGTAGS to get tags
+#
+# Revision 1.33  1999/12/11 22:59:14  rapa
+# fixed OSF1 to include 5.0 version
+#
+# Revision 1.32  1999/11/17 18:25:14  aivazis
+# Inlined get_makefile_name so that I can remove the makefile name
+#     from the list of command line arguments
+#
+# Revision 1.31  1999/11/17 17:03:28  aivazis
+# Fixed a typo in the log section
+# Moved all the informational echoing to the same spot and changed the
+#     format so that they look like LogAnalyzer tags. Perhaps I should
+#     put them in their own function and add a VERBOSE flag...
+#
+# Revision 1.30  1999/11/17 16:34:36  aivazis
+# Support for out-of-line dependency generation:
+#     Moved the get_makefile_name call outside the recursive protection block
+#     and passed it the rest of the command line arguments so it work!!!
+#
+# Revision 1.29  1999/11/17 05:13:11  aivazis
+# LogAnalyzer tag emission
+# Attempted to move the dependency files to PROJ_TMPDIR
+#
+# Revision 1.28  1999/09/07 18:15:50  rapa
+# added SunOS 5.7
+#
+# Revision 1.27  1999/08/27 22:34:02  sharon
+# added AIX-3.0 platform and IBM-3.6.6 compilers
+#
+# Revision 1.26  1999/07/15 23:02:10  mga
+# Echo a complete list of target def files that will be read
+#
+# Revision 1.25  1999/07/12 23:33:44  aivazis
+# Removed unecessary scoping {} that were breaking the pc
+#
+# Revision 1.24  1999/07/02 01:02:04  aivazis
+# Added echoing of the user selected targets
+#
+# Revision 1.23  1999/07/01 05:15:19  aivazis
+# Accept comma separated list of targets in TARGET
+#
+# Revision 1.22  1999/06/19 18:38:58  aivazis
+# Added --environment-overrides to the GNU make command line
+#
+# Revision 1.21  1999/06/05 02:00:21  mga
+# Added checking for the eistence of the EXPORT_ROOT variable
+#     that is supposed to point to the root of the directory where
+#     packages are to be exported
+#
+
+#
+# Set up the building tools names
+#
+setup_build_tools() {
+  MAKE="mm"; export MAKE
+  if [ x$GNU_MAKE = x ]; then
+    GNU_MAKE="gmake"
+    GNU_MAKE_VERSION=`$GNU_MAKE -v 2> /dev/null`
+    if [ "$?" -ne 0 ]; then
+      GNU_MAKE="make"
+    fi
+    export GNU_MAKE
+  fi
+  if [ x$NCPUS = x ]; then
+    NCPUS=1; export NCPUS
+  fi
+  if [ x"$MM_MAKE_OPTIONS" = x ]; then
+    MM_MAKE_OPTIONS="--warn-undefined-variables --environment-overrides"; export MM_MAKE_OPTIONS
+  fi
+  MKCMD="$GNU_MAKE $MM_MAKE_OPTIONS -j $NCPUS"; export MKCMD
+}
+
+#
+# Determine the full path to 'mm'.  Ripped directly from the
+# 'configure' script generated by Autoconf.  Note that this code is not
+# covered by the GPL: "There are no restrictions on how the
+# configuration scripts that Autoconf produces may be distributed or
+# used." --Autoconf manual
+#
+find_myself() {
+  mm_save_IFS=$IFS; IFS=:
+  for mm_dir in $PATH
+  do
+    mm_mydir=$mm_dir
+    IFS=$mm_save_IFS
+    test -z "$mm_dir" && mm_dir=.
+    test -r "$mm_dir/$0" && mm_myself=$mm_dir/$0 && break
+  done
+}
+
+get_mm_pathname() {
+  if expr a : '\(a\)' >/dev/null 2>&1; then
+    mm_expr=expr
+  else
+    mm_expr=false
+  fi
+  if (basename /) >/dev/null 2>&1 && test "X`basename / 2>&1`" = "X/"; then
+    mm_basename=basename
+  else
+    mm_basename=false
+  fi
+  mm_me=`$mm_basename "$0" ||
+$mm_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
+	 X"$0" : 'X\(//\)$' \| \
+	 X"$0" : 'X\(/\)$' \| \
+	 .     : '\(.\)' 2>/dev/null ||
+echo X/"$0" |
+    sed '/^.*\/\([^/][^/]*\)\/*$/{ s//\1/; q; }
+  	  /^X\/\(\/\/\)$/{ s//\1/; q; }
+  	  /^X\/\(\/\).*/{ s//\1/; q; }
+  	  s/.*/./; q'`
+  case $0 in
+    *[\\/]* ) mm_myself=$0; mm_mydir=`echo $mm_myself | sed s/\\\/$mm_me\$//` ;;
+    *) find_myself ;;
+  esac
+  if test "x$mm_myself" = x; then
+    mm_myself=$0
+  fi
+  if test ! -f "$mm_myself"; then
+    { echo "$mm_me: error: cannot find myself; rerun with an absolute path" >&2
+    { (exit 1); exit 1; }; }
+  fi
+}
+
+#
+# Check that the environment variables BLD_ROOT and EXPORT_ROOT is set properly
+#
+verify_directory_structure() {
+  if [ x$BLD_ROOT = x -o x$EXPORT_ROOT = x -o x$BLD_CONFIG = x ]; then
+    get_mm_pathname
+  fi
+
+  if [ x$BLD_ROOT = x ]; then
+    if [ x$BLD_CONFIG = x ]; then
+       BLD_CONFIG=`cd $mm_mydir/.. && pwd`
+    fi
+    BLD_ROOT=$mm_mydir/../../build
+    if [ ! -d $BLD_ROOT ]; then
+      mkdir $BLD_ROOT
+      if [ ! -d $BLD_ROOT ]; then
+        echo "could not create BLD_ROOT directory '$BLD_ROOT'"
+        exit 1
+      fi
+    fi
+    BLD_ROOT=`cd $BLD_ROOT && pwd`
+  elif [ ! -d $BLD_ROOT ]; then
+    echo "BLD_ROOT='$BLD_ROOT': directory not found"
+    exit 1
+  fi
+  export BLD_ROOT
+
+  if [ x$EXPORT_ROOT = x ]; then
+    EXPORT_ROOT=$mm_mydir/../../export
+    if [ ! -d $EXPORT_ROOT ]; then
+      mkdir $EXPORT_ROOT
+      if [ ! -d $EXPORT_ROOT ]; then
+        echo "could not create EXPORT_ROOT directory '$EXPORT_ROOT'"
+	exit 1
+      fi
+    fi
+    EXPORT_ROOT=`cd $EXPORT_ROOT && pwd`
+  fi
+  export EXPORT_ROOT
+
+#
+# Check that the configuration directory structure exists
+#
+  if [ x$BLD_CONFIG = x ]; then
+      BLD_CONFIG=$BLD_ROOT/config
+      if [ ! -d $BLD_CONFIG ]; then
+        BLD_CONFIG=`cd $mm_mydir/.. && pwd`
+      fi
+  fi
+  if [ ! -d $BLD_CONFIG ]; then
+    echo "BLD_CONFIG='$BLD_CONFIG': directory not found"
+    exit 1
+  fi
+  export BLD_CONFIG
+}
+
+get_developer_name() {
+  DEVELOPER=${DEVELOPER:-unknown-developer}
+  export DEVELOPER
+}
+
+#
+# Compute the default target for this platform
+#
+
+get_standard_target_name() {
+  if [ x$BLD_STANDARD_TARGET = x ]; then
+    mm_standard_target_id="unknown"
+    case `uname -srm | sed 's/ /__/g'` in
+
+        AIX__*__*)
+	    mm_standard_target_id="AIX-`uname -v`.`uname -r`_`uname -p`";;
+
+	Darwin__10.*__i386 | Darwin__10.*__x86_64 | Darwin__11.*__x86_64)
+	    mm_standard_target_id="Darwin-8.x_x86" ;;
+
+        HP-UX__B.10.01__9000*)
+            mm_standard_target_id="HPUX-10.0_hppa";;
+
+        HP-UX__B.11.*)
+            mm_standard_target_id="HPUX-11.1_hppa";;
+
+        IRIX64__6.5__*)
+            mm_standard_target_id="Irix-6.5_`uname -p`" ;;
+
+        IRIX64__6.4__*)
+            mm_standard_target_id="Irix-6.4_`uname -p`" ;;
+
+        IRIX64__6.2__*)
+            mm_standard_target_id="Irix-6.2_`uname -p`" ;;
+
+        Linux__2.*__i[456]86)
+            mm_standard_target_id="Linux-2.0_x86";;
+
+        Linux__2.*__alpha)
+            mm_standard_target_id="Linux-2.0_alpha";;
+
+        Linux__2.*__ia64)
+            mm_standard_target_id="Linux-2.0_ia64";;
+
+        Linux__2.*__x86_64)
+            mm_standard_target_id="Linux-2.0_x86_64";;
+
+        Linux__3.*__x86_64)
+            mm_standard_target_id="Linux-3.x_x86_64";;
+
+	CYGWIN*NT*4.0*i[456]86)
+	    mm_standard_target_id="Win32-4.0_x86" ;;
+
+	CYGWIN*NT*5.1*i[456]86)
+	    mm_standard_target_id="Win32-5.1_x86" ;;
+
+        CYGWIN*98*4.*0*i[456]86)
+            mm_standard_target_id="Win32-4.0_x86" ;;
+
+        OSF1__V4.*__alpha)
+            mm_standard_target_id="DigitalUnix-4.0_alpha" ;;
+
+        OSF1__V5.*__alpha)
+            mm_standard_target_id="CompaqTru64Unix-5.0_alpha" ;;
+
+        SunOS__5.8*__sun4*)
+            mm_standard_target_id="SunOS-5.8_sparc" ;;
+
+        SunOS__5.7*__sun4*)
+            mm_standard_target_id="SunOS-5.7_sparc" ;;
+
+        SunOS__5.6*__sun4*)
+            mm_standard_target_id="SunOS-5.6_sparc" ;;
+
+        SunOS__5.5*__sun4*)
+            mm_standard_target_id="SunOS-5.5_sparc" ;;
+
+    esac
+
+    BLD_STANDARD_TARGET=$mm_standard_target_id
+  fi
+  export BLD_STANDARD_TARGET
+
+#
+# Check that this platform is supported
+#
+  if [ ! -d $BLD_CONFIG/target/$BLD_STANDARD_TARGET ]; then
+    echo "The platform configuration directory '$BLD_STANDARD_TARGET' is invalid"
+    exit 1
+  fi
+}
+
+#
+# Parse the user's target list, assumed to be in the envvar TARGET
+#
+get_user_target_names() {
+  TARGET_LIST=`echo $TARGET | sed -e 's/,/ /g'`
+
+#
+# Validate the targets by checking that the corresponding directories exist
+#
+  if [ ! x"$TARGET_LIST" = x ]; then
+    for x in $TARGET_LIST; do
+      if [ ! -d $BLD_CONFIG/target/$x ]; then
+        echo "The specified target configuration directory '$BLD_CONFIG/target/$x' is invalid"
+        exit 1
+      fi
+    done
+  fi
+
+#
+  BLD_USER_TARGET=$TARGET_LIST
+  export BLD_USER_TARGET
+}
+
+construct_target_list()
+{
+  TARGETS="$BLD_STANDARD_TARGET $BLD_USER_TARGET"
+  export TARGETS
+}
+
+#
+# Construct the target tag for this build
+#
+get_target_tag() {
+  if [ x"$TARGET_TAG" = x ]; then
+    if [ x"$BLD_USER_TARGET" = x ]; then
+      TARGET=$BLD_STANDARD_TARGET
+      TARGET_TAG=$TARGET
+    else
+# On Cygwin platform, use underscore as separator rather than comma
+      if [ x"$BLD_STANDARD_TARGET" = xWin32-4.0_x86 -o \
+           x"$BLD_STANDARD_TARGET" = xWin32-5.1_x86 ]; then
+        TARGET_NEW=`echo $TARGET | sed -e 's/,/_/g'`
+        TARGET=$TARGET_NEW
+      fi
+      TARGET_TAG=$BLD_STANDARD_TARGET-$TARGET
+    fi
+  else
+    if [ x"$BLD_USER_TARGET" = x ]; then
+      TARGET=$BLD_STANDARD_TARGET
+    fi
+  fi
+#
+  export TARGET
+  export TARGET_TAG
+}
+
+# support for structured output
+
+xml_header() {
+cat <<EOF
+<?xml version="1.0"?>
+<!-- 
+ !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ !
+ !                              Michael A.G. Aivazis
+ !                        (C) 1998-2001 All Rights Reserved
+ !
+ !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-->
+
+EOF
+}
+
+xml_footer() {
+cat <<EOF
+
+<!-- End of file -->
+EOF
+}
+
+#
+# Main script
+#
+  if [ x$1 = x"--recursive" ]; then
+    isRecursive=1
+    shift
+  else
+    setup_build_tools
+    verify_directory_structure
+
+    get_standard_target_name
+    get_user_target_names
+    construct_target_list
+    get_target_tag
+
+    get_developer_name
+  fi
+
+#
+# Construct the name of the makefile
+#
+  LOCAL_MAKEFILE="Make.mm"
+  if [ $1x = "-f"x -a $2x != x ]; then
+    LOCAL_MAKEFILE=$2
+    shift; shift
+  elif [ $1x = "-x"x ]; then
+    export XML=1
+    shift
+  fi
+
+# check that the makefile exists
+
+  if [ ! -f $LOCAL_MAKEFILE ]; then
+    echo " *** No '$LOCAL_MAKEFILE' in '`pwd`'"
+  fi
+  export LOCAL_MAKEFILE
+
+#
+# Construct the include path
+#
+  INCLUDES="-I $BLD_CONFIG/make -I $BLD_CONFIG/target -I $BLD_CONFIG/compiler -I $BLD_CONFIG/platform -I $BLD_CONFIG/external"
+
+#
+# Execute make
+#
+  if [ x != x"$XML" ]; then
+      if [ x = x"$isRecursive" ]; then
+         xml_header
+      fi
+      echo '<mm cwd="'`pwd`'" file="'${LOCAL_MAKEFILE}'">'
+  fi
+
+  if [ x = x"$*" ]; then
+      #echo $MKCMD $INCLUDES -f $BLD_CONFIG/make/std-make.def 
+      $MKCMD $INCLUDES -f $BLD_CONFIG/make/std-make.def 
+  else
+      #echo $MKCMD $INCLUDES -f $BLD_CONFIG/make/std-make.def "$@"
+      $MKCMD $INCLUDES -f $BLD_CONFIG/make/std-make.def "$@"
+  fi
+
+  save_result=$?
+
+  if [ x != x"$XML" ]; then
+      echo "</mm>"
+      if [ x = x"$isRecursive" ]; then
+         xml_footer
+      fi
+  fi
+
+  exit $save_result
+
+#
+# End of file

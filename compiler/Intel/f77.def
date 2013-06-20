@@ -1,0 +1,11 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# california institute of technology
+# (c) 1998-2012 all rights reserved
+#
+
+# use the latest version of the Intel C compiler
+include Intel-12/f77.def
+
+# end of file

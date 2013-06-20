@@ -1,0 +1,37 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: climits,v $
+// Revision 1.2  2001/06/12 19:10:57  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/19 01:40:52  cummings
+// Replacements for the remaining new-style C headers that are
+// missing from the MIPSpro compiler header file set.  Each file
+// includes the corresponding standard C header file and then
+// imports types and functions from the global namespace into
+// namespace std, so that they can be used in the standard way.
+// I have attempted to import only ANSI standard items.
+//
+//
+
+#if !defined(__config_compiler_climits__)
+#define __config_compiler_climits__
+
+//
+// Deficiency file: route climits to limits.h
+//
+
+#include <limits.h>
+
+#endif
+
+// End of file

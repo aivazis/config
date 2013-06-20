@@ -1,0 +1,17 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log $
+
+#
+# Include the mpi configuration file
+#
+include MPI/default.def
+
+#
+# END OF FILE

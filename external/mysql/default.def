@@ -1,0 +1,13 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+MYSQL_LIBRARIES = mysqlclient z
+
+   EXTERNAL_INCLUDES += $(MYSQL_INCDIR)
+   EXTERNAL_LIBS += -L$(MYSQL_LIBDIR) ${addprefix -l, $(MYSQL_LIBRARIES)}
+

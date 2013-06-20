@@ -1,0 +1,146 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Generic Linux settings for MPI
+#
+
+MPI_INCLUDES = $(MPI_INCDIR)
+MPI_CPPDEFS = 
+MPI_LIBPATH = $(MPI_LIBDIR)
+MPI_LIBS = -lmpich
+MPI_F90LIBS = -lmpichf90
+
+# Opteron platform (shc)
+
+ifeq (Linux-2.0_x86_64, $(TARGET_ID))
+    ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
+        ifeq (mpich-shmem, ${findstring mpich-shmem, $(MPI_VERSION)})
+            MPI_INCLUDES += $(MPI_INCDIR)/mpi2c++
+            MPI_CPPDEFS = HAVE_MPI_CPP
+            MPI_LIBS = -lmpich-shmem -lpmpich-shmem
+            MPI_CPPLIBS = -lpmpich-shmem++
+            ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+                MPI_F90LIBS = -lfmpich-shmem
+            endif
+        else
+            MPI_INCLUDES += $(MPI_INCDIR)/mpi2c++
+            MPI_CPPDEFS = HAVE_MPI_CPP
+            MPI_LIBS += -lpmpich
+            MPI_CPPLIBS = -lpmpich++
+            ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+                MPI_F90LIBS = -lfmpich
+            endif
+        endif
+        ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+	    MPI_F90LIBS = -lfmpich
+        endif
+    endif
+    ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
+        MPI_INCLUDES += $(MPI_INCDIR)/openmpi
+        MPI_CPPDEFS = OMPI_WANT_CXX_BINDINGS
+        MPI_LIBS = -lmpi -lopen-pal -lopen-rte -lmpi_cxx
+        MPI_CPPLIBS = -lmpi_cxx
+        MPI_F90LIBS = 
+    endif
+    ifeq (lampi, ${findstring lampi, $(MPI_VERSION)})
+        MPI_LIBS = -lmpi
+        MPI_F90LIBS = 
+    endif
+    ifeq (hpmpi, ${findstring hpmpi, $(MPI_VERSION)})
+        MPI_LIBPATH = -L$(MPI_LIBDIR)/linux_amd64
+        MPI_LIBS = -lhpmpio -lhpmpi
+        MPI_CPPLIBS = -lmpiCC
+        MPI_F90LIBS = 
+    endif
+    ifeq (gm, ${findstring gm, $(MPI_VERSION)})
+        MPI_LIBPATH += -L/usr/lib64
+        MPI_LIBS += -lgm
+    endif
+endif
+
+# Itanium platform (thunder)
+
+ifeq (Linux-2.0_ia64, $(TARGET_ID))
+    ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
+        MPI_INCLUDES += $(MPI_INCDIR)/mpi2c++
+        MPI_CPPDEFS = HAVE_MPI_CPP
+        MPI_LIBS += -lpmpich
+        MPI_CPPLIBS = -lpmpich++
+        ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+	    MPI_F90LIBS = -lfmpich
+        endif
+    endif
+    ifeq (gm, ${findstring gm, $(MPI_VERSION)})
+        MPI_LIBPATH += -L/opt/gm/lib
+        MPI_LIBS += -lgm -lpthread -ldl
+    endif
+endif
+
+# Pentium platform (alc)
+
+ifeq (Linux-2.0_x86, $(TARGET_ID))
+    ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
+        MPI_INCLUDES += $(MPI_INCDIR)/mpi2c++
+        MPI_CPPDEFS = HAVE_MPI_CPP
+        MPI_LIBS += -lpmpich
+        MPI_CPPLIBS = -lpmpich++
+        ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+	    MPI_F90LIBS = -lfmpich
+        endif
+    endif
+    ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
+        MPI_INCLUDES += $(MPI_INCDIR)/openmpi
+        MPI_CPPDEFS = OMPI_WANT_CXX_BINDINGS
+        MPI_LIBS = -lmpi -lopen-pal -lopen-rte -lmpi_cxx
+        MPI_CPPLIBS = -lmpi_cxx
+        MPI_F90LIBS = 
+    endif
+    ifeq (hpmpi, ${findstring hpmpi, $(MPI_VERSION)})
+        MPI_LIBPATH = -L$(MPI_LIBDIR)/linux_ia32
+        MPI_LIBS = -lhpmpio -lhpmpi
+        MPI_CPPLIBS = -lmpiCC
+        MPI_F90LIBS = 
+    endif
+    ifeq (gm, ${findstring gm, $(MPI_VERSION)})
+        MPI_LIBPATH += -L/opt/gm/lib
+        MPI_LIBS += -lgm -lpthread -ldl
+    endif
+    ifeq (Quadrics, ${findstring Quadrics, $(MPI_VERSION)})
+        MPI_LIBS = -lmpi -lelan -lelan3 -lrmscall -lelf
+        MPI_CPPLIBS = -lpmpi++
+        MPI_F90LIBS = 
+        ifeq (Intel7, ${findstring Intel7, $(TARGET_F77)})
+            MPI_F90LIBS = "/usr/local/mpi/ifc_farg.o"
+        endif
+        ifeq (Intel8, ${findstring Intel8, $(TARGET_F77)})
+            MPI_F90LIBS = "/usr/local/mpi/ifc8_farg.o"
+        endif
+        ifeq (PGI, ${findstring PGI, $(TARGET_F77)})
+            MPI_F90LIBS = "/usr/local/mpi/pgf90_farg.o"
+        endif
+	MPI_F90LIBS += -lmpifarg -lmpi -lelan -lelan3 -lrmscall -lelf
+    endif
+endif
+
+# Compaq alpha 
+
+ifeq (Linux-2.0_alpha, $(TARGET_ID))
+    MPI_LIBS += -lots
+    EXTERNAL_F90_MODULES += $(MPI_INCDIR)/f90base
+endif
+
+# ifeq (Linux-2.0_ia64, $(TARGET_ID))
+# link with vmi as default, instead of mpich-gm
+# perhaps this is not the right place for these mods, but
+# check in what is working on NCSA and Caltech's ia64 nodes
+#     MPI_LIBS += -lvmi -ldl -lpthread
+# endif
+
+#
+# End of file

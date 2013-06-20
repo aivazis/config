@@ -1,0 +1,53 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the Sun FORTRAN compiler
+#
+#
+    F77_ID = SC-5.0
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f77
+    COMPILER_F90_NAME = f90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS =
+    COMPILER_F90_FLAGS =
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -KPIC
+#
+    F77_OPT_FLAGS = -O2      # Optimization flags
+    F90_OPT_FLAGS = -O2      # Optimization flags
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

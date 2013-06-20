@@ -1,0 +1,68 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# Place the "project" objects into the "project" library
+#
+
+ifeq ($(PROJ_OBJS),)
+$(PROJ_LIB):
+	@echo $(PROJ_LIB): nothing further to do
+else
+$(PROJ_LIB): $(PROJ_LIB)($(PROJ_OBJS))
+	@$(RANLIB) $(RANFLAGS) $@
+endif
+
+proj-lib: tag_projlib_start product_dirs $(PROJ_LIB) tag_projlib_end
+
+# Special rule for prelinking C++ template library objects
+
+ifdef CXX_PRELINK_CMD
+$(PROJ_CXX_LIB): 
+
+proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS)
+	@$(LOGEMIT_ARCHIVING_START)
+	@$(CXX_PRELINK_CMD) $(PROJ_TMPDIR)/*.$(EXT_OBJ)
+	@$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_TMPDIR)/*.$(EXT_OBJ) \
+	@$(PROJ_TMPDIR)/$(CXX_INSTDIR)/*.$(EXT_OBJ)
+	@$(RANLIB) $(RANFLAGS) $(PROJ_CXX_LIB)
+	@$(LOGEMIT_ARCHIVING_END)
+	@$(LOGEMIT_PROJLIB_END)
+else
+$(PROJ_CXX_LIB): $(PROJ_CXX_LIB)($(PROJ_OBJS))
+	@$(RANLIB) $(RANFLAGS) $@
+
+proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_CXX_LIB) tag_projlib_end
+endif
+
+ifeq (Win32, ${findstring Win32, $(PLATFORM_ID)})
+# Special rule for building Cygwin DLL
+$(PROJ_DLL) $(PROJ_SAR): product_dirs $(PROJ_OBJS)
+	@$(CXX) $(LCXX_SARFLAGS) -Wl,--out-implib=$(PROJ_SAR) \
+	-o $(PROJ_DLL) $(PROJ_OBJS) $(LCXXFLAGS)
+else
+# Usual rule for building shared archive
+$(PROJ_DLL) $(PROJ_SAR): product_dirs $(PROJ_OBJS)
+	$(CXX) $(LCXX_SARFLAGS) -o $@ $(PROJ_OBJS) $(LCXXFLAGS)
+endif
+
+# Preserve PROJ_OBJS after compilation by implicit rule
+.SECONDARY: $(PROJ_OBJS)
+
+# Include dependency info files and config info file
+
+include $(PROJ_TMPDIR)/.config
+-include $(PROJ_DEPENDENCIES)
+
+#---------------------------------------------------------------------------
+
+# version
+# $Id: std-builds.def,v 1.30 2013/03/28 23:59:50 mga Exp $
+
+#
+# End of file

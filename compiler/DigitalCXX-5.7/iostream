@@ -1,0 +1,25 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: iostream,v $
+// Revision 1.3  1999/10/22 22:54:16  aivazis
+// Removed a blank line
+//
+// Revision 1.2  1999/06/24 22:18:12  aivazis
+// Added headers
+//
+
+//
+// Defficiency file: route iostream to iostream.h
+//
+
+#include <iostream.h>
+
+// End of file

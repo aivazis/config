@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Portland Group FORTRAN compiler
+#
+#
+    F77_ID = PGI-3.0
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = pgf77
+    COMPILER_F90_NAME = pgf90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = 
+    COMPILER_F90_FLAGS = 
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -fpic
+#
+    F77_OPT_FLAGS = -fast          # Optimization flags
+    F90_OPT_FLAGS = -fast          # Optimization flags
+    F77_DEBUG_FLAGS = -g           # Debug flags
+    F90_DEBUG_FLAGS = -g           # Debug flags
+    F77_PROF_FLAGS = -Mprof=func   # Profiling flags
+    F77_MODULE_FLAGS = -module
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy # $(COMPILER_F77_NAME) -M
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS = ${addprefix -L, $(PGI_LIBDIR)}
+    COMPILER_LF77_LIBPATH =
+    COMPILER_LF77_SOFLAGS = -shared
+#
+# Mixed language support
+#
+ifeq ($(PLATFORM_ID),TFLOPS)
+    COMPILER_LF90_LIBRARIES = -lpgf90_cgr -lpgf90_rpm1 -lpgf902_cgr -lpgf90rtl_cgr -lpgftnrtl_cgr
+    COMPILER_LF77_LIBRARIES = -lpgftnrtl_cgr
+else
+    COMPILER_LF90_LIBRARIES = -lpgf90 -lpgf90_rpm1 -lpgf902 -lpgf90rtl -lpgftnrtl
+    COMPILER_LF77_LIBRARIES = -lpgftnrtl
+endif
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF77_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF77_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

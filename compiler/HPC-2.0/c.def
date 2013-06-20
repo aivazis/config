@@ -1,0 +1,114 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: c.def,v $
+# Revision 1.15  2001/03/31 00:21:59  cummings
+# Following Raul's suggestion, I have set the dependency file
+# generation command for the HP C compiler to be "gcc -MM".
+# We use gcc here because the HP C compiler does not have an
+# option for doing dependency info generation.  This should
+# fix the problem of the build system not rebuilding after
+# changes to C header files on HP platforms.
+#
+# Revision 1.14  2001/01/30 01:39:52  cummings
+# Replaced hard-wired 64-bit compile option with flag
+# set by choosing either 32bit or 64bit target.
+#
+# Revision 1.13  2000/09/22 17:45:51  aivazis
+# Removed non-sensical flags from FORSHARED
+#
+# Revision 1.12  2000/09/15 01:24:58  cummings
+# Set compiler flag to +DA2.0W for consistency with other
+# HP compilers.  Corrected flag for compiling position-independent
+# code.  Took out some very fine-grained optimization flag
+# settings (which should probably go into developer-specific
+# definition files instead) and set optimization to +O2 for
+# consistency with the other HP compilers.  Added profiling flag.
+# Set depends command to mm_dummy, since there is apparently no
+# capability in the C compiler to generate make dependencies.
+# Added correct setting for producing shared objects with the
+# HP C compiler.
+#
+# Revision 1.11  2000/09/12 23:47:20  cummings
+# Changed LIBDIR to BLD_LIBDIR.
+#
+# Revision 1.10  2000/08/21 18:19:21  aivazis
+# Added FORSHARED from gnu autoconfig. Will need tweaking.
+# Removed the mixed language section
+#
+# Revision 1.9  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.8  2000/04/17 16:48:15  sharon
+# modified compilation flags
+#
+# Revision 1.7  2000/03/02 01:39:05  rapa
+# changed some flags following Sharon's suggestions
+#
+# Revision 1.6  1999/07/01 05:29:29  aivazis
+# Optimization flag is -O; -O2 is not supported
+#
+# Revision 1.5  1999/06/30 21:57:33  aivazis
+# Removed MPI-specific hacks. Users must now include MPI/default.def
+# in their makefiles to get MPI
+#
+# Revision 1.4  1999/06/24 22:18:12  aivazis
+# Added headers
+#
+
+#
+# Definitions for HP C compiler
+#
+    CC_ID = HPC-2.0
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = cc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = $(COMPILER_EXE_FORMAT)
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+#
+    COMPILER_CC_SOFLAGS = +Z
+#
+#
+    CC_OPT_FLAGS = +O2   # Optimization flags
+    CC_DEBUG_FLAGS = -g  # Debug flags
+    CC_PROF_FLAGS = -G   # Profiling flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = pa2.0
+    COMPILER_LIB_64BIT = pa20_64
+    COMPILER_EXE_32BIT = +DA2.0
+    COMPILER_EXE_64BIT = +DA2.0W
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) $(COMPILER_CC_FLAGS) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = gcc -MM
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS =
+    COMPILER_LCC_LIBPATH =
+    COMPILER_LCC_SOFLAGS = -Wl,-b
+    COMPILER_LCC_FORSHARED = -Wl,-E -Wl,+s
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN =
+    COMPILER_CC_DISTCLEAN =
+#
+# End of file

@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+ifneq ($(MATLAB_DIR),)
+
+#
+# Default settings for matlab
+#
+
+    MATLAB_INCLUDES = $(MATLAB_INCDIR)
+    MATLAB_LIBS = -L$(MATLAB_LIBDIR) ${addprefix -l, $(MATLAB_LIBRARIES)}
+
+#
+    EXTERNAL_DEFINES += WITH_MATLAB
+    EXTERNAL_INCLUDES += $(MATLAB_INCLUDES)
+    EXTERNAL_LIBS += $(MATLAB_LIBS)
+
+endif
+
+# $Id: default.def,v 1.1 2002/01/10 23:09:48 aivazis Exp $
+
+#
+# End of file

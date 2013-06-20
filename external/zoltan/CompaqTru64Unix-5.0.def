@@ -1,0 +1,15 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+
+# Platform-specific settings for Compaq
+
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_dec
+
+#
+# End of file

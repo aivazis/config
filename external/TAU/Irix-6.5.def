@@ -1,0 +1,32 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Irix-6.5.def,v $
+# Revision 1.2  2001/12/27 18:23:50  cummings
+# Added proper -rpath flag to EXTERNAL_LIBPATH variable so that the
+# Tau shared library can be found and dynamically loaded in Python.
+#
+# Revision 1.1  2001/11/30 02:58:27  cummings
+# Irix-specific definitions file for using Tau package.
+#
+#
+
+#
+# Irix settings from platform-specific TAU Makefile
+#
+
+ifeq (64bit,$(findstring 64bit,$(TARGETS)))
+    include $(TAUROOTDIR)/sgi64/lib/Makefile.tau
+    EXTERNAL_LIBPATH += -rpath $(TAUROOTDIR)/sgi64/lib
+else
+    include $(TAUROOTDIR)/sgin32/lib/Makefile.tau
+    EXTERNAL_LIBPATH += -rpath $(TAUROOTDIR)/sgin32/lib
+endif
+
+#
+# End of file

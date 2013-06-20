@@ -1,0 +1,67 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: c.def,v $
+# Revision 1.10  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.9  1999/06/24 22:18:13  aivazis
+# Added headers
+#
+
+#
+# Definitions for Microsoft Visual C compiler (6.0)
+#
+    CC_ID = MSVC-6.0
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = cl
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -nologo -ML -W3 -GX -DWIN32 -DNDEBUG #$(COMPILER_CCPRECOMP_FLAGS)
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = /LD
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = gcc -MM -DWIN32 -D_M_IX86
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS = /nologo
+    COMPILER_LCC_LIBPATH =
+#
+# Precompiled headers
+#
+# local.def must provide 
+#     COMPILER_CCPRECOMP_FILE, COMPILER_CCPRECOMP_MARK and COMPILER_CCPRECOMP_SRC
+#
+    COMPILER_CCPRECOMP_FLAGS = /Fp$(COMPILER_CCPRECOMP_FILE) /Yu$(COMPILER_CCPRECOMP_MARK)
+#
+# Target to build the pch file
+#
+    CCPRECOMP_HEADERS = $(COMPILER_CCPRECOMP_FILE): $(COMPILER_CCPRECOMP_MARK); \
+ cl -c $(COMPILER_CCPRECOMP_SRC) -Fo${basename $(COMPILER_CCPRECOMP_SRC)}.obj $(CFLAGS) $(CINCLUDES) /Yc$(COMPILER_CCPRECOMP_MARK); \
+ $(RM) ${basename $(COMPILER_CCPRECOMP_SRC)}.$(EXT_OBJ)
+
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN =
+    COMPILER_CC_DISTCLEAN =
+#
+# End of file

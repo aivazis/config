@@ -1,0 +1,50 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Irix-6.5.def,v $
+# Revision 1.7  2002/02/27 19:55:42  cummings
+# Removed linking with libmpi++ if building at LANL.  This problem is
+# solved by defining the macro MPI_NO_CPPBIND to indicate that we are
+# not using the C++ bindings for MPI.
+#
+# Revision 1.6  2001/08/18 03:53:15  cummings
+# Properly separated library search paths and libraries needed for MPI
+# into MPI_LIBPATH and MPI_LIBS, respectively.
+#
+# Revision 1.5  2001/08/14 22:39:47  cummings
+# Put the special MPI_NO_CPPBIND define for Irix platform into
+# TARGET_CXX_DEFINES instead of PLATFORM_CXX_DEFINES so it won't
+# get overwritten by the platform-specific definitions file.
+#
+# Revision 1.4  2001/08/08 17:40:57  cummings
+# Moved the define of MPI_NO_CPPBIND out of the MIPSpro compiler
+# definitions file and into the Irix-specific MPI definitions file.
+#
+# Revision 1.3  2001/01/31 22:21:47  cummings
+# Add -lmpi++ to MPI libraries list if we are building
+# at LANL.  The new SGI MPT requires this library when
+# compiling C++ code and using MPI.
+#
+# Revision 1.2  1999/06/09 01:39:33  mga
+# Fixed typos and added header
+#
+
+#
+# Irix settings for MPI
+#
+
+MPI_INCLUDES = 
+MPI_LIBS = -lmpi
+MPI_LIBPATH = 
+
+# Don't include MPI C++ bindings on Irix platform.
+
+TARGET_CXX_DEFINES += MPI_NO_CPPBIND
+
+#
+# End of file

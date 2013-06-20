@@ -1,0 +1,75 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+
+# required definitions
+# PROJECT
+# PACKAGE
+# MODULE
+
+
+# Python
+include Python/default.def
+
+# common project settings
+# the module initialization file
+MODULE_INIT_FILE ?= $(MODULE).$(EXT_CXX)
+MODULE_DLL = $(BLD_BINDIR)/$(MODULE).abi3.$(EXT_SO)
+
+PROJ_CLEAN += $(PROJ_DLL)
+PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)
+PROJ_CXX_LIB = $(BLD_LIBDIR)/lib$(MODULE)module.$(EXT_AR)
+PROJ_CXX_SRCLIB ?=
+
+PROJ_CXX_FLAGS += $(CXX_SOFLAGS)
+PROJ_LCXX_FLAGS += $(LCXX_SOFLAGS)
+
+# MGA 20110128: removed VTF_LIBS from this pile
+PROJ_ALL_LIBRARIES = \
+    $(PROJ_CXX_LIB) \
+    $(PROJ_CXX_SRCLIB) \
+    $(PROJ_LIBRARIES) \
+    $(EXTERNAL_LIBS)
+
+
+all: product_dirs $(PROJ_EXTERNAL_PACKAGES) proj-cxx-lib bindings export
+
+.PHONY: bindings
+bindings: $(MODULE_DLL)
+
+#--------------------------------------------------------------------------
+#
+# export
+
+EXPORT_BINDIR = $(EXPORT_MODULEDIR)/$(PACKAGE)
+
+EXPORT_BINS = $(MODULE_DLL)
+export:: export-binaries
+
+
+#--------------------------------------------------------------------------
+#
+# build
+
+ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
+ifdef NO_TAU_INSTRUMENTATION
+$(MODULE_DLL): $(MODULE_INIT_FILE) $(PROJ_CXX_LIB) $(PROJ_OTHER_DEPENDENCIES)
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LCXXFLAGS) $(PROJ_ALL_LIBRARIES)
+else
+$(MODULE_DLL): $(MODULE_INIT_FILE) $(PROJ_CXX_LIB) $(PROJ_OTHER_DEPENDENCIES)
+	$(PDTCXXPARSE) $< $(CXX_BUILD_DEFINES) -DWITH_TAU $(CXX_BUILD_INCLUDES)
+	$(TAUINSTR) $(PACKAGE).pdb $< -o $(PACKAGE).inst.$(EXT_CXX) \
+	-g $(PROJ_TAU_GROUP) -f $(PROJ_TAU_SELECT)
+	$(CXX) $(CXXFLAGS) -o $@ $(PACKAGE).inst.$(EXT_CXX) \
+	$(LCXXFLAGS) $(PROJ_ALL_LIBRARIES)
+	$(RM) $(RMFLAGS) $(PACKAGE).pdb $(PACKAGE).inst.$(EXT_CXX)
+endif
+else
+$(MODULE_DLL): $(MODULE_INIT_FILE) $(PROJ_CXX_LIB) $(PROJ_OTHER_DEPENDENCIES)
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LCXXFLAGS) $(PROJ_ALL_LIBRARIES)
+endif
+
+# end of file

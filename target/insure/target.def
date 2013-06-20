@@ -1,0 +1,58 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.6  2001/11/10 02:08:36  cummings
+# Since both insure and tau need to turn off the use of combined
+# makedepends/compilation, I created a new build procedure macro
+# called NO_MAKEDEPENDS_COMBINED.  If this macro is defined, we do
+# not do makedepends and compilation in one combined step.  We define
+# this macro here and in the tau definitions file.
+#
+# Revision 1.5  2000/03/05 01:43:46  rapa
+# added -Zsl (recommended by insure at link time)
+#
+# Revision 1.4  1999/07/15 23:05:55  mga
+# It is not necessary anymore to auto-include debug.def.
+#     Use "TARGET=insure,debug mm" if you want good stack traces
+#
+# Revision 1.3  1999/07/01 05:15:41  aivazis
+# Accept comma separated list of targets in TARGET
+#
+# Revision 1.2  1999/06/21 03:06:32  aivazis
+# Uncommented the update of the CXX flags
+#
+# Revision 1.1  1999/06/21 03:03:08  aivazis
+# Original source
+#
+
+#
+# Here are the build-specific flags
+#
+
+# Prevent use of combined makedepends/compile commands.
+
+    NO_MAKEDEPENDS_COMBINED = true
+#
+# C
+#
+    CC = insure
+    TARGET_CC_FLAGS += -Zoi "Compiler $(COMPILER_CC_NAME)"
+    TARGET_LCC_FLAGS += -Zoi "Compiler $(COMPILER_CC_NAME)" -Zsl
+#
+# C++
+#
+    CXX = insure
+    TARGET_CXX_FLAGS += -Zoi "Compiler $(COMPILER_CXX_NAME)"
+    TARGET_LCXX_FLAGS += -Zoi "Compiler $(COMPILER_CXX_NAME)" -Zsl
+#
+# FORTRAN
+#
+#   FORTRAN is not supported by insure
+#
+# END OF FILE

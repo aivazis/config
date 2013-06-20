@@ -1,0 +1,56 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Intel C compiler
+#
+    CC_ID = Intel7beta
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = ecc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -Wall
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = -fpic
+#
+# Optimization flags
+    CC_OPT_FLAGS = -O2 -ansi_alias
+    CC_DEBUG_FLAGS = -g     # Debug flags
+    CC_PROF_FLAGS = -p      # Profiling flags
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MMD
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS =
+    COMPILER_LCC_LIBPATH =
+    COMPILER_LCC_SOFLAGS = -shared 
+    COMPILER_LCC_FORSHARED = -Xlinker -export-dynamic
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN =
+    COMPILER_CC_DISTCLEAN =
+#
+# End of file

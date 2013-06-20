@@ -1,0 +1,73 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2006 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for PathScale 2.x pathCC compiler
+#
+    CXX_ID = PathScale-2.x
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = pathCC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -ansi
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -fPIC
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O3 -OPT:alias=typed -INLINE:aggressive=ON
+    CXX_DEBUG_FLAGS = -g -DDEBUG    # Debug flags
+    CXX_PROF_FLAGS = -pg            # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -ar -o
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_FORSHARED = -Wl,-export-dynamic
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lstdc++ -lm -lgcc_s -lc -lgcc
+#
+# This compiler does not support precompiled headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+
+# version
+# $Id: cpp.def,v 1.2 2006/09/16 02:23:50 cummings Exp $
+
+#
+# End of file

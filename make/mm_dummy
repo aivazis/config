@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: mm_dummy,v $
+# Revision 1.2  1999/06/05 00:16:30  mga
+# Added header
+#
+
+# Dummy replacement for actual commands on platforms where
+# there is no current support for a feature
+#
+# For example, use this tool as the dependency file generation
+# on platforms where the FORTRAN compiler doesn't have this 
+# functionality
+#
+
+#
+# End of file

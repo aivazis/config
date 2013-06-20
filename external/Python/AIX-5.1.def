@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# AIX settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS = 
+
+PYTHON_APIREQS = 
+
+ifeq ($(MODULE),)
+MODULE = $(PROJECT)
+endif
+
+EXTERNAL_SOFLAGS += -Wl,-bI:$(PYTHON_LIBDIR)/config/python.exp -Wl,-einit$(MODULE)
+
+# version
+# $Id: AIX-5.1.def,v 1.1 2004/01/28 00:19:38 cummings Exp $
+
+#
+# End of file

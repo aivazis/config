@@ -1,0 +1,37 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Simply use LAM/MPI wrappers to build everything -- they will take care of
+# include paths, libraries, etc.
+#
+
+#
+# C
+#
+    #CC = $(MPICC)
+    COMPILER_CC_NAME = $(MPICC)
+
+#
+# C++
+#
+    #CXX = $(MPICXX)
+    # HACK: It is impossible to override LAM_WANT_MPI2CPP from the
+    # command line, or tweak the include path to include our own
+    # (empty) mpicxx.h; so use LAM_BUILDING to disable the inclusion
+    # of <mpicxx.h>.
+    COMPILER_CXX_NAME = $(MPICXX) -DLAM_BUILDING=1
+
+#
+# FORTRAN
+#
+    F77 = $(MPIF77)
+
+
+#
+# END OF FILE

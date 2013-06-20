@@ -1,0 +1,27 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                           (C) 2002 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# default settings for ICE
+#
+
+    EXTERNAL_DEFINES += WITH_ICE
+    EXTERNAL_INCLUDES += $(ICE_INCDIR) $(ICE_INCDIR)/ndgm $(ICE_INCDIR)/xdmf $(HDF5_INCDIR)
+    EXTERNAL_LIBS += -L$(ICE_LIBDIR) -L$(HDF5_LIBDIR) -lXdmfFormat -lndgm
+
+    include HDF5/default.def
+
+# version
+# $Id: default.def,v 1.5 2003/04/20 02:37:38 aivazis Exp $
+
+# End of file

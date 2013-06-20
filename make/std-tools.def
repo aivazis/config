@@ -1,0 +1,110 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+
+# Make
+
+    MM = $(DIR_CONFIG)/make/mm --recursive
+    MKCMD = make
+
+# Librarian
+
+    AR = ar
+    AR_CREATE_FLAGS = rc
+    AR_UPDATE_FLAGS = ru
+    AR_REMOVE_FLAGS = d
+    AR_EXTRACT_FLAGS = x
+    AR_CREATE = $(AR) $(AR_CREATE_FLAGS)
+    AR_UPDATE = $(AR) $(AR_UPDATE_FLAGS)
+    AR_REMOVE = $(AR) $(AR_REMOVE_FLAGS)
+    AR_EXTRACT = $(AR) $(AR_EXTRACT_FLAGS)
+
+    RANLIB = ranlib
+    RANFLAGS =
+
+# C++ Archiving
+
+    AR_CXX = $(AR)
+    AR_CXX_FLAGS = $(AR_CREATE_FLAGS)
+    AR_CXX_CREATE = $(AR_CXX) $(AR_CXX_FLAGS)
+
+# Loader
+
+    LD = ld
+    LD_OUTPUT_FLAG = -o
+    LD_SHARED_FLAG = -shared
+
+# cp, mkdir, mv
+
+    CP = cp
+    CP_F = cp -f
+    CP_R = cp -r
+    MV = mv
+    MV_F = mv -f
+    MKDIR = mkdir
+    MKPARENTS = -p
+    RM = rm
+    RM_F = rm -f
+    RM_R = rm -r
+    RM_RF = rm -rf
+    RMFLAGS = -rf
+    LN = ln
+    LN_S = ln -s
+    LNFLAGS = -sf
+
+# File attributes
+
+    CHMOD = chmod
+    CHMOD_R = $(CHMOD) -R
+    CHMOD_WRITE = $(CHMOD) +w
+    CHMOD_R_WRITE = $(CHMOD_R) +w
+
+# Concurrent builds
+
+    LOCK = true
+    UNLOCK = true
+
+# TAGS
+
+    TAGS = true
+    TAGS_FLAGS = 
+    TAGS_DIR = $(BLD_ROOT)
+    TAGS_FILE = $(TAGS_DIR)/TAGS
+
+# tar
+
+    TAR = tar
+    TAR_FLAGS = -cvz
+    TAR_DIR = $(HOME)/Backups
+    TAR_FILE = $(TAR_DIR)/$(PROJECT).$(DATE_STAMP).tgz
+
+# yacc
+
+    YACC = yacc
+    YACC_CFILE = y.tab.c
+    YACC_HFILE = y.tab.h
+
+# C preprocessor
+
+    CPP = cpp
+
+# TeX and associated tools
+
+  TEX_LATEX = latex
+  TEX_PDFLATEX = pdflatex
+  TEX_BIBTEX = bibtex
+  TEX_DVIPS = dvips
+  TEX_DVIPDF = dvipdf
+
+
+# version
+# $Id: std-tools.def,v 1.16 2013/04/25 16:11:00 mga Exp $
+
+#
+# End of file

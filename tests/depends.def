@@ -1,0 +1,21 @@
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: depends.def,v $
+# Revision 1.1  1999/11/17 16:32:02  aivazis
+# Original source
+#
+
+#
+# File to help debug recursive mm invokations
+#
+
+depends:
+	echo "Made target $@ in depends.def"
+
+#
+# End of file

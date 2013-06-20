@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Linux settings from platform-specific TAU Makefile
+#
+
+ifeq (x86,$(findstring x86,$(TARGET_ID)))
+    include $(TAUROOTDIR)/i386_linux/lib/Makefile.tau
+endif
+
+ifeq (ia64,$(findstring ia64,$(TARGET_ID)))
+    include $(TAUROOTDIR)/ia64/lib/Makefile.tau
+endif
+
+#
+# End of file

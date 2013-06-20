@@ -1,0 +1,56 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Identify this build target
+#
+    TARGET_ID = AIX-5.1_powerpc
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = AIX-5.1
+#
+# The list of compilers to use
+#
+    TARGET_CC =    IBM-6.0.0
+    TARGET_CXX =   IBM-6.0.0
+    TARGET_F77 =   IBM-6.0.0
+#
+# Here are the build-specific flags
+#
+
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+
+# version
+# $Id: target.def,v 1.1 2004/09/16 01:15:23 cummings Exp $
+
+#
+# END OF FILE

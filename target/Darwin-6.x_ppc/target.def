@@ -1,0 +1,60 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2003  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# Identify this build target
+#
+    TARGET_ID = Darwin-6.x_ppc
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = Darwin-6.x
+    TARGET_COMPILER = gcc
+#
+# The list of compilers to use
+#
+    TARGET_CC = $(TARGET_COMPILER)
+    TARGET_CXX = $(TARGET_COMPILER)
+    TARGET_F77 = $(TARGET_COMPILER)
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+
+# version
+# $Id: target.def,v 1.1 2003/02/27 19:39:07 aivazis Exp $
+
+# End of file

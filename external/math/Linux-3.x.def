@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Linux settings for math
+#
+
+MATH_LINK_LIBRARIES = -lblas -lg2c
+
+ifeq (mkl, ${findstring mkl, ${MATH_DIR}})
+    MATH_DEFINES += WITH_MKL
+    MATH_INCLUDES += $(BLD_CONFIG)/external/math
+    MATH_LINK_LIBRARIES =
+ifeq (lapack, ${findstring lapack, ${MATH_PACKAGES}})
+    MATH_LINK_LIBRARIES += -lmkl_lapack
+endif
+    MATH_LINK_LIBRARIES += -lmkl -lg2c
+endif
+
+MATH_LIBS = -L$(MATH_LIBDIR) $(MATH_LINK_LIBRARIES) -lm
+
+#
+# End of file

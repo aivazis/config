@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="us-ascii" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+[
+<!ENTITY Introduction SYSTEM "Introduction.xml">
+]>
+
+<book>
+  
+  <bookinfo>
+    <title> The book title</title>
+    <authorgroup>
+      <author> <surname>LastName</surname> <firstname>FirstName</firstname> </author>
+      <corpauthor>California Institute of Technology</corpauthor>
+    </authorgroup>
+    <keywordset>
+      <keyword>KeyWord1</keyword>
+      <keyword>KeyWord2</keyword>
+      <keyword>KeyWord3</keyword>
+    </keywordset>
+    
+    <legalnotice>
+      <title>Legal Notice</title>
+      <para>This is a test document. You can do what you will with it.</para>
+    </legalnotice>
+    
+    <legalnotice>
+      <para>This is a second legal notice.  But it's not noteworthy.
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      Some more text. Some more text. Some more text. Some more text. 
+      </para>
+    </legalnotice>
+    
+    <copyright>
+      <year>1998</year>
+      <holder>Norman Walsh</holder>
+    </copyright>
+    
+    <copyright>
+      <year>2004</year>
+      <holder>Blah</holder>
+    </copyright>
+    
+    <revhistory>
+      <revision>
+	<revnumber>1.0</revnumber>
+	<date>20 Nov 1998</date>
+	<authorinitials>abc</authorinitials>
+	<authorinitials>def</authorinitials>
+	<revremark>Some remark about the revision</revremark>
+      </revision>
+      <revision>
+	<revnumber>0.4</revnumber>
+	<date>18 Nov 1998</date>
+	<authorinitials>ndw</authorinitials>
+	<revremark>Some remark about the revision</revremark>
+      </revision>
+    </revhistory>
+  </bookinfo>
+  
+  <dedication>
+    <para>This test book is dedicated to all the testers.  This is the first para
+    of the dedication.</para>
+    <para>This is the second para of the dedication.</para>
+    <para>This is the third para of the dedication.</para>
+  </dedication>
+  <preface>
+    <title>Preface #1  Title</title>
+    <para>Preface content.</para>
+    <para>This is the second para of the preface.</para>
+    <para>This is the third para of the preface.</para>
+  </preface>
+  
+  &Introduction;
+  
+  <index/>
+  
+</book>

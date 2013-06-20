@@ -1,0 +1,25 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                        (C) 1998-2005  All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# default settings for fftw
+#
+
+    EXTERNAL_DEFINES += WITH_FFTW
+    EXTERNAL_FLAGS += 
+    EXTERNAL_INCLUDES += $(FFTW_INCDIR)
+    EXTERNAL_LIBS += -lfftw$(FFTW_VERSION)$(FFTW_PRECISION)
+    EXTERNAL_LIBPATH += ${FFTW_LIBDIR}
+
+#
+# End of file

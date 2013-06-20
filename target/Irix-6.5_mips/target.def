@@ -1,0 +1,69 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.7  2000/08/30 20:54:50  aivazis
+# Back to MIPSpro-7.3 by default
+#
+# Revision 1.6  2000/07/12 02:41:32  rapa
+# made MIPs-7.2 the default compiler because that's what works on nirvana and we are about to do the BIG RUN and cannnot take any chances
+#
+# Revision 1.5  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.4  1999/10/21 18:10:22  aivazis
+# Changed the default compiler to MIPSpro-7.3
+#
+# Revision 1.3  1999/07/01 05:16:29  aivazis
+# Added header
+#
+
+#
+# Identify this build target
+#
+    TARGET_ID = Irix-6.5_mips
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = Irix-6.5
+    TARGET_COMPILER = MIPSpro-7.3
+#
+# The list of compilers to use
+#
+    TARGET_CC = $(TARGET_COMPILER)
+    TARGET_CXX = $(TARGET_COMPILER)
+    TARGET_F77 = $(TARGET_COMPILER)
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS = 
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS =
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS = 
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+#
+# END OF FILE

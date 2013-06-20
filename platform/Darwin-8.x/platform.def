@@ -1,0 +1,66 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+#
+
+#
+# Definitions for Darwin-8.x
+#
+
+    PLATFORM_ID = Darwin-8.x
+
+# Compiler command line
+
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+
+#
+# cuda
+#
+    PLATFORM_CUCC_FLAGS =
+    PLATFORM_CUCC_DEFINES =
+    PLATFORM_CUCC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCUCC_FLAGS =
+    PLATFORM_LCUCC_LIBPATH =
+
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+
+#
+# OS-specific definitions
+#
+    RANLIB = ranlib
+    RANFLAGS =
+
+    SYSLIB =
+
+    TEX_DVIPDF = dvipdfm
+
+# version
+# $Id: platform.def,v 1.3 2013/03/29 03:29:36 mga Exp $
+
+# End of file

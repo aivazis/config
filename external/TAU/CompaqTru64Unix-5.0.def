@@ -1,0 +1,20 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Compaq Alpha settings from platform-specific TAU Makefile
+#
+
+ifeq (mpi, ${findstring mpi, $(BLD_USER_TARGET)})
+    include $(TAUROOTDIR)/alpha/lib/Makefile.tau-mpi-pdt
+else
+    include $(TAUROOTDIR)/alpha/lib/Makefile.tau-pdt
+endif
+
+#
+# End of file

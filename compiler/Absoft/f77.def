@@ -1,0 +1,19 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the Absoft Pro Fortran compiler
+#
+
+include Absoft-8.0/f77.def
+
+# version
+# $Id: f77.def,v 1.1 2004/01/23 23:10:52 cummings Exp $
+
+#
+# End of file

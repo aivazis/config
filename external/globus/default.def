@@ -1,0 +1,32 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Globus development environment
+#
+
+ifneq (, $(findstring globus, $(BLD_USER_TARGET)))
+
+    EXTERNAL_DEFINES += WITH_GLOBUS H5_HAVE_GASS
+
+    # use default if not defined (environment overrides);
+    # note that the path to Globus tools must be set
+    GLOBUS_DEVEL_DIR = $(shell globus-development-path)
+
+    GASS_FILE_INCLUDES = $(shell make -s GLOBUS_DEVEL_DIR=$(GLOBUS_DEVEL_DIR) -f $(BLD_CONFIG)/external/globus/gass_file_cflags)
+    GASS_FILE_LDFLAGS = $(shell make -s GLOBUS_DEVEL_DIR=$(GLOBUS_DEVEL_DIR) -f $(BLD_CONFIG)/external/globus/gass_file_ldflags)
+    GASS_FILE_LIBS = $(shell make -s GLOBUS_DEVEL_DIR=$(GLOBUS_DEVEL_DIR) -f $(BLD_CONFIG)/external/globus/gass_file_libs)
+
+    EXTERNAL_INCLUDES += $(GLOBUS_DEVEL_DIR)/include $(GASS_FILE_INCLUDES)
+    EXTERNAL_LIBPATH += $(GASS_FILE_LDFLAGS)
+    EXTERNAL_LIBS += $(GASS_FILE_LIBS)
+
+endif
+
+#
+# END OF FILE

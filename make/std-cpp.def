@@ -1,0 +1,126 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# Default settings for C++ compilation
+
+
+# Developer preferences
+
+    DEV_CXX_FLAGS ?=
+    DEV_CXX_INCLUDES ?=
+    DEV_CXX_DEFINES ?=
+    DEV_LCXX_FLAGS ?=
+    DEV_LCXX_LIBPATH ?=
+
+
+# Construction of compiler command line
+
+    CXX_FLAGS = $(PLATFORM_CXX_FLAGS) $(COMPILER_CXX_FLAGS) \
+	      $(TARGET_CXX_FLAGS) $(DEV_CXX_FLAGS) $(PROJ_CXX_FLAGS) \
+	      $(COMPILER_CXX_ISCXX)
+    CXX_INCLUDES = $(PLATFORM_CXX_INCLUDES) $(DIR_COMPILER)/$(F77_ID) \
+		 $(COMPILER_CXX_INCLUDES) $(TARGET_CXX_INCLUDES) \
+		 $(DEV_CXX_INCLUDES) $(PROJ_CXX_INCLUDES) \
+		 $(EXTERNAL_INCLUDES) $(BLD_INCDIR) 
+    CXX_DEFINES = $(PLATFORM_CXX_DEFINES) $(COMPILER_CXX_DEFINES) \
+		$(TARGET_CXX_DEFINES) $(DEV_CXX_DEFINES) \
+		$(PROJ_CXX_DEFINES) $(EXTERNAL_DEFINES)
+    LCXX_FLAGS = $(PLATFORM_LCXX_FLAGS) $(COMPILER_LCXX_FLAGS) \
+	       $(TARGET_LCXX_FLAGS) $(DEV_LCXX_FLAGS) $(PROJ_LCXX_FLAGS)
+    LCXX_LIBPATH = $(PLATFORM_LCXX_LIBPATH) $(TARGET_LCXX_LIBPATH) \
+		 $(DEV_LCXX_LIBPATH) $(PROJ_LCXX_LIBPATH) $(EXTERNAL_LIBPATH)
+
+    CXX_SOFLAGS = $(COMPILER_CXX_SOFLAGS)
+    LCXX_SARFLAGS = $(COMPILER_LCXX_SARFLAGS) $(EXTERNAL_SARFLAGS)
+    LCXX_SOFLAGS = $(COMPILER_LCXX_SOFLAGS) $(EXTERNAL_SOFLAGS)
+
+    CXXFLAGS = $(CXX_BUILD_DEFINES) $(CXX_BUILD_INCLUDES) $(CXX_FLAGS) 
+    CXX_INSTFLAGS = $(COMPILER_CXX_INSTFLAGS)
+    CXX_INSTDIR = $(COMPILER_CXX_INSTDIR)
+    LCXXFLAGS = $(LCXX_FLAGS) ${addprefix -L, $(LCXX_LIBPATH)} $(PROJ_LCXX_LIBS)
+    LCXX_FORTRAN = $(COMPILER_LCXX_FORTRAN)
+
+
+# Compile C++ source
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_CXX)
+ifdef CXX_MAKEDEPENDS_COMBINED
+	@$(LOGEMIT_COMPILING_START)
+	@$(RM) $(RMFLAGS) $@
+	$(COMPILER_CXX_DEPENDS) $(CXXFLAGS) $(CXX_INSTFLAGS) -c -o $@ $<
+	@if [ -f $@.$(EXT_DEPEND) ] ; then \
+	  $(MV) $@.$(EXT_DEPEND) $*.$(EXT_DEPEND) ; \
+	fi ; \
+	if [ -f $*.$(EXT_DEPEND) ] ; then /bin/true ; else \
+	  $(MV) $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) $*.$(EXT_DEPEND) ; \
+	fi ; \
+	sed -e 's?^[^/].*:?$(PROJ_TMPDIR)/&?' < $*.$(EXT_DEPEND) > \
+	  $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	tr -s '[:space:]' '\n' < $*.$(EXT_DEPEND) > $*.tmp.$(EXT_DEPEND) ; \
+	sed -e 's/^ *//' -e 's/#.*//' -e 's/^[^:]*: *//' \
+	  -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' < $*.tmp.$(EXT_DEPEND) \
+	  >> $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	$(RM) $(RMFLAGS) $*.$(EXT_DEPEND) $*.tmp.$(EXT_DEPEND)
+else
+	@$(LOGEMIT_DEPENDS_START)
+	$(CXX_MAKEDEPEND); \
+	sed -e 's?^[^/].*:?$(PROJ_TMPDIR)/&?' < $*.$(EXT_DEPEND) > \
+	  $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	tr -s '[:space:]' '\n' < $*.$(EXT_DEPEND) > $*.tmp.$(EXT_DEPEND) ; \
+	sed -e 's/^ *//' -e 's/#.*//' -e 's/^[^:]*: *//' \
+	  -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' < $*.tmp.$(EXT_DEPEND) \
+	  >> $(PROJ_TMPDIR)/$*.$(EXT_DEPEND) ; \
+	$(RM) $(RMFLAGS) $*.$(EXT_DEPEND) $*.tmp.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(CXX_COMPILE_COMMAND)
+endif
+	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) \
+	$*.$(EXT_CXX) $*.$(EXT_CHH) $*.$(EXT_ICC) 
+	@$(LOGEMIT_COMPILING_END)
+
+# Modified C++ compile command when using TAU
+
+ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
+ifdef NO_TAU_INSTRUMENTATION
+CXX_COMPILE_COMMAND =	$(CXX) $(CXXFLAGS) $(CXX_INSTFLAGS) -c -o $@ $<
+else
+CXX_COMPILE_COMMAND =	$(PDTCXXPARSE) $< $(CXX_BUILD_DEFINES) -DWITH_TAU \
+			$(CXX_BUILD_INCLUDES); \
+			$(TAUINSTR) $*.pdb $< -o $*.inst.$(EXT_CXX) \
+			-g $(PROJ_TAU_GROUP) -f $(PROJ_TAU_SELECT); \
+			$(CXX) $(CXXFLAGS) $(CXX_INSTFLAGS) -c -o \
+			$@ $*.inst.$(EXT_CXX); \
+			$(RM) $(RMFLAGS) $*.pdb
+endif
+else
+CXX_COMPILE_COMMAND =	$(CXX) $(CXXFLAGS) $(CXX_INSTFLAGS) -c -o $@ $<
+endif
+
+# Generate dependencies separately for C++ source
+
+ifdef CXX_MAKEDEPENDS_FILE
+CXX_MAKEDEPEND = $(COMPILER_CXX_DEPENDS) $(CXX_BUILD_DEFINES) \
+		 $(CXX_BUILD_INCLUDES) $<
+else
+CXX_MAKEDEPEND = $(COMPILER_CXX_DEPENDS) $(CXX_BUILD_DEFINES) \
+		 $(CXX_BUILD_INCLUDES) $< > $*.$(EXT_DEPEND)
+endif
+
+# Generate precompiled headers if supported
+
+ifdef USE_CXXPRECOMP_HEADERS
+$(CXXPRECOMP_HEADERS)
+endif
+
+# version
+# $Id: std-cpp.def,v 1.51 2012/05/11 16:55:39 aivazis Exp $
+
+#
+# End of file

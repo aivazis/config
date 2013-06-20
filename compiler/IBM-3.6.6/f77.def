@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: f77.def,v $
+# Revision 1.1  1999/08/27 22:34:02  sharon
+# added AIX-3.0 platform and IBM-3.6.6 compilers
+#
+# Revision 1.2  1999/06/24 22:18:13  aivazis
+# Added headers
+#
+
+#
+# Use the latest version of the GNU C compiler
+#
+include egcs-1.1.2/f77.def
+#
+# End of file

@@ -1,0 +1,3 @@
+# By default, don't exclude any functions.
+BEGIN_EXCLUDE_LIST
+END_EXCLUDE_LIST

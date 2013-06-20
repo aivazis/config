@@ -1,0 +1,23 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: AIX-3.0.def,v $
+# Revision 1.1  2001/12/19 23:28:44  cummings
+# TAU build procedure definitions file for AIX target.
+#
+#
+
+#
+# AIX settings from platform-specific TAU Makefile
+#
+
+include $(TAUROOTDIR)/rs6000/lib/Makefile.tau
+
+
+#
+# End of file

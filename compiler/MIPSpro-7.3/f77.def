@@ -1,0 +1,118 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: f77.def,v $
+# Revision 1.13  2004/01/17 01:56:16  cummings
+# Added separate F90 versions of compiler flag macros.
+#
+# Revision 1.12  2003/04/18 20:34:09  cummings
+# Changed value of COMPILER_F77_NAME from "f90" to "f77" because the MIPSpro F90
+# compiler front-end seems to gag on standard F77 syntax.  Added definition of
+# COMPILER_F90_NAME with value "f90" so that user can locally switch to F90
+# compiler where it is truly needed.
+#
+# Revision 1.11  2001/01/29 18:55:58  cummings
+# Replaced hard-wired 64-bit format flag with flag defined in 32-bit
+# or 64-bit target definitions file.  You should add "32bit" or "64bit"
+# to your TARGET environment variable when building on the SGI platform
+# with MIPSpro, in order to choose n32 or 64-bit format.
+#
+# Revision 1.10  2000/10/05 06:20:10  aivazis
+# Added proper definitions of COMPILER_LCC_FORTRAN and COMPILER_LCXX_FORTRAN
+#
+# Revision 1.9  2000/09/14 00:09:19  cummings
+# Changed Fortran compiler name from "f77" to "f90", since we
+# really need the MIPSpro F90 compiler here to build RM3d.
+#
+# Revision 1.8  2000/09/08 01:23:54  cummings
+# Added some fancier optimization flags.  Changed SOFLAG to -KPIC.
+# Added special C++ archiving flags to cpp.def.  Added -mips4 flag
+# as default for all compiles.
+#
+# Revision 1.7  2000/08/30 20:56:02  aivazis
+# f77.def
+#
+# Revision 1.6  2000/05/19 23:07:06  aivazis
+# Changed the way module paths are generated
+#
+# Revision 1.5  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.4  2000/04/10 18:52:41  aivazis
+# Added the macro for the F90 libraries
+#
+# Revision 1.3  2000/04/06 23:10:12  aivazis
+# Added MODULE_PATH
+#
+# Revision 1.2  2000/04/05 18:24:42  samtaney
+# (aivazis) Stubbed out dependency generation
+#
+# Revision 1.1  1999/10/21 18:09:15  aivazis
+# Original source
+#
+
+#
+# Definitions for MIPSPro 7.3 FORTRAN compiler
+#
+#
+    F77_ID = MIPSpro-7.3
+#
+# The name of the binary
+#
+    COMPILER_F90_NAME = f90
+    COMPILER_F77_NAME = f77
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_F90_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -KPIC
+#
+# Optimization flags
+    F77_OPT_FLAGS = -O2 -OPT:Olimit=0:swp=ON -INLINE:aggressive=ON      
+    F90_OPT_FLAGS = -O2 -OPT:Olimit=0:swp=ON -INLINE:aggressive=ON      
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+    F77_MODULE_FLAGS = -I
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy #$(COMPILER_F77_NAME) -MDupdate[file]
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LF77_LIBPATH =
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBRARIES = -lfortran -lffio -lftn
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = so_locations
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

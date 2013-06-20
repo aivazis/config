@@ -1,0 +1,62 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the NAG FORTRAN 95 compiler
+#
+#
+    F77_ID = NAG-4.1
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f95
+    COMPILER_F90_NAME = f95
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS =
+    COMPILER_F90_FLAGS =
+    COMPILER_F77_INCLUDES =
+    COMPILER_F77_DEFINES =
+
+    COMPILER_F77_SOFLAGS = 
+#
+    F77_OPT_FLAGS = -O       # Optimization flags
+    F90_OPT_FLAGS = -O       # Optimization flags
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+    F77_PROF_FLAGS = -pg     # Profiling flags
+    F77_MODULE_FLAGS = -I
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = mm_dummy
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME =
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH = -L/usr/local/lib/NAGWare
+    COMPILER_LF77_SOFLAGS = -Wl,-rpath /usr/local/lib/NAGWare
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBRARIES = /usr/local/lib/NAGWare/quickfit.o -lf96
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF77_LIBPATH) -Wl,-rpath /usr/local/lib/NAGWare $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

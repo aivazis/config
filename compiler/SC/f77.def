@@ -1,0 +1,19 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the Sun Fortran compiler
+#
+
+include SC-5.0/f77.def
+
+# version
+# $Id: f77.def,v 1.1 2004/01/24 01:52:19 cummings Exp $
+
+#
+# End of file

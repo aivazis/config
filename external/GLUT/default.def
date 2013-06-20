@@ -1,0 +1,27 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: default.def,v $
+# Revision 1.1  1999/06/09 01:30:37  mga
+# Original source
+#
+
+#
+# Read the local settigs
+#
+
+include GLUT/$(TARGET_PLATFORM).def
+
+#
+# Adjust the external variables to include GLUT
+#
+
+    EXTERNAL_LIBS += $(GLUT_LIB)
+
+#
+# End of file

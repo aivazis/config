@@ -1,0 +1,77 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.6  2001/02/02 19:26:24  cummings
+# Include 32-bit target definitions file by default
+# if no format is specified in the TARGET.
+#
+# Revision 1.5  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.4  1999/09/23 04:23:51  aivazis
+# Renamed RANLIB from echo to true
+#
+# Revision 1.3  1999/07/01 05:24:59  aivazis
+# Added headers
+#
+
+# include 32-bit target by default if none specified
+ifeq ($(findstring bit,$(TARGETS)),)
+    include 32bit/target.def
+endif
+
+#
+# Definitions for Irix-6.5
+#
+
+    PLATFORM_ID = Irix-6.5
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = true
+    RANFLAGS =
+
+    SYSLIB =
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lXext -lX11 $(LIB_SOCKET)
+    LIB_XT = -lXmu -lXdmcp -lXt $(LIB_X)
+    LIB_MOTIF = -lXm /usr/lib/libXpm.a $(LIB_XT)
+#
+# END OF FILE

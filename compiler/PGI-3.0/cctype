@@ -1,0 +1,57 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cctype,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/20 01:43:16  cummings
+// Original source for remaining replacement files for new-style
+// C header files, copied from the MIPSpro-7.3 area and modified
+// for Linux86.
+//
+//
+
+#if !defined(__config_compiler_cctype__)
+#define __config_compiler_cctype__
+
+//
+// Deficiency file: route cctype to ctype.h
+// and import symbols into namespace std
+//
+
+#include <ctype.h>
+
+namespace std {
+  /* Standard C character classification functions */
+  using ::isalnum;
+  using ::isalpha;
+  using ::iscntrl;
+  using ::isdigit;
+  using ::isgraph;
+  using ::islower;
+  using ::isprint;
+  using ::ispunct;
+  using ::isspace;
+  using ::isupper;
+  using ::isxdigit;
+  using ::tolower;
+  using ::toupper;
+
+#if defined __USE_SVID || defined __USE_MISC || defined __USE_XOPEN
+  using ::isascii;
+  using ::toascii;
+#endif
+}
+
+#endif
+
+// End of file

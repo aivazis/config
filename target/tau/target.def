@@ -1,0 +1,25 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.1  2001/11/10 01:58:51  cummings
+# Build procedure definitions file for new target "tau".  Adding this to
+# the TARGET variable will cause the build procedure to run the Tau
+# instrumentor to add code performance analysis macros to the source
+# before compiling it.
+#
+#
+
+#
+# Include the tau configuration file
+#
+
+include TAU/default.def
+
+#
+# End of file

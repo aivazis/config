@@ -1,0 +1,62 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the Intel FORTRAN compiler
+#
+#
+    F77_ID = Intel7beta
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = efc
+    COMPILER_F90_NAME = efc
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -132
+    COMPILER_F90_FLAGS = -132
+    COMPILER_F77_INCLUDES =
+    COMPILER_F77_DEFINES =
+
+    COMPILER_F77_SOFLAGS = 
+#
+    F77_OPT_FLAGS = -O       # Optimization flags
+    F90_OPT_FLAGS = -O       # Optimization flags
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+    F77_PROF_FLAGS = -p      # Profiling flags
+    F77_MODULE_FLAGS = -I
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = mm_dummy
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME =
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH = 
+    COMPILER_LF77_SOFLAGS = 
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBRARIES = -lintrins -lIEPCF90 -lF90
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

@@ -1,0 +1,30 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Julian C. Cummings
+#                        California Institute of Technology
+#                           (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# default settings for Xdmf
+#
+
+    EXTERNAL_DEFINES += WITH_XDMF
+    EXTERNAL_INCLUDES += $(XDMF_DIR)/include $(HDF5_DIR)/include
+    EXTERNAL_LIBS += -L$(XDMF_DIR)/lib -L$(HDF5_DIR)/lib -lXdmf -lhdf5
+
+# add gcc option to turn off warning about deprecated headers in Xdmf sources
+ifeq (gcc, ${findstring gcc, $(TARGET_CXX)})
+    TARGET_CXX_FLAGS += -Wno-deprecated
+endif
+
+# version
+# $Id: default.def,v 1.3 2003/09/19 17:27:02 cummings Exp $
+
+# End of file

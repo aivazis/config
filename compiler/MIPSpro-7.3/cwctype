@@ -1,0 +1,59 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cwctype,v $
+// Revision 1.2  2001/06/12 19:10:57  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/19 01:40:52  cummings
+// Replacements for the remaining new-style C headers that are
+// missing from the MIPSpro compiler header file set.  Each file
+// includes the corresponding standard C header file and then
+// imports types and functions from the global namespace into
+// namespace std, so that they can be used in the standard way.
+// I have attempted to import only ANSI standard items.
+//
+//
+
+#if !defined(__config_compiler_cwctype__)
+#define __config_compiler_cwctype__
+
+//
+// Deficiency file: route cwctype to wctype.h
+// and import symbols into namespace std
+//
+
+#include <wctype.h>
+
+namespace std {
+  /* Standard C wide-character classification functions and types */
+  using ::wint_t;
+  using ::wctype_t;
+  using ::iswalnum;
+  using ::iswalpha;
+  using ::iswcntrl;
+  using ::iswdigit;
+  using ::iswgraph;
+  using ::iswlower;
+  using ::iswprint;
+  using ::iswpunct;
+  using ::iswspace;
+  using ::iswupper;
+  using ::iswxdigit;
+  using ::iswctype;
+  using ::wctype;
+  using ::towlower;
+  using ::towupper;
+}
+
+#endif
+
+// End of file

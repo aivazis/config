@@ -1,0 +1,34 @@
+#--------------------------------------------------------------------------
+#
+#                          Jarek Knap
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Default settings for VTK
+#
+
+VTK_INCLUDES = $(VTK_INCDIR)
+
+# the library set
+VTK_LIBS = -lvtkIO -lvtkFiltering -lvtkCommon -lvtksys
+
+# some installations have more libraries
+ifeq ($(shell test -f $(VTK_LIBDIR)/libvtkzlib.a ; echo $$?), 0)
+    VTK_LIBS += -lvtkzlib
+endif
+
+
+    EXTERNAL_DEFINES += WITH_VTK
+    EXTERNAL_INCLUDES += $(VTK_INCLUDES)
+    EXTERNAL_LIBPATH += $(VTK_LIBDIR)
+    EXTERNAL_LIBS += $(VTK_LIBS)
+
+# add gcc option to turn off warning about deprecated headers in Xdmf sources
+ifeq (gcc, ${findstring gcc, $(TARGET_CXX)})
+    TARGET_CXX_FLAGS += -Wno-deprecated
+endif
+
+# End of file

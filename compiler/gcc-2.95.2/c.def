@@ -1,0 +1,88 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: c.def,v $
+# Revision 1.7  2001/05/04 00:27:14  cummings
+# Added check for "insure" in user's build target before utilizing
+# combined dependency info generation and code compilation.
+#
+# Revision 1.6  2001/03/31 00:24:08  cummings
+# Changed compiler dependency generation flag from -MD to -MMD,
+# so that we skip system and standard headers.
+#
+# Revision 1.5  2001/03/21 22:11:23  cummings
+# Updated gcc compiler definitions to use combined compilation
+# and make dependency file generation.
+#
+# Revision 1.4  2001/01/10 03:22:26  cummings
+# Added -Wall flag for gcc compiles to turn on all important warnings.
+# Most other compilers do this by default.
+#
+# Revision 1.3  2000/09/07 22:26:40  cummings
+# Added optimization flags to perform loop unrolling, use strict aliasing
+# assumptions (C/C++ only) and turn off automatic inlining of global
+# functions not marked as "inline" (C++ only).
+#
+# Revision 1.2  2000/09/01 01:28:30  cummings
+# Added definition of macro to set profiling compile option to -pg,
+# which produces data for analysis with gprof.
+#
+# Revision 1.1  2000/08/17 22:01:34  cummings
+# Added new build system compiler definition and configuration files
+# for gcc-2.95.2 compiler.
+#
+#
+
+#
+# Definitions for GNU C compiler
+#
+    CC_ID = gcc-2.95.2
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = gcc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -Wall
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = -fpic
+#
+# Optimization flags
+    CC_OPT_FLAGS = -O2 -funroll-loops -fstrict-aliasing
+    CC_DEBUG_FLAGS = -g     # Debug flags
+    CC_PROF_FLAGS = -pg     # Profiling flags
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MM
+ifeq (,${findstring insure, $(BLD_USER_TARGET)})
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MMD
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS =
+    COMPILER_LCC_LIBPATH =
+    COMPILER_LCC_SOFLAGS = -shared 
+    COMPILER_LCC_FORSHARED = -Xlinker -export-dynamic
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN = so_locations
+    COMPILER_CC_DISTCLEAN =
+#
+# End of file

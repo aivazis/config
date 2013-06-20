@@ -1,0 +1,45 @@
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: local.def,v $
+# Revision 1.2  1999/11/17 16:32:23  aivazis
+# Added headers and a new test file
+#
+
+#
+# Local (project) definitions
+#
+
+    PROJ_LIB =
+    PROJ_OBJS =
+
+# C
+
+    PROJ_CC_FLAGS =
+    PROJ_CC_DEFINES =
+    PROJ_CC_INCLUDES =
+    PROJ_LCC_FLAGS =
+    PROJ_LCC_LIBPATH =
+
+# C++
+
+    PROJ_CXX_FLAGS =
+    PROJ_CXX_DEFINES =
+    PROJ_CXX_INCLUDES =
+    PROJ_LCXX_FLAGS =
+    PROJ_LCXX_LIBPATH =
+
+# FORTRAN
+
+    PROJ_F77_FLAGS =
+    PROJ_F77_DEFINES =
+    PROJ_F77_INCLUDES =
+    PROJ_LF77_FLAGS =
+    PROJ_LF77_LIBPATH =
+
+#
+# End of file

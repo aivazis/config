@@ -1,0 +1,41 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# This files creates the variables used to handle external dependencies
+#
+
+# Currently it supports only locating the include directories and 
+# adjusting the link line
+
+# initialize the inherited variables
+
+    MM_INCLUDES =
+    MM_LIBPATH =
+
+#
+# Compile-time flags
+#
+    EXTERNAL_DEFINES = BLD_PROCEDURE
+    EXTERNAL_INCLUDES = $(BLD_ROOT) $(MM_INCLUDES)
+
+    EXTERNAL_F90_MODULES =
+
+#
+# Link time flags
+#
+    EXTERNAL_LIBPATH = $(MM_LIBPATH)
+    EXTERNAL_LIBS =
+    EXTERNAL_SOFLAGS = 
+    EXTERNAL_SARFLAGS = 
+
+# version
+# $Id: external.def,v 1.14 2012/10/22 00:49:46 aivazis Exp $
+
+#
+# End of file

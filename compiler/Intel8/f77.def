@@ -1,0 +1,76 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2006 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the Intel FORTRAN compiler
+#
+#
+    F77_ID = Intel8
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = ifc
+    COMPILER_F90_NAME = ifc
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -cm -w95 -I.
+    COMPILER_F90_FLAGS = -cm
+    COMPILER_F77_INCLUDES =
+    COMPILER_F77_DEFINES =
+
+    COMPILER_F77_SOFLAGS = -fpic
+#
+# Optimization flags
+    F77_OPT_FLAGS = -O3 -align rec16byte -ip -pad -unroll -fno-alias -safe_cray_ptr 
+    F90_OPT_FLAGS = -O3 -align rec16byte -ip -pad -unroll -fno-alias -safe_cray_ptr
+    F77_DEBUG_FLAGS = -g -O0 -check all     # Debug flags
+    F90_DEBUG_FLAGS = -g -O0 -check all     # Debug flags
+    F77_PROF_FLAGS = -p      # Profiling flags
+    F77_MODULE_FLAGS = -I
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = mm_dummy
+    COMPILER_F77_PREPFLAG = -fpp
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# Extensions: input format, etc
+#
+    COMPILER_F77_VAX_TABS = # -fvxt
+    COMPILER_F77_STATIC_LOCALS = -fno-automatic
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME =
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH = 
+    COMPILER_LF77_SOFLAGS =
+    COMPILER_LF77_SARFLAGS = 
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBPATH = $(COMPILER_LF77_LIBPATH)
+    COMPILER_LF77_LIBRARIES = -lifcore -lifport -ldl
+    COMPILER_LF90_LIBRARIES = $(COMPILER_LF77_LIBRARIES)
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = *.mod
+    COMPILER_F77_DISTCLEAN =
+
+# version
+# $Id: f77.def,v 1.1 2006/08/30 02:18:55 cummings Exp $
+
+#
+# End of file

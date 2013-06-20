@@ -1,0 +1,14 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                (C) 1998-2004  All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS += $(COMPILER_F77_STATIC_LOCALS)
+#
+# END OF FILE

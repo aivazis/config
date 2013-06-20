@@ -1,0 +1,54 @@
+# -*- Makefile -*-
+#
+#-----------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+#-----------------------------------------------------------------------------
+#
+
+# Rule to compile source file containing static variables into
+# shared object.  Most platforms can handle this as a separate .so
+# file that other shared objects or executables are linked against.
+# On AIX platform, we link the shared object and then place in archive.
+# To use this rule, user must define the source file basename STATICS,
+# library name PROJ_CXX_LIB, and (for AIX) SHARED_LIBS contains any libraries
+# needed to resolve symbols in $(STATICS).$(EXT_CXX).
+
+ifeq (CompaqTru64, ${findstring CompaqTru64, $(PLATFORM_ID)})
+    BLD_SHARED = $(LD)
+else
+    BLD_SHARED = $(CXX)
+endif
+
+ifeq (AIX, ${findstring AIX, $(PLATFORM_ID)})
+SHARED = $(PROJ_TMPDIR)/$(STATICS)Shr.$(EXT_OBJ)
+shared-obj:	$(PROJ_CXX_LIB) $(STATICS).$(EXT_CXX)
+		$(CXX) $(CXXFLAGS) -c $(STATICS).$(EXT_CXX)
+		$(BLD_SHARED) $(LCXX_SOFLAGS) -bnoentry -bexpall \
+		-o $(SHARED) $(STATICS).$(EXT_OBJ) $(SHARED_LIBS)
+		$(AR_UPDATE) $(PROJ_CXX_LIB) $(SHARED)
+		$(RANLIB) $(PROJ_CXX_LIB)
+		$(RM) $(RMFLAGS) $(STATICS).$(EXT_OBJ)
+else
+SHARED = $(BLD_LIBDIR)/lib$(PACKAGE)-shared.$(EXT_SO)
+EXPORT_LIBS += $(SHARED)
+shared-obj:	$(STATICS).$(EXT_CXX)
+		@$(CXX) $(CXXFLAGS) -c $(STATICS).$(EXT_CXX)
+		@$(BLD_SHARED) $(LCXX_SOFLAGS) \
+		-o $(SHARED) $(STATICS).$(EXT_OBJ)
+		@$(RM) $(RMFLAGS) $(STATICS).$(EXT_OBJ)
+endif
+
+PROJ_CLEAN += $(SHARED)
+
+
+# version
+# $Id: std-sharedobject.def,v 1.2 2011/11/02 22:36:35 aivazis Exp $
+
+#
+# End of file

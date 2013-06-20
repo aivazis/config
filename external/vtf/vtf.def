@@ -1,0 +1,98 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2000 All Rights Reserved
+#
+# <LicenseText>
+#
+#--------------------------------------------------------------------------------
+#
+
+#
+# Home directory
+
+VTF_DIR = $(BLD_ROOT)/vtf
+PACKAGES_DIR = $(VTF_DIR)/packages
+
+# Solvers
+
+SOLVER_DIR = $(VTF_DIR)/solvers
+ADLIB_DIR = $(SOLVER_DIR)/adlib
+RM3D_DIR = $(SOLVER_DIR)/rm3d
+RM3DGE_DIR = $(SOLVER_DIR)/rm3dge
+ARM3D_DIR = $(PYTHIA_DIR)/solvers/arm3d
+GRACE_DIR = $(SOLVER_DIR)/GrACE
+TETRA_DIR = $(RESEARCH_DIR)/tetra
+
+# EoS models
+
+EOS_DIR = $(PYTHIA_DIR)/eos
+EOSMG_DIR = $(EOS_DIR)/Mie-Gruneisen
+EOSPG_DIR = $(EOS_DIR)/PerfectGas
+
+# Geometry
+
+GEOMETRY_DIR = $(VTF_DIR)/geometry
+CPT_DIR = $(GEOMETRY_DIR)/cpt
+METIS_DIR = $(GEOMETRY_DIR)/metis
+
+# External Tools
+
+BLD_TOOLS_DIR = $(BLD_ROOT)/tools
+VAMPIRE_DIR = $(BLD_TOOLS_DIR)/vampire
+
+
+
+#--------------------------------------------------------------------------------
+#
+# Default project Settings
+
+VTF_LIBDIR = $(BLD_LIBDIR)
+
+VTF_DEFINES = 
+
+VTF_F90_MODULES = 
+
+VTF_INCLUDES = \
+
+# get the GrACE settings
+
+ifeq (grace, ${findstring grace, $(VTF_PACKAGES)})
+    include vtf/grace.def
+    VTF_DEFINES += $(GRACE_DEFINES)
+    VTF_INCLUDES += $(GRACE_INCLUDES)
+endif
+
+# set F90 modules path if needed
+
+ifeq (rm3dge, ${findstring rm3dge, $(VTF_PACKAGES)})
+    VTF_F90_MODULES += $(RM3DGE_DIR)/solver
+endif
+
+ifeq (rm3d, ${findstring rm3d, $(VTF_PACKAGES)})
+    VTF_F90_MODULES += $(RM3D_DIR)
+endif
+
+ifeq (arm3d, ${findstring arm3d, $(VTF_PACKAGES)})
+    VTF_F90_MODULES += $(ARM3D_DIR)
+endif
+
+ifeq (eosmg, ${findstring eosmg, $(VTF_PACKAGES)})
+    VTF_F90_MODULES += $(EOSMG_DIR)
+endif
+
+ifeq (eospg, ${findstring eospg, $(VTF_PACKAGES)})
+    VTF_F90_MODULES += $(EOSPG_DIR)
+endif
+
+VTF_LIBS += ${addprefix -l, $(VTF_PACKAGES)}
+
+#include vtf/packages.def
+
+# version
+# $Id: vtf.def,v 1.32 2012/02/10 20:36:09 aivazis Exp $
+
+# End of file

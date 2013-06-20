@@ -1,0 +1,77 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: cpp.def,v $
+# Revision 1.11  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.10  1999/07/15 01:42:12  mga
+# Added debugging and optimization support
+#
+# Revision 1.9  1999/06/24 22:18:13  aivazis
+# Added headers
+#
+
+#
+# Definitions for Microsoft Visual C++ compiler (6.0)
+#
+    CXX_ID = MSVC-6.0
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = cl
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -nologo -ML -W3 -GX -DWIN32 -DNDEBUG #$(COMPILER_CXXPRECOMP_FLAGS)
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = /LD
+#
+    CXX_OPT_FLAGS = /Ox      # Optimization flags
+    CXX_DEBUG_FLAGS = /Zi     # Debug flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX = /Tp
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = gcc -MM -DWIN32 -D_M_IX86
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = /nologo
+    COMPILER_LCXX_LIBPATH =
+#
+# Precompiled headers
+#
+# local.def must provide 
+#     COMPILER_CXXPRECOMP_FILE, COMPILER_CXXPRECOMP_MARK and COMPILER_CXXPRECOMP_SRC
+#
+    COMPILER_CXXPRECOMP_FLAGS = /Fp$(COMPILER_CXXPRECOMP_FILE) /Yu$(COMPILER_CXXPRECOMP_MARK)
+#
+# Target to build the pch file
+#
+    CXXPRECOMP_HEADERS = $(COMPILER_CXXPRECOMP_FILE): $(COMPILER_CXXPRECOMP_MARK); \
+ cl -c /Tp $(COMPILER_CXXPRECOMP_SRC) -Fo${basename $(COMPILER_CXXPRECOMP_SRC)}.obj $(CXXFLAGS) /Yc$(COMPILER_CXXPRECOMP_MARK); \
+ $(RM) ${basename $(COMPILER_CXXPRECOMP_SRC)}.$(EXT_OBJ)
+
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = *.idb *.pdb *.ilk
+    COMPILER_CXX_DISTCLEAN =
+#
+# End of file

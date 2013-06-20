@@ -1,0 +1,33 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: default.def,v $
+# Revision 1.2  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  1999/10/07 20:29:51  aivazis
+# Original source
+#
+
+#
+# Default settings for pooma
+#
+
+POOMA_INCLUDES = $(POOMA_INCDIR)
+POOMA_LIBS = $(POOMA_LIBDIR)/libpooma.a
+
+#
+# Adjust the external variables to include Python
+#
+
+    EXTERNAL_DEFINES += WITH_POOMA
+    EXTERNAL_INCLUDES += $(POOMA_INCLUDES)
+    EXTERNAL_LIBS += $(POOMA_LIBS)
+
+#
+# End of file

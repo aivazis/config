@@ -1,0 +1,130 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Default settings
+#
+
+# Configuration layout
+
+    DIR_CONFIG = $(BLD_CONFIG)
+
+    DIR_TARGET = $(DIR_CONFIG)/target
+    DIR_COMPILER = $(DIR_CONFIG)/compiler
+    DIR_PLATFORM = $(DIR_CONFIG)/platform
+
+# Output generation directories
+
+    BLD_DOCDIR = $(BLD_ROOT)/doc/$(TARGET_TAG)
+    BLD_BINDIR = $(BLD_ROOT)/bin/$(TARGET_TAG)
+    BLD_LIBDIR = $(BLD_ROOT)/lib/$(TARGET_TAG)
+    BLD_INCDIR = $(BLD_ROOT)/include/$(TARGET_TAG)
+    BLD_TMPDIR = $(BLD_ROOT)/tmp/$(TARGET_TAG)
+
+# Exported packages
+# EXPORT_ROOT must be set by user
+# include directory is project-specific, so that include file path
+# will always begin with project name
+
+    EXPORT_INCDIR = $(EXPORT_ROOT)/include/$(PROJECT)
+    EXPORT_LIBDIR = $(EXPORT_ROOT)/lib
+    EXPORT_BINDIR = $(EXPORT_ROOT)/bin
+    EXPORT_MODULEDIR = $(EXPORT_ROOT)/packages/$(PROJECT)
+    EXPORT_ETCDIR = $(EXPORT_ROOT)/defaults
+    EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
+
+# Some reasonable default values for PYTHON variables (user can override)
+-include $(BLD_TMPDIR)/.std-macros.def
+ifndef PYTHON
+    PYTHON_DIR = /usr
+    PYTHON_EXECDIR = $(PYTHON_DIR)
+    PYTHON_VERSION = 2.5
+    PYTHON_INCDIR = $(PYTHON_DIR)/include/python$(PYTHON_VERSION)
+    PYTHON_LIBDIR = $(PYTHON_EXECDIR)/lib/python$(PYTHON_VERSION)
+    PYTHON_SCRIPTDIR = $(PYTHON_LIBDIR)
+    PYTHON_BINDIR = $(PYTHON_EXECDIR)/bin
+    PYTHON_LCXX_FLAGS =
+    PYTHON_LIB = $(PYTHON_LIBDIR)/config/libpython$(PYTHON_VERSION).$(EXT_AR)
+    PYTHON = $(PYTHON_BINDIR)/python
+endif
+    PYTHON_FLAGS = $(TARGET_PYTHON_FLAGS)
+
+# Date
+
+    DATE_STAMP = `date +"%y-%m-%d"`
+
+# Clean up
+
+    COMPILER_CLEAN = $(COMPILER_CC_CLEAN) $(COMPILER_CXX_CLEAN) \
+		   $(COMPILER_F77_CLEAN)
+    COMPILER_DISTCLEAN = $(COMPILER_CC_DISTCLEAN) $(COMPILER_CXX_DISTCLEAN) \
+		       $(COMPILER_F77_DISTCLEAN) 
+
+# Compiler falgs
+
+    COMPILER_LCC_SARFLAGS = $(COMPILER_LCC_SOFLAGS)
+    COMPILER_LCXX_SARFLAGS = $(COMPILER_LCXX_SOFLAGS)
+    COMPILER_LF77_SARFLAGS = $(COMPILER_LF77_SOFLAGS)
+
+# File extensions
+
+    EXT_C = c
+    EXT_CH = h
+    EXT_CU = cu
+    EXT_CXX = cc
+    EXT_CHH = h
+    EXT_ICC = icc
+    EXT_F77 = f
+    EXT_FF77 = F
+    EXT_F90 = f90
+    EXT_FF90 = F90
+    EXT_FH = h
+
+    EXT_DEPEND = d
+    EXT_OBJ = o
+    EXT_AR = a
+    EXT_SO = so
+    EXT_SAR = $(EXT_AR)
+    EXT_YACC = y
+
+    EXT_LIB = $(EXT_AR)
+
+    EXT_TEX = tex
+    EXT_DVI = dvi
+    EXT_PDF = pdf
+    EXT_PS = ps
+
+#
+# Functions
+#
+
+    RECURSE = \
+        for x in $(SUBPACKAGES); do { \
+            if [ -d $$x ]; then { \
+                (cd $$x; $(MM) $@ || exit 1; ) \
+            } else { \
+                echo "Subdirectory $$x not found"; \
+            } fi \
+        } done
+
+    export SILENCE = > /dev/null
+
+# these macros may be redefined locally
+
+    SUBPACKAGES = 
+    RECURSE_DIRS = 
+    EXPORT_HEADERS = 
+    EXPORT_PKG_HEADERS = 
+    EXPORT_PROJ_HEADERS = 
+
+# version
+# $Id: std-macros.def,v 1.70 2013/04/17 01:03:32 mga Exp $
+
+#
+# End of file

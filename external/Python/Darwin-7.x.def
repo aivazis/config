@@ -1,0 +1,25 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                (C) 1998-2003  All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+
+#
+# Darwin settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS = 
+
+PYTHON_APIREQS = 
+
+ifeq (IBM, ${findstring IBM, $(TARGET_CXX)})
+EXTERNAL_SOFLAGS += -bundle -bundle_loader $(PYTHON_DIR)/bin/python -L$(PYTHON_LIBDIR) -L/usr/local/lib
+endif
+
+#
+#
+# End of file

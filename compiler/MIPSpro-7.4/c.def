@@ -1,0 +1,65 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for MIPSPro 7.4 C compiler
+#
+    CC_ID = MIPSpro-7.4
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = cc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = -KPIC
+#
+# Optimization flags
+    CC_OPT_FLAGS = -O2 -OPT:Olimit=0:alias=typed:swp=ON \
+	-INLINE:aggressive=ON     
+    CC_DEBUG_FLAGS = -g     # Debug flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -M
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MDupdate $*.$(EXT_DEPEND)
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS = -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LCC_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN = so_locations
+    COMPILER_CC_DISTCLEAN =
+#
+# Mixed language linking
+#
+    COMPILER_LCC_FORTRAN = -lftn
+#
+# End of file

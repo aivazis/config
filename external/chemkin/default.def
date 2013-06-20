@@ -1,0 +1,17 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Adjust the external variables to include VTF stuff
+#
+
+
+EXTERNAL_LIBS += -lchemkin
+
+#
+# End of file

@@ -1,0 +1,86 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cstdlib,v $
+// Revision 1.5  2003/04/10 02:10:42  aivazis
+// Added getenv
+//
+// Revision 1.4  2001/11/30 03:01:07  cummings
+// Since wchar_t is provided as a keyword by the SGI C++ compiler, we
+// cannot inject this symbol into the std namespace.  I have removed
+// this to avoid confusing the EDG parser used by PDT/TAU.
+//
+// Revision 1.3  2001/06/12 19:10:57  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.2  2001/05/25 21:12:32  cummings
+// Check if wchar_t is a keyword before attempting to import symbol into namespace std.
+//
+// Revision 1.1  2001/04/19 01:40:52  cummings
+// Replacements for the remaining new-style C headers that are
+// missing from the MIPSpro compiler header file set.  Each file
+// includes the corresponding standard C header file and then
+// imports types and functions from the global namespace into
+// namespace std, so that they can be used in the standard way.
+// I have attempted to import only ANSI standard items.
+//
+//
+
+#if !defined(__config_compiler_cstdlib__)
+#define __config_compiler_cstdlib__
+
+//
+// Deficiency file: route cstdlib to stdlib.h
+// and import symbols into namespace std
+//
+
+#include <stdlib.h>
+
+namespace std {
+  /* Standard C library functions and structures */
+  using ::div_t;
+  using ::ldiv_t;
+  using ::size_t;
+  using ::ssize_t;
+  using ::atof;
+  using ::atoi;
+  using ::atol;
+  using ::strtod;
+  using ::strtol;
+  using ::strtoul;
+  using ::rand;
+  using ::srand;
+  using ::calloc;
+  using ::free;
+  using ::malloc;
+  using ::realloc;
+  using ::abort;
+  using ::atexit;
+  using ::exit;
+  using ::getenv;
+  using ::system;
+  using ::bsearch;
+  using ::qsort;
+  using ::abs;
+  using ::div;
+  using ::labs;
+  using ::ldiv;
+  using ::mbtowc;
+  using ::mblen;
+  using ::wctomb;
+  using ::mbstowcs;
+  using ::wcstombs;
+  using ::getenv;
+}
+
+#endif
+
+// End of file

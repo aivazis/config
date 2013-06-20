@@ -1,0 +1,5 @@
+include $(GLOBUS_DEVEL_DIR)/etc/makefile_header
+
+all:
+	@echo $(INSTALL_LIBDIR) $(GLOBUS_GASS_FILE_LDFLAGS)
+

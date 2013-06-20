@@ -1,0 +1,63 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Julian C. Cummings
+#                        California Institute of Technology
+#                        (C) 1998-2004 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+#
+# Definitions for GNU FORTRAN compiler on Cygwin
+#
+#
+    F77_ID = gcc-3.x-Win32
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = g77
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = 
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -fPIC 
+#
+# Optimization flags
+    F77_OPT_FLAGS = -O3 -funroll-loops
+    F77_DEBUG_FLAGS = -g  # Debug flags
+    F77_PROF_FLAGS = -pg     # Profiling flags
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -M
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+    COMPILER_LF77_SARFLAGS =
+    COMPILER_LF77_SOFLAGS =
+#
+# Mixed language linking
+#
+    COMPILER_LCC_FORTRAN = -lg2c
+    COMPILER_LCXX_FORTRAN = -lg2c
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

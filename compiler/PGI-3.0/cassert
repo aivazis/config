@@ -1,0 +1,33 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cassert,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2000/09/27 02:00:33  cummings
+// Added redirection header files to make up for deficiencies in the
+// PGI C++ compiler header files.
+//
+//
+
+#if !defined(__config_compiler_cassert__)
+#define __config_compiler_cassert__
+
+//
+// Deficiency file: route cassert to assert.h
+//
+
+#include <assert.h>
+
+#endif
+
+// End of file

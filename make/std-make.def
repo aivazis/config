@@ -1,0 +1,88 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# The top-level makefile 
+#
+# Requires:
+#
+#   (o) A properly set make include path
+#   (o) Valid definitions for the TARGET_xxx variables at the point of use
+#   (o) LOCAL_MAKEFILE must point to the makefile in the directory in which we are building
+#
+# NYI: Add logic for project level settings
+#      Add logic for high level settings, e.g.: --with-threads, --with-exceptions, etc.
+#
+
+
+
+# Get the default values for the internal macros
+include std-tools.def
+include std-macros.def
+include std-compiler.def
+include std-project.def
+
+# Initialize the external products variables
+include external.def
+
+# Get the target definition
+include ${addsuffix /target.def, $(TARGETS)}
+
+# Read the platform configuration
+include $(TARGET_PLATFORM)/platform.def
+
+# Get the local makefile
+-include $(LOCAL_MAKEFILE)
+
+# dummy target in case there was no local makefile
+mm-dummy-target:
+	@true
+
+# Get the project preferences
+-include $(BLD_ROOT)/$(PROJECT).def
+
+# Read the developer preferences
+-include $(BLD_ROOT)/$(DEVELOPER).def
+
+# Read the compiler configuration
+include $(TARGET_CC)/c.def
+include $(TARGET_CXX)/cpp.def
+include $(TARGET_F77)/f77.def
+include $(TARGET_CUCC)/cu.def
+
+# Restrict make's implicit rules to these extensions
+.SUFFIXES : 
+#.SUFFIXES : .$(EXT_C) .$(EXT_CU) .$(EXT_CXX) .$(EXT_F77) .$(EXT_OBJ) .$(EXT_LIB) .$(EXT_SO) .$(EXT_YACC) .$(EXT_DEPEND)
+
+# Get the implicit rules
+include std-c.def
+include std-cu.def
+include std-cpp.def
+include std-fortran.def
+include std-latex.def
+include std-rules.def
+include std-builds.def
+include std-docs.def
+
+# Get the standard targets
+include std-targets.def
+include std-export.def
+include std-test.def
+
+# Initialize the error reporting mechanism
+include std-markers.def
+
+# Get the target-overrides definition
+-include ${addsuffix /override.def, $(TARGETS)}
+
+# version
+# $Id: std-make.def,v 1.28 2013/03/08 00:15:24 mga Exp $
+
+#
+# END OF FILE

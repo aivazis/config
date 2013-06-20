@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for the HP FORTRAN 90 compiler
+#
+#
+    F77_ID = HPF90-2.4
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f77
+    COMPILER_F90_NAME = f90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = $(COMPILER_EXE_FORMAT) +ppu
+    COMPILER_F90_FLAGS = $(COMPILER_EXE_FORMAT) +ppu
+    COMPILER_F77_INCLUDES =
+    COMPILER_F77_DEFINES =
+
+    COMPILER_F77_SOFLAGS = +Z
+#
+    F77_OPT_FLAGS = +O2      # Optimization flags
+    F90_OPT_FLAGS = +O2      # Optimization flags
+    F77_DEBUG_FLAGS = -g     # Debug flags
+    F90_DEBUG_FLAGS = -g     # Debug flags
+    F77_PROF_FLAGS = -G      # Profiling flags
+    F77_MODULE_FLAGS = -I
+    COMPILER_F77_MODULE_PATH = +moddir=$(PROJ_F90_MODULES)
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = pa2.0
+    COMPILER_LIB_64BIT = pa20_64
+    COMPILER_EXE_32BIT = +DA2.0
+    COMPILER_EXE_64BIT = +DA2.0W
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = mm_dummy
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH = -L/opt/fortran90/lib/$(COMPILER_LIB_FORMAT)
+    COMPILER_LF77_SOFLAGS = -Wl,-b
+
+    COMPILER_LF90_LIBRARIES = -lF90 -lcl -lcps -lpthread
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

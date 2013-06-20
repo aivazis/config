@@ -1,0 +1,34 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.1  2000/09/01 01:25:17  cummings
+# Definitions file for target "prof", which just adds any special
+# compiler flags for code instrumentation and profiling to the list.
+#
+#
+
+#
+# Here are the build-specific flags for profiling
+#
+# C
+#
+    TARGET_CC_FLAGS += $(CC_PROF_FLAGS)
+    TARGET_LCC_FLAGS += $(CC_PROF_FLAGS)
+#
+# C++
+#
+    TARGET_CXX_FLAGS += $(CXX_PROF_FLAGS)
+    TARGET_LCXX_FLAGS += $(CXX_PROF_FLAGS)
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS += $(F77_PROF_FLAGS)
+    TARGET_LF77_FLAGS += $(F77_PROF_FLAGS)
+#
+# END OF FILE

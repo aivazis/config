@@ -1,0 +1,30 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: HPUX-10.0.def,v $
+# Revision 1.3  2001/08/18 03:53:15  cummings
+# Properly separated library search paths and libraries needed for MPI
+# into MPI_LIBPATH and MPI_LIBS, respectively.
+#
+# Revision 1.2  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  1999/06/30 21:54:02  aivazis
+# Original source
+#
+
+#
+# HPUX-10.0 settings for MPI -- tested on the Exemplar
+#
+
+MPI_INCLUDES = /opt/mpi/include
+MPI_LIBS = -lpmpi -lmpi /usr/lib/libail.sl -lcnx_syscall
+MPI_LIBPATH = -L/opt/mpi/lib/pa1.1
+
+#
+# End of file

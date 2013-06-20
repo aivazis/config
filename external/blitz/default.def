@@ -1,0 +1,51 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Compiler-specific options for Blitz
+#
+
+    BLITZ_FLAGS = 
+
+ifeq (KAI, ${findstring KAI, $(TARGET_CXX)})
+    BLITZ_FLAGS = --restrict
+endif
+
+ifeq (MIPSpro-7.3, ${findstring MIPSpro-7.3, $(TARGET_CXX)})
+    BLITZ_FLAGS = -LANG:restrict
+endif
+
+ifeq (Compaq, ${findstring Compaq, $(TARGET_CXX)})
+    BLITZ_FLAGS = -accept restrict_keyword
+endif
+
+ifeq (gcc, ${findstring gcc, $(TARGET_CXX)})
+    BLITZ_FLAGS = -ftemplate-depth-30
+endif
+
+ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
+    BLITZ_FLAGS += -DBZ_TAU_PROFILING
+endif
+
+#
+# Adjust the external variables to include blitz
+#
+    BLITZ_DIR = $(TOOLS_DIR)/blitz-0.6
+ifeq (Irix, ${findstring Irix, $(TARGET_PLATFORM)})
+    BLITZ_LIBDIR = $(BLITZ_DIR)/$(COMPILER_LIB_FORMAT)
+else
+    BLITZ_LIBDIR = $(BLITZ_DIR)/lib
+endif
+    BLITZ_INCDIR = $(BLITZ_DIR)/include
+
+    EXTERNAL_INCLUDES += $(BLITZ_INCDIR)
+    EXTERNAL_LIBPATH += -L$(BLITZ_LIBDIR)
+    EXTERNAL_LIBS += -lblitz
+
+#
+# End of file

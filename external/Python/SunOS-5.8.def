@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: SunOS-5.8.def,v $
+# Revision 1.1  2002/02/07 23:18:51  aivazis
+# Original source
+#
+
+#
+# SunOS settings for Python
+#
+
+PYTHON_INCLUDES = $(PYTHON_INCDIR)
+PYTHON_LIBS =
+
+#
+# End of file

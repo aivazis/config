@@ -1,0 +1,20 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2012 all rights reserved
+#
+
+
+$(EXPORT_DOCDIR):
+	$(MKDIR) $(MKPARENTS) $(EXPORT_DOCDIR)
+
+PACKAGE_HTML_INDEX = $(EXPORT_DOCDIR)/index.html
+
+$(PACKAGE_HTML_INDEX): index.html $(EXPORT_DOCDIR)
+	$(CP_F) index.html $(PACKAGE_HTML_INDEX)
+
+
+package-documentation-html-index:: $(PACKAGE_HTML_INDEX)
+
+# end of file

@@ -1,0 +1,30 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Read the architecture-dependent settings
+#
+
+include Python/$(TARGET_PLATFORM).def
+
+# Prefer distutils.sysconfig to hard-coded defaults.
+ifdef PYTHON_SYSCONFIG_APIREQS
+PYTHON_APIREQS = $(PYTHON_SYSCONFIG_APIREQS)
+endif
+
+    PYTHON_APILIB = $(PYTHON_LCXX_FLAGS) $(PYTHON_LIB) $(PYTHON_APIREQS)
+
+#
+# Adjust the external variables to include Python
+#
+
+    EXTERNAL_INCLUDES += $(PYTHON_INCLUDES)
+    EXTERNAL_LIBS += $(PYTHON_LIBS)
+
+#
+# End of file

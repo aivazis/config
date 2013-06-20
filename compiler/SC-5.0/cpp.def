@@ -1,0 +1,67 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Sun C++ compiler
+#
+    CXX_ID = SC-5.0
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = CC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -KPIC
+#
+    CXX_OPT_FLAGS = -O2      # Optimization flags
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -xM
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -xar -o
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -G -lCstd -lCrun
+    COMPILER_LCXX_FORSHARED = 
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = so_locations
+    COMPILER_CXX_DISTCLEAN =
+#
+# Mixed language linking
+#
+    COMPILER_LCXX_FORTRAN = -lF77 -lM77 -lfsu -lsunmath
+
+# version
+# $Id: cpp.def,v 1.7 2003/05/19 06:01:14 aivazis Exp $
+
+#
+# End of file

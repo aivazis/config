@@ -1,0 +1,31 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: bool,v $
+// Revision 1.2  1999/06/24 22:18:12  aivazis
+// Added headers
+//
+
+//
+// Defficiency file: define bool, true, false
+//
+
+#if !defined(__bool_DEFICIENCY)
+#define __bool_DEFICIENCY
+
+typedef int bool;
+
+const int true = 1;
+const int false = 0;
+
+#endif
+
+// End of file

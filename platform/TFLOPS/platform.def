@@ -1,0 +1,80 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.2  2000/10/11 19:10:01  cummings
+# Add -lperfmon to the list of external library flags to be
+# included at link time on the Intel TFLOPS platform.  Calls
+# to this library give information about computing speed,
+# data cache misses, and other performance information.
+#
+# Revision 1.1  2000/10/03 01:27:34  cummings
+# New definitions file for TFLOPS platform.  Similar to files for
+# Linux and SunOS platforms, but we give the -cougar flag to the
+# compilers in order to cross-compile for the Cougar OS.  Also
+# define the platform ID "TFLOPS" for each compiler, so that we can
+# add conditional code for this platform.  (Should probably add
+# this define for every platform.)  Finally, pass -rwstl flag to
+# the C++ compiler, so that we use the standard-compliant Rogue
+# Wave header files.
+#
+#
+
+#
+# Definitions for TFLOPS
+#
+
+    PLATFORM_ID = TFLOPS
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS = -cougar
+    PLATFORM_CC_DEFINES = $(PLATFORM_ID)
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS = -cougar -rwstl
+    PLATFORM_CXX_DEFINES = $(PLATFORM_ID)
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS = -cougar
+    PLATFORM_F77_DEFINES = $(PLATFORM_ID)
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = true
+    RANFLAGS =
+
+    SYSLIB =
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXmu -lXt $(LIB_X)
+    LIB_MOTIF = -lXaw $(LIB_XT)
+#
+# Performance Monitoring
+#
+    EXTERNAL_LIBS += -lperfmon
+#
+# END OF FILE

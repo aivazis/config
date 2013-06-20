@@ -1,0 +1,22 @@
+#
+# michael A.G. Aivazis
+# california institute of technology
+# (c) 1998-2011 all rights reserved
+#
+
+# defaul values
+    TIME_DEFINES =
+    TIME_INCLUDES =
+    TIME_LIBS =
+
+
+# read the platfrom settigs
+include clock/$(TARGET_PLATFORM).def
+
+# adjust the external variables to include math settings
+    EXTERNAL_INCLUDES += $(TIME_INCLUDES)
+    EXTERNAL_DEFINES += WITH_TIME $(TIME_DEFINES)
+    EXTERNAL_LIBS += $(TIME_LIBS)
+
+#
+# end of file

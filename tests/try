@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+export bldroot=$BLD_ROOT
+export config=$bldroot/config
+export make="gmake --warn-undefined-variables --no-builtin-rules"
+
+export BLD_ROOT="$bldroot"
+export TARGET="Irix-6.4_mips" # platform_dir needs this
+export DEVELOPER="aivazis"
+
+export STANDARD_TARGET="Irix-6.4_mips" # platform_dir needs this
+
+export LOCAL_MAKEFILE="Make.mm"
+
+$make -I$config/make -I$config/target/$TARGET -I$config/compiler -I $config/platform -f $config/make/std-make.def $1

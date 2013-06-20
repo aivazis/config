@@ -1,0 +1,25 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+#
+#  $Log: Irix-6.5.def,v $
+#  Revision 1.1  2002/09/05 00:57:43  cummings
+#  Fixed default setting of ZOLTAN_DIR and restored use of platform-specific
+#  definitions file, which selects the proper library path.
+#
+#
+
+# Platform-specific settings for Irix
+
+ifeq (64bit, ${findstring 64bit, $(BLD_USER_TARGET)})
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_sgi64
+else
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_sgi32
+endif
+
+#
+# End of file

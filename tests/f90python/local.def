@@ -1,0 +1,18 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# Local (project) definitions
+
+# Fortran 90
+#    include std-f90.def
+
+# Python
+    include Python/default.def
+
+#
+# End of file

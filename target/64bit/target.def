@@ -1,0 +1,22 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.1  2001/01/29 18:51:34  cummings
+# New target definitions file for building 64-bit libraries and
+# executables on platforms that support both 32-bit and 64-bit options.
+#
+#
+
+#
+# Compiler-specific 64-bit library and executable format flags
+#
+    COMPILER_LIB_FORMAT = $(COMPILER_LIB_64BIT)
+    COMPILER_EXE_FORMAT = $(COMPILER_EXE_64BIT)
+#
+# END OF FILE

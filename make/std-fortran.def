@@ -1,0 +1,160 @@
+# -*- Makefile -*-
+#
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+
+# Default settings for FORTRAN compilation
+
+
+# Developer preferences
+
+    DEV_F77_FLAGS ?=
+    DEV_F77_DEFINES ?=
+    DEV_F77_INCLUDES ?=
+    DEV_LF77_FLAGS ?=
+    DEV_LF77_LIBPATH ?=
+
+
+# Construction of compiler command lines
+
+    F77_FLAGS = $(PLATFORM_F77_FLAGS) $(COMPILER_FORT_FLAGS) \
+	      $(TARGET_F77_FLAGS) $(DEV_F77_FLAGS) $(PROJ_F77_FLAGS)
+    F77_INCLUDES = $(PLATFORM_F77_INCLUDES) $(COMPILER_F77_INCLUDES) \
+		 $(TARGET_F77_INCLUDES) $(DEV_F77_INCLUDES) \
+		 $(PROJ_F77_INCLUDES) $(EXTERNAL_INCLUDES)
+    F77_DEFINES = $(PLATFORM_F77_DEFINES) $(COMPILER_F77_DEFINES) \
+		$(TARGET_F77_DEFINES) $(DEV_F77_DEFINES) \
+		$(PROJ_F77_DEFINES) $(EXTERNAL_DEFINES)
+    LF77_FLAGS = $(PLATFORM_LF77_FLAGS) $(COMPILER_LF77_FLAGS) \
+	       $(TARGET_LF77_FLAGS) $(DEV_LF77_FLAGS) $(PROJ_LF77_FLAGS)
+    LF77_LIBPATH = $(PLATFORM_LF77_LIBPATH) $(TARGET_LF77_LIBPATH) \
+		 $(DEV_LF77_LIBPATH) $(PROJ_LF77_LIBPATH) $(EXTERNAL_LIBPATH)
+
+    F77_SOFLAGS = $(COMPILER_F77_SOFLAGS)
+    LF77_SOFLAGS = $(COMPILER_LF77_SOFLAGS)
+    ifeq ($(COMPILER_LF77_SARFLAGS),)
+      LF77_SARFLAGS = $(LF77_SOFLAGS)
+    else
+      LF77_SARFLAGS = $(COMPILER_LF77_SARFLAGS)
+    endif
+
+    F77FLAGS =  $(F77_BUILD_DEFINES) $(F77_BUILD_INCLUDES) \
+	     $(F90_BUILD_MODULES) $(F77_FLAGS) 
+    LF77FLAGS = $(LF77_FLAGS) $(LF77_LIBPATH)
+
+    F90_MODULES = $(PROJ_F90_MODULES) $(EXTERNAL_F90_MODULES)
+    F90_LIBRARIES = $(COMPILER_LF90_LIBRARIES)
+
+    MODULE_PATH = $(COMPILER_F77_MODULE_PATH)
+
+
+# Compile FORTRAN source
+
+ifdef F77_MAKEDEPENDS_COMBINED
+
+F77_COMPILE_COMMAND = $(COMPILER_F77_DEPENDS) $(F77FLAGS) -o $@ $<
+F90_COMPILE_COMMAND = $(F77_COMPILE_COMMAND)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_F77)
+	@$(LOGEMIT_COMPILING_START)
+	$(F77_COMPILE_COMMAND) > $*.$(EXT_DEPEND)
+	tr '[:blank:]' '\n'  < $*.$(EXT_DEPEND) | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	$(RM_F) $*.$(EXT_DEPEND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_F77) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF77)
+	@$(LOGEMIT_COMPILING_START)
+	$(F77_COMPILE_COMMAND) > $*.$(EXT_DEPEND)
+	tr '[:blank:]' '\n'  < $*.$(EXT_DEPEND) | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	$(RM_F) $*.$(EXT_DEPEND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_FF77) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_F90)
+	@$(LOGEMIT_COMPILING_START)
+	$(F90_COMPILE_COMMAND) > $*.$(EXT_DEPEND)
+	tr '[:blank:]' '\n'  < $*.$(EXT_DEPEND) | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	$(RM_F) $*.$(EXT_DEPEND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_F90) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF90)
+	@$(LOGEMIT_COMPILING_START)
+	$(F90_COMPILE_COMMAND) > $*.$(EXT_DEPEND)
+	tr '[:blank:]' '\n'  < $*.$(EXT_DEPEND) | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	$(RM_F) $*.$(EXT_DEPEND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_FF90) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+else # no combined make depends
+
+F77_COMPILE_COMMAND = $(F77) $(F77FLAGS)-o $@ $< 
+F77_MAKEDEPEND = $(COMPILER_F77_DEPENDS) $(F77FLAGS) $<
+
+F90_COMPILE_COMMAND = $(F77_COMPILE_COMMAND)
+F90_MAKEDEPEND = $(F77_MAKEDEPEND)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_F77)
+	@$(LOGEMIT_DEPENDS_START)
+	$(F77_MAKEDEPEND) | \
+	tr '[:blank:]' '\n' | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(F77_COMPILE_COMMAND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_F77) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF77)
+	@$(LOGEMIT_DEPENDS_START)
+	$(F77_MAKEDEPEND) | \
+	tr '[:blank:]' '\n' | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(F77_COMPILE_COMMAND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_FF77) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_F90)
+	@$(LOGEMIT_DEPENDS_START)
+	$(F90_MAKEDEPEND) | \
+	tr '[:blank:]' '\n' | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(F90_COMPILE_COMMAND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_F90) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+
+$(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF90)
+	@$(LOGEMIT_DEPENDS_START)
+	$(F90_MAKEDEPEND) | \
+	tr '[:blank:]' '\n' | \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' -e '/^$$/ d' -e 's/$$/ :/' > \
+	$(PROJ_TMPDIR)/$*.$(EXT_DEPEND)
+	@$(LOGEMIT_DEPENDS_END)
+	@$(LOGEMIT_COMPILING_START)
+	$(F90_COMPILE_COMMAND)
+	-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $*.$(EXT_FF90) $*.$(EXT_FH)
+	@$(LOGEMIT_COMPILING_END)
+endif
+
+
+#
+# end of file

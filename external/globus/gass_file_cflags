@@ -1,0 +1,4 @@
+include $(GLOBUS_DEVEL_DIR)/etc/makefile_header
+
+all:
+	@echo $(GLOBUS_GASS_FILE_CFLAGS) | sed 's/-I//g'

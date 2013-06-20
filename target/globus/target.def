@@ -1,0 +1,15 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Include Globus environment
+#
+include globus/default.def
+
+#
+# END OF FILE

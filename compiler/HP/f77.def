@@ -1,0 +1,19 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the HP Fortran compiler
+#
+
+include HPF90-2.4/f77.def
+
+# version
+# $Id: f77.def,v 1.1 2004/01/24 00:35:23 cummings Exp $
+
+#
+# End of file

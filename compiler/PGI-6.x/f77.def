@@ -1,0 +1,78 @@
+# -*- Makefile -*-
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Julian C. Cummings
+#                        California Institute of Technology
+#                           (C) 2006 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#
+# Definitions for Portland Group FORTRAN compiler
+#
+#
+    F77_ID = PGI-6.x
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = pgf77
+    COMPILER_F90_NAME = pgf90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = # -Mextend
+    COMPILER_F90_FLAGS = # -Mextend
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+
+    COMPILER_F77_SOFLAGS = -fpic
+#
+    F77_OPT_FLAGS = -fastsse -O3 -Minline -Minfo=opt   # Optimization flags
+    F90_OPT_FLAGS = -fastsse -O3 -Minline -Minfo=opt   # Optimization flags
+    F77_DEBUG_FLAGS = -g -Mbounds           # Debug flags
+    F90_DEBUG_FLAGS = -g -Mbounds -Mchkptr  # Debug flags
+    F77_PROF_FLAGS = -Mprof=func      # Profiling flags
+    F77_MODULE_FLAGS = -module
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+    COMPILER_F77_PREPFLAG = -Mpreprocess
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -Mcpp=m
+#
+# Extensions: input format, etc
+#
+    COMPILER_F77_VAX_TABS = # -fvxt
+    COMPILER_F77_STATIC_LOCALS = -Msave
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS = 
+    COMPILER_LF77_LIBPATH = 
+    COMPILER_LF77_SOFLAGS = -shared
+    COMPILER_LF77_SARFLAGS = -shared
+#
+# Mixed language support
+#
+    COMPILER_LF90_LIBPATH = 
+    COMPILER_LF77_LIBRARIES = -lpgftnrtl
+    COMPILER_LF90_LIBRARIES = -lpgf90 -lpgf90_rpm1 -lpgf902 -lpgf90rtl $(COMPILER_LF77_LIBRARIES)
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = *.mod *.stb
+    COMPILER_F77_DISTCLEAN =
+
+# version
+# $Id: f77.def,v 1.1 2006/09/16 02:27:54 cummings Exp $
+
+# End of file

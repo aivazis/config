@@ -1,0 +1,31 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Here are the build-specific flags
+#
+# C
+#
+    TARGET_CC_FLAGS += $(CC_OPT_FLAGS)
+    TARGET_LCC_FLAGS += $(CC_OPT_FLAGS)
+#
+# C++
+#
+    TARGET_CXX_FLAGS += $(CXX_OPT_FLAGS)
+    TARGET_LCXX_FLAGS += $(CXX_OPT_FLAGS)
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS += $(FORT_OPT_FLAGS)
+    TARGET_LF77_FLAGS += $(FORT_OPT_FLAGS)
+#
+# Python
+#
+    TARGET_PYTHON_FLAGS += -O
+#
+# END OF FILE

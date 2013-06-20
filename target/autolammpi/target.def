@@ -1,0 +1,86 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Enable MPI-related stuff with a garbage directory name.
+#
+    MPI_DIR = /autompich
+
+
+#
+# Determine the names of the LAM/MPI wrappers,
+# and the identity of the underlying compiler.
+#
+
+    MPICXX_COMPILE_INFO := $(shell mpic++ -showme 2> /dev/null)
+ifeq (g++,$(findstring g++,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = gcc
+    MPICC = mpicc
+    MPICXX = mpic++
+    MPIF77 = mpif77
+endif
+ifeq (icc,$(findstring icc,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = Intel8beta
+    MPICC = mpicc
+    MPICXX = mpic++
+    MPIF77 = mpif77
+endif
+ifeq (ecc,$(findstring ecc,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = Intel8beta
+    MPICC = mpicc
+    MPICXX = mpic++
+    MPIF77 = mpif77
+endif
+
+ifndef MPICXX
+    MPICC = hcc
+    MPICXX = hcp
+    MPIF77 = hf77
+    MPICXX_COMPILE_INFO := $(shell hcp -showme 2> /dev/null)
+ifeq (g++,$(findstring g++,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = gcc
+endif
+ifeq (icc,$(findstring icc,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = Intel8beta
+endif
+ifeq (ecc,$(findstring ecc,$(MPICXX_COMPILE_INFO)))
+    TARGET_COMPILER = Intel8beta
+endif
+endif
+
+
+#
+# If LAM/MPI is using Intel's compiler, is it v7 or v8?
+#
+
+ifeq (Intel8beta,$(TARGET_COMPILER))
+    MPI_INTEL_VERSION = $(shell $(MPICXX_COMPILE_INFO) -V 2>&1)
+ifeq (Version 7.,$(findstring Version 7.,$(MPI_INTEL_VERSION)))
+    TARGET_COMPILER = Intel7.1
+endif
+endif
+
+
+#
+# If LAM/MPI is using GCC, is it Apple's GCC?
+#
+
+ifeq (gcc,$(TARGET_COMPILER))
+    MPI_GCC_VERSION := $(shell mpic++ --version 2> /dev/null)
+ifeq (Apple Computer,$(findstring Apple Computer,$(MPI_GCC_VERSION)))
+ifeq (3.,$(findstring 3.,$(MPI_GCC_VERSION)))
+    TARGET_COMPILER = gcc-3.x-Darwin
+else
+    TARGET_COMPILER = gcc-4.x-Darwin
+endif
+endif
+endif
+
+
+#
+# END OF FILE

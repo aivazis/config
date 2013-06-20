@@ -1,0 +1,26 @@
+# -*- Makefile -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#                               Michael A.G. Aivazis
+#                        California Institute of Technology
+#                           (C) 2002 All Rights Reserved
+#
+# <LicenseText>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+    HDF_LIBS = -lmfhdf -ldf -lz -ljpeg
+
+#
+# default settings for HDF4
+#
+
+    EXTERNAL_DEFINES += WITH_HDF
+    EXTERNAL_INCLUDES += $(HDF_INCDIR)
+    EXTERNAL_LIBS += -L$(HDF_LIBDIR) $(HDF_LIBS)
+
+
+#
+# End of file

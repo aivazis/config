@@ -1,0 +1,54 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: default.def,v $
+# Revision 1.6  2004/04/01 20:13:45  aivazis
+# Added default value for MATH_DIR
+#
+# Revision 1.5  2002/02/09 00:10:23  aivazis
+# Added support for MATH_DEFINES and MATH_INCLUDES
+#
+# Revision 1.4  2002/02/08 23:42:17  aivazis
+# Added MATH_INCLUDES to EXTERNAL_INCLUDES
+#
+# Revision 1.3  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.2  1999/10/20 20:38:08  mga
+# Removed EXTERNAL_INCLUDES. Let the platform specific files add
+# paths if necessary
+#
+# Revision 1.1  1999/10/20 20:31:25  mga
+# Original source
+#
+
+# default value when the environment is uninitialized
+    MATH_DIR =
+
+# default values
+
+    MATH_DEFINES =
+    MATH_INCLUDES = $(MATH_INCDIR)
+    MATH_LIBS = 
+
+#
+# read the local settigs
+#
+
+include math/$(TARGET_PLATFORM).def
+
+#
+# adjust the external variables to include math settings
+#
+
+    EXTERNAL_INCLUDES += $(MATH_INCLUDES)
+    EXTERNAL_DEFINES += WITH_MATH $(MATH_DEFINES)
+    EXTERNAL_LIBS += $(MATH_LIBS)
+
+#
+# End of file

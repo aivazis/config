@@ -1,0 +1,11 @@
+#
+# michael A.G. Aivazis
+# california institute of technology
+# (c) 1998-2011 all rights reserved
+#
+
+
+    TIME_LIBS = -lrt
+
+#
+# end of file

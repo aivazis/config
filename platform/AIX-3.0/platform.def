@@ -1,0 +1,96 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.6  2001/08/18 04:14:45  cummings
+# Added a new macro called PLATFORM_PAREXE_FLAGS.  This includes flags
+# that must be passed to the linker in order to produce a parallel
+# executable on this platform.  The AIX platforms we use have the POE
+# system for running parallel jobs, and it requires that a special
+# initialization function be called.  I have set PLATFORM_PAREXE_FLAGS
+# equal to -binitfini:poe_remote_main here.  We need to modify the
+# definitions files in areas where we are building parallel executables
+# to add this flag to PROJ_LCXX_FLAGS, for example, to link C++ codes
+# for parallel execution.
+#
+# Revision 1.5  2001/02/02 19:25:04  cummings
+# Include 32-bit target definitions file by default if
+# no format is specified in the TARGET.
+#
+# Revision 1.4  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.3  2000/05/16 22:52:02  sharon
+# got rid of chip specific compilation flags cause they actually belong to the compiler
+#
+# Revision 1.2  2000/05/16 22:39:29  sharon
+# got rid of chip specific compilation flags cause they actually belong to the compiler
+#
+# Revision 1.1  1999/08/27 22:34:02  sharon
+# added AIX-3.0 platform and IBM-3.6.6 compilers
+#
+# Revision 1.3  1999/07/01 05:24:58  aivazis
+# Added headers
+#
+
+# include 32-bit target by default if none specified
+ifeq ($(findstring bit,$(TARGETS)),)
+    include 32bit/target.def
+endif
+
+#
+# Definitions for AIX
+#
+
+    PLATFORM_ID = AIX-3.0
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS = 
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS = 
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    RANLIB = touch
+    RANFLAGS = 
+
+    SYSLIB =
+
+    PLATFORM_PAREXE_FLAGS = -binitfini:poe_remote_main
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lXext -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXt $(LIB_X)
+    LIB_MOTIF = -lXm $(LIB_XT)
+#
+# END OF FILE

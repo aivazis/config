@@ -1,0 +1,64 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: f77.def,v $
+# Revision 1.7  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.6  2000/04/17 16:50:05  sharon
+# modified compilation flags
+#
+# Revision 1.5  2000/03/02 01:39:17  rapa
+# changed some flags following Sharon's suggestions
+#
+# Revision 1.4  1999/07/01 05:31:39  aivazis
+# Optimization flag is -O; -O2 is not supported
+#
+# Revision 1.3  1999/06/24 22:18:13  aivazis
+# Added headers
+#
+
+#
+# Definitions for GNU FORTRAN compiler
+#
+#
+    F77_ID = HPF77-1.2
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f90
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS =
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+#
+    F77_OPT_FLAGS = +O4 +fastallocatable     # Optimization flags
+    F77_DEBUG_FLAGS = +pal +O2    # Debug flags
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = mm_dummy
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

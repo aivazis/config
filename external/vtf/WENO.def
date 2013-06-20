@@ -1,0 +1,141 @@
+# -*- Makefile -*-
+#
+#---------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+#---------------------------------------------------------------------------
+#
+
+# clawpack application defines
+CLP_DEFINES = EXTENDED_INTEGRATOR
+ifeq (Linux, ${findstring Linux, $(PLATFORM_ID)})
+    CLP_DEFINES += LINUX_387_DOUBLE
+endif
+
+# clawpack source directories
+CLP_DIR = $(AMROC_DIR)/clawpack
+CLP_OPDIR = $(CLP_DIR)/src/$(DIM)d/operators
+CLP_UTILDIR = $(CLP_DIR)/src/utils
+
+# WENO source directories
+WENO_DIR = $(AMROC_DIR)/weno
+WENO_EQNDIR = $(WENO_DIR)/src/equations
+
+# WENO includes 
+WENO_INCLUDES = $(WENO_DIR)
+
+# clawpack object files
+CLP_TMPDIR = $(BLD_TMPDIR)/AMROC/clawpack
+CLP_OPOBJ =	${addprefix $(CLP_TMPDIR)/$(DIM)d/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_OPSRC)}}}
+CLP_UTILOBJ =	${addprefix $(CLP_TMPDIR)/utils/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(CLP_UTILSRC)}}}
+CLP_OBJ =	$(CLP_OPOBJ) $(CLP_UTILOBJ) 
+
+# WENO object files
+WENO_TMPDIR = $(BLD_TMPDIR)/AMROC/weno
+WENO_EQNOBJ =	${addprefix $(WENO_TMPDIR)/equations/, ${addsuffix .$(EXT_OBJ), \
+		${basename $(WENO_EQNSRC)}}}
+WENO_OBJ =	$(WENO_EQNOBJ)
+
+# WENO libraries
+WENO_LIBRARIES = $(BLD_LIBDIR)/libweno.$(EXT_LIB)
+WENO_LIBFLAGS = -lweno
+
+# clawpack application driver
+EXT_CXX = C
+CLP_MAINSRC = amr_main.$(EXT_CXX)
+CLP_MAINOBJ = $(PROJ_TMPDIR)/amr_main.$(EXT_OBJ)
+
+# C++ application
+PROJ_CXX_DEFINES += $(AMROC_DEFINES) $(CLP_DEFINES)
+PROJ_CXX_INCLUDES += $(AMROC_INCLUDES) $(WENO_INCLUDES)
+PROJ_LCXX_FLAGS += $(PLATFORM_PAREXE_FLAGS)
+
+# cleanup items
+PROJ_CLEAN += $(CLP_MAINOBJ) $(PROJ_BIN)
+PROJ_TIDY += $(CLP_MAINSRC)
+
+# local cxx template repository for Compaq compiler
+ifeq (Compaq, ${findstring Compaq, $(PLATFORM_ID)})
+    PROJ_LCXX_FLAGS += -ptr cxx_repository
+    PROJ_CLEAN += cxx_repository/*.$(EXT_OBJ)
+    PROJ_DISTCLEAN += cxx_repository
+endif
+
+# export items
+EXPORT_BINS += $(PROJ_BIN)
+
+# clawpack application targets
+all:	clawpack-op clawpack-util weno-eqn $(PROJ_BINDIR) $(PROJ_BIN)
+
+# build binary executable
+$(PROJ_BIN):	$(CLP_OBJ) $(WENO_OBJ) $(PROJ_OBJS) $(CLP_MAINOBJ) \
+		$(AMROC_LIBRARIES) $(WENO_LIBRARIES)
+	$(CXX) $(LCXXFLAGS) -o $@ $(CLP_MAINOBJ) $(CLP_OBJ) $(WENO_OBJ) \
+	$(PROJ_OBJS) $(AMROC_LIBFLAGS) $(WENO_LIBFLAGS) $(EXTERNAL_LIBS) \
+	$(COMPILER_LF77_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+
+$(PROJ_BINDIR):
+	$(MKDIR) $(MKPARENTS) $(PROJ_BINDIR)
+
+# compile clawpack main
+ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
+ifdef NO_TAU_INSTRUMENTATION
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+else
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(PDTCXXPARSE) $< $(CXX_BUILD_DEFINES) -DWITH_TAU $(CXX_BUILD_INCLUDES)
+	$(TAUINSTR) $(basename $<).pdb $< -o $(basename $<).inst.$(EXT_CXX) \
+	-g $(PROJ_TAU_GROUP) -f $(PROJ_TAU_SELECT)
+	$(CXX) $(CXXFLAGS) -c -o $@ $(basename $<).inst.$(EXT_CXX)
+	$(RM) $(RMFLAGS) $(basename $<).pdb $(basename $<).inst.$(EXT_CXX)
+endif
+else
+$(CLP_MAINOBJ): $(CLP_MAINSRC)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+endif
+
+# compile clawpack sources
+ifneq ($(CLP_OPSRC),)
+clawpack-op:
+	(cd $(CLP_OPDIR); $(MM) $(CLP_OPOBJ))
+else
+clawpack-op:
+
+endif
+
+ifneq ($(CLP_UTILSRC),)
+clawpack-util:
+	(cd $(CLP_UTILDIR); $(MM) $(CLP_UTILOBJ))
+else
+clawpack-util:
+
+endif
+
+# compile WENO sources
+ifneq ($(WENO_EQNSRC),)
+weno-eqn:
+	(cd $(WENO_EQNDIR); $(MM) $(WENO_EQNOBJ))
+else
+weno-eqn:
+
+endif
+
+
+# main source code file 
+$(CLP_MAINSRC): $(CLP_DIR)/mains/$(CLP_MAINSRC)
+	@$(CP_F) $< .
+
+
+# version
+# $Id: WENO.def,v 1.6 2004/06/11 00:38:40 cummings Exp $
+
+#
+# End of file

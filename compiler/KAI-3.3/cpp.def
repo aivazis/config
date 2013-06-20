@@ -1,0 +1,99 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# $Log: cpp.def,v $
+# Revision 1.5  2000/10/03 02:33:30  cummings
+# Moved --one_per flag to COMPILER_CXX_INSTFLAGS.
+#
+# Revision 1.4  2000/09/13 19:05:29  cummings
+# Added --one_per flag to KCC 3.3 compiler options.  This version
+# of KCC uses the one-instantiation-per-object approach when
+# compiling C++ sources that are subsequently placed in an archive.
+# Using this flag avoids multiple symbol definition errors when
+# linking with the archive.  (This is not necessary with KCC 4.0.)
+# Also added appropriate definitions of COMPILER_PROJ_CLEAN and
+# COMPILER_PROJ_DISTCLEAN to clean up instantiation object files
+# and information files.
+#
+# Revision 1.3  2000/09/07 22:31:42  cummings
+# Removed some project-specific flags that should not be in here.
+# Added mixed language support.  Changed flag for compiling
+# position-independent code to use the flag given by the C compiler,
+# since KCC just passes this flag on to the backend.  Added settings
+# for AR_CXX and AR_CXX_FLAGS to use KCC to archive C++ libraries.
+# KCC does not recognize the .sa extension, so set this to .a instead.
+#
+# Revision 1.2  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  1999/11/17 22:38:00  aivazis
+# Original source
+#
+#
+# Definitions for the KAI C++ compiler
+#
+    CXX_ID = KAI-3.3
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = KCC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = 
+    COMPILER_CXX_INSTFLAGS = --one_per
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = $(COMPILER_CC_SOFLAGS)
+#
+# Optimization flags
+    CXX_OPT_FLAGS = +K3 -O --inline_keyword_space_time=10000
+    CXX_DEBUG_FLAGS = +K0    # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -o
+    EXT_SAR = a
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = 
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lKCC -lm
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = $(PROJ_TMPDIR)/ti_files/*/*.o
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/ti_files/*
+#
+# This compiler does not support precompiler headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# End of file

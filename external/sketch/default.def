@@ -1,0 +1,11 @@
+#                       Gauthier Becker 
+#                massachusetts Institute of Technology
+#                   (C) 2013 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+    EXTERNAL_DEFINES += WITH_SKETCH
+    EXTERNAL_INCLUDES += $(SKETCH_INCDIR)  
+    EXTERNAL_LIBS += -lsketch
+
+# end of file

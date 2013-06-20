@@ -1,0 +1,25 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Irix-6.4.def,v $
+# Revision 1.3  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.2  1999/06/09 01:34:28  mga
+# Fixed typos and added header
+#
+
+#
+# Irix default settings for ACIS
+#
+
+ACIS_INCLUDES = ${addprefix $(ACIS_INCDIR)/, $(ACIS_INCLUDE_DIRS)}
+ACIS_LIBS = ${addsuffix .$(EXT_AR), ${addprefix $(ACIS_LIBDIR)/lib, $(ACIS_LIBRARIES)}}
+
+#
+# End of file

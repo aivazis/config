@@ -1,0 +1,26 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: portinfo,v $
+// Revision 1.1  2000/08/08 18:35:51  aivazis
+// Original source
+//
+
+#if !defined(__config_portinfo_h__)
+#define __config_portinfo_h__
+
+#include <config_platform.h>
+#include <config_compiler.h>
+
+#include "config_local.h"
+
+#endif
+
+// End of file

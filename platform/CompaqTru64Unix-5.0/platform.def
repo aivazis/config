@@ -1,0 +1,68 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: platform.def,v $
+# Revision 1.2  2001/08/02 22:12:14  cummings
+# Added Z to archive flags on Compaq platform to compress files before archiving them.  This seems to help with large archives.  Also turned on the ranlib command.
+#
+# Revision 1.1  2001/04/26 02:22:59  cummings
+# Configuration files for new platform CompaqTru64Unix-5.0.
+#
+#
+
+#
+# Definitions for CompaqTru64Unix-5.0
+#
+
+    PLATFORM_ID = CompaqTru64Unix-5.0
+
+# Compiler command line
+#
+# C
+#
+    PLATFORM_CC_FLAGS =
+    PLATFORM_CC_DEFINES =
+    PLATFORM_CC_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCC_FLAGS =
+    PLATFORM_LCC_LIBPATH =
+#
+# C++
+#
+    PLATFORM_CXX_FLAGS =
+    PLATFORM_CXX_DEFINES =
+    PLATFORM_CXX_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LCXX_FLAGS =
+    PLATFORM_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    PLATFORM_F77_FLAGS =
+    PLATFORM_F77_DEFINES =
+    PLATFORM_F77_INCLUDES = $(DIR_PLATFORM)/$(PLATFORM_ID)
+    PLATFORM_LF77_FLAGS =
+    PLATFORM_LF77_LIBPATH =
+#
+# OS-specific definitions
+#
+    AR_CREATE_FLAGS = rcvZ
+    AR_UPDATE_FLAGS = ruvZ
+    RANLIB = ranlib
+    RANFLAGS =
+
+    SYSLIB =
+
+#
+# X, Xt, Motif
+#
+    LIB_SOCKET = 
+
+    LIB_X = -lX11 -lm $(LIB_SOCKET)
+    LIB_XT = -lXmu -lXt $(LIB_X)
+    LIB_MOTIF = -lXm /usr/lib/libXpm.a $(LIB_XT)
+#
+# END OF FILE

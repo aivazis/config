@@ -1,0 +1,49 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Simply use MPICH wrappers to build everything -- they will take care of
+# include paths, libraries, etc.
+#
+
+#
+# C
+#
+    #CC = mpicc
+    COMPILER_CC_NAME = mpicc
+
+#
+# C++
+#
+    #CXX = $(MPICXX) -UHAVE_MPI_CPP
+    COMPILER_CXX_NAME = $(MPICXX) -UHAVE_MPI_CPP
+
+#
+# FORTRAN
+#
+    F77 = mpif77
+
+
+#
+# The following is a hack to work-around the fact that libmpich.so
+# does not exist on some systems (ia64 systems in particular).  When
+# only libmpich.a is available, the MPI symbols will be resolved by the
+# main executable (mpipython.exe).  This probably won't work on some
+# operating systems (AIX).
+#
+
+MPICXX_LINK_SHARED := $(filter-out -c,$(MPICXX_COMPILE_INFO))
+
+$(PROJ_DLL) $(PROJ_SAR): product_dirs $(PROJ_OBJS)
+	$(MPICXX_LINK_SHARED) $(LCXX_SARFLAGS) -o $@ $(PROJ_OBJS) $(LCXXFLAGS)
+
+$(PROJ_PYTHONDLL): $(MODULE_INIT_FILE) $(PROJ_CXX_LIB)
+	$(MPICXX_LINK_SHARED) $(CXXFLAGS) -o $@ $< $(LCXXFLAGS) $(PROJ_LIBRARIES)
+
+#
+# END OF FILE

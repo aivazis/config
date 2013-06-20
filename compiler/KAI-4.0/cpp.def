@@ -1,0 +1,84 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# $Log: cpp.def,v $
+# Revision 1.2  2001/07/12 00:04:12  cummings
+# Set options for linking with the KCC compiler equal to those for
+# linking with the C compiler.  This way, KCC will get any needed
+# options for the backend C compiler and pass them on to the linker.
+# In particular, there are a few funny linker flags that we need
+# to use on the IBM platform.  This ensures that KCC will get these
+# options from the target platform's C compiler definitions file.
+#
+# Revision 1.1  2000/09/13 01:29:19  cummings
+# New definitions files for KCC version 4.0 and above.  Copied from
+# version 3.3 and added extra clean-up of template instantiation files.
+#
+#
+#
+# Definitions for the KAI C++ compiler
+#
+    CXX_ID = KAI-4.0
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = KCC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = 
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = $(COMPILER_CC_SOFLAGS)
+#
+# Optimization flags
+    CXX_OPT_FLAGS = +K3 -O --inline_keyword_space_time=10000
+    CXX_DEBUG_FLAGS = +K0    # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -o
+    EXT_SAR = a
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = $(COMPILER_LCC_FLAGS)
+    COMPILER_LCXX_LIBPATH = $(COMPILER_LCC_LIBPATH)
+    COMPILER_LCXX_SOFLAGS = $(COMPILER_LCC_SOFLAGS)
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lKCC -lm
+#
+# Clean up
+#
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/ti_files/*
+#
+# This compiler does not support precompiler headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# End of file

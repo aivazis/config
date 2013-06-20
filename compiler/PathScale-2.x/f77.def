@@ -1,0 +1,75 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2006 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for PathScale 2.x pathf90 and pathf95 compiler
+#
+#
+    F77_ID = PathScale-2.x
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = pathf90
+    COMPILER_F90_NAME = pathf95
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS = -ansi
+    COMPILER_F90_FLAGS = -ansi
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+# Position-indepndent code
+    COMPILER_F77_SOFLAGS = -fPIC
+#
+    F77_OPT_FLAGS = -O3 -INLINE:aggressive=ON   # Optimization flags
+    F77_DEBUG_FLAGS = -g -C -DDEBUG             # Debug flags
+    F90_OPT_FLAGS = -O3 -INLINE:aggressive=ON   # Optimization flags
+    F90_DEBUG_FLAGS = -g -C -DDEBUG             # Debug flags
+    F77_PROF_FLAGS = -pg                        # Profiling flags
+    F77_MODULE_FLAGS = -I
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+    COMPILER_F77_PREPFLAG = -ftpp
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -M
+#
+# Extensions: input format, etc
+#
+    COMPILER_F77_VAX_TABS = # -fvxt
+    COMPILER_F77_STATIC_LOCALS = -static-data
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+    COMPILER_LF77_SOFLAGS = -shared
+    COMPILER_LF77_SARFLAGS = -shared
+#
+# Mixed language linking
+#
+    COMPILER_LF90_LIBPATH = 
+    COMPILER_LF77_LIBRARIES = -lpathfstart -lpathfortran
+    COMPILER_LF90_LIBRARIES = $(COMPILER_LF77_LIBRARIES)
+    COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+    COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBPATH) $(COMPILER_LF90_LIBRARIES)
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN = *.mod
+    COMPILER_F77_DISTCLEAN =
+
+# version
+# $Id: f77.def,v 1.2 2006/08/30 02:24:04 cummings Exp $
+
+#
+# End of file

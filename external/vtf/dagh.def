@@ -1,0 +1,57 @@
+# -*- Makefile -*-
+#
+#-----------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+#-----------------------------------------------------------------------------
+#
+
+DAGH_DEFINES = Want_c_files DEBUG_PRINT DEBUG_PRINT_AMRSOLVER
+
+ifeq (, ${findstring tau, $(BLD_USER_TARGET)})
+DAGH_DEFINES += TIMING_AMR 
+endif
+
+ifeq (CompaqTru64, ${findstring CompaqTru64, $(PLATFORM_ID)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lm
+endif
+ifeq (Irix, ${findstring Irix, $(PLATFORM_ID)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lnsl
+endif
+ifeq (AIX, ${findstring AIX, $(PLATFORM_ID)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lnsl
+endif
+ifeq (Linux, ${findstring Linux, $(PLATFORM_ID)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lnsl
+endif
+ifeq (PGI, ${findstring PGI, $(TARGET_CXX)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lnsl
+endif
+ifeq (Absoft, ${findstring Absoft, $(TARGET_F77)})
+    DAGH_DEFINES += 
+    EXTERNAL_LIBS += -lnsl
+endif
+ifeq (mpi, ${findstring mpi, $(BLD_USER_TARGET)})
+else
+    DAGH_DEFINES += DAGH_NO_MPI
+endif
+
+ifdef HDF4_DIR
+    DAGH_DEFINES += IO_NCSAIO 
+    EXTERNAL_INCLUDES += $(HDF4_DIR)/include
+    EXTERNAL_LIBS += -L$(HDF4_DIR)/lib -lmfhdf -ldf -lz -ljpeg
+endif
+
+
+#
+# End of file

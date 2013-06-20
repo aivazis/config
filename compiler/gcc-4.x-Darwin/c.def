@@ -1,0 +1,53 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# california institute of technology
+# (c) 1998-2013  all rights reserved
+#
+
+# definitions for GNU C compiler on Darwin
+    CC_ID = gcc-4.x-Darwin
+
+# the name of the binary
+    COMPILER_CC_NAME = gcc
+
+# command line options
+    COMPILER_CC_FLAGS = -Wall
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+# language support
+    COMPILER_CC_STD89 = -std=c89
+    COMPILER_CC_STD99 = -std=c99
+
+# code generation
+    COMPILER_CC_SOFLAGS = -fPIC
+
+# optimization flags
+    CC_OPT_FLAGS = -O3 -funroll-loops -faltivec
+    CC_DEBUG_FLAGS = -g     # Debug flags
+    CC_PROF_FLAGS = -pg     # Profiling flags
+
+# when using the C compiler to preprocess
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+
+# when using the C compiler to make dependencies
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MMD
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+
+# when using the C compiler to link
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS = 
+    COMPILER_LCC_LIBPATH =
+    COMPILER_LCC_SARFLAGS = -dynamiclib -flat_namespace -Wl,-undefined,suppress -single_module
+    COMPILER_LCC_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress
+    COMPILER_LCC_FORSHARED =
+
+# clean up
+    COMPILER_CC_CLEAN = *.dSYM
+    COMPILER_CC_DISTCLEAN =
+
+# end of file

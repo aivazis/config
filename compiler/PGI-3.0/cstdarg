@@ -1,0 +1,42 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cstdarg,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/20 01:43:16  cummings
+// Original source for remaining replacement files for new-style
+// C header files, copied from the MIPSpro-7.3 area and modified
+// for Linux86.
+//
+//
+
+#if !defined(__config_compiler_cstdarg__)
+#define __config_compiler_cstdarg__
+
+//
+// Deficiency file: route cstdarg to stdarg.h
+// and import symbols into namespace std
+//
+
+#include <stdarg.h>
+
+namespace std {
+  /* Standard C library variable-length function argument lists */
+#ifndef _VARARGS_H
+  using ::va_list;
+#endif
+}
+
+#endif
+
+// End of file

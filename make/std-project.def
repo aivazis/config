@@ -1,0 +1,94 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+
+
+# Default settings for all project variables
+#
+    PROJECT =
+    PACKAGE =
+    PROJ_LIB =
+    PROJ_CXX_LIB =
+    PROJ_SRCS =
+    PROJ_DLL =
+    PROJ_SAR =
+
+# project-specific directories for output files
+# binary and library directories are not project-specific because
+# the binary and library names should be project-specific already
+
+    PROJ_BINDIR = $(BLD_BINDIR)
+    PROJ_LIBDIR = $(BLD_LIBDIR)
+    PROJ_DOCDIR = $(BLD_DOCDIR)/$(PROJECT)
+    PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)
+    PROJ_INCDIR = $(BLD_INCDIR)/$(PROJECT)
+
+# The list of objects in the project library
+
+    PROJ_OBJS = ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_OBJ}, ${basename ${PROJ_SRCS}}}}
+
+# The list of automatically generated dependency files
+
+    PROJ_DEPENDENCIES = empty.def
+    PROJ_DEPENDENCIES += ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_DEPEND}, ${basename ${PROJ_SRCS}}}}
+
+# the list of additional dependecies that various targets for this project mighthave
+    PROJ_OTHER_DEPENDENCIES = 
+
+# Backwards compatibility 
+
+    PROJ_DEPENDS = empty.def
+
+#
+# Variables that local.def may override
+#
+
+# Compiler flags
+
+    PROJ_CC_FLAGS =
+    PROJ_CXX_FLAGS =
+    PROJ_F77_FLAGS =
+    PROJ_CUCC_FLAGS =
+
+    PROJ_CC_INCLUDES =
+    PROJ_CXX_INCLUDES =
+    PROJ_F77_INCLUDES =
+    PROJ_CUCC_INCLUDES =
+
+    PROJ_CC_DEFINES =
+    PROJ_CXX_DEFINES =
+    PROJ_F77_DEFINES =
+    PROJ_CUCC_DEFINES =
+
+    PROJ_LCC_FLAGS =
+    PROJ_LCXX_FLAGS =
+    PROJ_LF77_FLAGS =
+    PROJ_LCUCC_FLAGS =
+
+    PROJ_LCC_LIBPATH =
+    PROJ_LCXX_LIBPATH =
+    PROJ_LF77_LIBPATH =
+    PROJ_LCUCC_LIBPATH =
+
+    PROJ_F90_MODULES =
+    PROJ_LCC_LIBS =
+    PROJ_LCXX_LIBS =
+    PROJ_LF77_LIBS =
+    PROJ_LCUCC_LIBS =
+
+# Others
+
+    PROJ_TIDY = core *~ .*~ *.bak *.pyc
+    PROJ_CLEAN = $(PROJ_LIB) $(PROJ_CXX_LIB) $(PROJ_OBJS) $(PROJ_DEPENDENCIES) $(PROJ_TIDY)
+    PROJ_DISTCLEAN = $(PROJ_DEPENDENCIES) $(PROJ_CLEAN) $(PROJ_TMPDIR) $(PROJ_INCDIR) 
+
+    PROJ_TAU_GROUP = 0
+    PROJ_TAU_SELECT = $(BLD_CONFIG)/external/TAU/select
+
+    PROJ_EXTERNAL_PACKAGES = 
+
+#
+# End of file

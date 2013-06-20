@@ -1,0 +1,27 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1998-2005 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Read the local settigs
+#
+
+    IDL_INCLUDES =
+    IDL_LIBS =
+
+    include rsiidl/$(TARGET_PLATFORM).def
+
+#
+# Adjust the external variables to include IDL
+#
+
+    EXTERNAL_DEFINES += WITH_IDL
+    EXTERNAL_INCLUDES += $(IDL_INCLUDES)
+    EXTERNAL_LIBS += $(IDL_LIBS)
+
+#
+# End of file

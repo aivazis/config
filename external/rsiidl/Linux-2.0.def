@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1998-2005 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+ifneq ($(IDL_DIR),)
+
+#
+# Default settings for (rsi) idl
+#
+
+    IDL_INCLUDES = $(IDL_INCDIR)
+    IDL_LIBS = -L$(IDL_LIBDIR) ${addprefix -l, $(IDL_LIBRARIES)} \
+               -L$(IDL_BINDIR) -lidl \
+               -Wl,-rpath,. -Wl,-rpath $(IDL_BINDIR)\
+               /usr/X11R6/lib/libXm.so.3 -lXp \
+               -L/usr/X11R6/lib -lXpm -lXext -lXt -lSM -lICE -lX11 \
+               -ldl -ltermcap -lrt -lm -lpthread
+
+endif
+
+# $Id: Linux-2.0.def,v 1.1 2004/11/24 23:32:24 mmckerns Exp $
+
+#
+# End of file

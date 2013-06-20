@@ -1,0 +1,19 @@
+#--------------------------------------------------------------------------
+#
+#                       Julian C. Cummings
+#                California Institute of Technology
+#                   (C) 2004 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Use the latest version of the HP C++ compiler
+#
+
+include HPaCC-A.03/cpp.def
+
+# version
+# $Id: cpp.def,v 1.1 2004/01/24 00:35:23 cummings Exp $
+
+#
+# End of file

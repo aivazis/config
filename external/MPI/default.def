@@ -1,0 +1,33 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                (C) 198-2012  All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Read the local settigs
+#
+
+MPI_LIBS =
+MPI_F90LIBS =
+MPI_CPPLIBS =
+MPI_CPPDEFS =
+
+include MPI/$(TARGET_PLATFORM).def
+
+#
+# Adjust the external variables to include MPI
+#
+
+EXTERNAL_DEFINES += WITH_MPI PARALLEL WITH_PARALLEL_IO # $(MPI_CPPDEFS)
+EXTERNAL_INCLUDES += $(MPI_INCLUDES)
+
+ifeq (, ${findstring tau, $(BLD_USER_TARGET)})
+    EXTERNAL_LIBPATH += $(MPI_LIBPATH)
+    EXTERNAL_LIBS += $(MPI_LIBS) # $(MPI_CPPLIBS) $(MPI_LIBS)
+endif
+
+#
+# end of file

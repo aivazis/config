@@ -1,0 +1,40 @@
+# default sphinx rules
+
+# tmp dir for the package
+PACKAGE_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)
+
+
+
+# vars for sphinx build command 
+# build cmd for sphinx
+SPHINX_BUILD   = sphinx-build
+# additional options for sphinx command
+SPHINX_OPTS    =
+# paper type: a4 or letter
+PAPER         =                         
+
+
+
+# to build up the sphinx cmd
+SPHINX_BUILDDIR = $(EXPORT_DOCDIR)
+SPHINX_BUILDDIR_HTML = $(SPHINX_BUILDDIR)
+SPHINX_BUILDDIR_DOCTREES = $(PACKAGE_TMPDIR)/doctrees
+PAPEROPT_a4     = -D latex_paper_size=a4
+PAPEROPT_letter = -D latex_paper_size=letter
+ALL_SPHINX_OPTS   = -d $(SPHINX_BUILDDIR_DOCTREES) $(PAPEROPT_$(PAPER)) $(SPHINX_OPTS) .
+
+
+sphinx-build: $(EXPORT_DOCDIR)
+	mkdir -p $(SPHINX_BUILDDIR_HTML)
+	mkdir -p $(SPHINX_BUILDDIR_DOCTREES)
+	$(SPHINX_BUILD) -b html $(ALL_SPHINX_OPTS) $(SPHINX_BUILDDIR_HTML)
+	@echo
+	@echo "* sphinx build finished. The HTML pages are in $(SPHINX_BUILDDIR_HTML)."
+
+
+RSYNC_A = rsync -a
+export-sphinx-data: $(EXPORT_DATADIRS) $(SPHINX_BUILDDIR_HTML)
+	for x in $(EXPORT_DATADIRS); do { \
+	  $(RSYNC_A) $$x/ $(SPHINX_BUILDDIR_HTML)/$$x/; \
+	} done
+

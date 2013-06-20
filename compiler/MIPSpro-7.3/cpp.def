@@ -1,0 +1,146 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: cpp.def,v $
+# Revision 1.15  2001/12/21 23:32:05  cummings
+# Modified the compiler-specific macro for the distclean target to
+# remove the entire ii_files directory inside PROJ_TMPDIR, rather
+# than just the *.ii files.  The distclean target should remove
+# everything not present in the original cvs repository checkout.
+#
+# Revision 1.14  2001/11/30 02:56:34  cummings
+# Check for NO_MAKEDEPENDS_COMBINED macro before using combined
+# compile/makedepends capability.
+#
+# Revision 1.13  2001/09/04 23:34:34  cummings
+# Added the -J flag for parallel prelinking using the SGI C++ compiler.  We
+# use the NCPUS environment variable to select the number of parallel prelinking
+# tasks to perform.  If NCPUS is greater than one, this should speed up the
+# prelinking of C++ archives on SGI platforms.
+#
+# Revision 1.12  2001/08/08 17:47:37  cummings
+# Moved the define of MPI_NO_CPPBIND out of the MIPSpro compiler
+# definitions file and into the Irix-specific MPI definitions file.
+# Also added empty definition of COMPILER_CXX_INSTFLAGS to eliminate
+# warnings from make.
+#
+# Revision 1.11  2001/05/04 00:20:25  cummings
+# Performing combined makefile dependency info generation and code
+# compilation does not work with the insure target because it will
+# not properly pass along the makedepend command.  So I've added a
+# check that the insure target is not being used before utilizing
+# the combined makedepend and compile feature.
+#
+# Revision 1.10  2001/03/21 01:21:46  cummings
+# Changed MAKEDEPENDS command to version which generates dependency
+# info and compiles the source file as one step.  Set indicator flag
+# for this compiler feature to true.
+#
+# Revision 1.9  2001/01/29 18:55:58  cummings
+# Replaced hard-wired 64-bit format flag with flag defined in 32-bit
+# or 64-bit target definitions file.  You should add "32bit" or "64bit"
+# to your TARGET environment variable when building on the SGI platform
+# with MIPSpro, in order to choose n32 or 64-bit format.
+#
+# Revision 1.8  2001/01/18 00:53:11  sharon
+#  fixed up wierdness with mpi.h including mpi++.h by adding MPI_NO_CPPBIND define
+#
+# Revision 1.7  2000/09/14 00:12:55  cummings
+# Added empty definition of macro COMPILER_CXX_ISCXX.
+#
+# Revision 1.6  2000/09/12 03:49:27  aivazis
+# Set COMPILER_LCXX_SOFLAGS
+#
+# Revision 1.5  2000/09/08 01:23:54  cummings
+# Added some fancier optimization flags.  Changed SOFLAG to -KPIC.
+# Added special C++ archiving flags to cpp.def.  Added -mips4 flag
+# as default for all compiles.
+#
+# Revision 1.4  2000/08/30 20:51:42  aivazis
+# Added mixed language section. Turned on 64bit ABI
+#
+# Revision 1.3  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.2  2000/04/10 18:52:14  aivazis
+# Place the correct flags on the link line.
+# Added support for mixed language programming
+#
+# Revision 1.1  1999/10/21 18:09:15  aivazis
+# Original source
+#
+
+#
+# Definitions for MIPSPro 7.3 C++ compiler
+#
+    CXX_ID = MIPSpro-7.3
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = CC
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -LANG:std -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -KPIC
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O2 -OPT:Olimit=0:alias=typed:swp=ON \
+	-INLINE:aggressive=ON
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+#
+# Format flags
+#
+    COMPILER_LIB_32BIT = lib32
+    COMPILER_LIB_64BIT = lib64
+    COMPILER_EXE_32BIT = -n32
+    COMPILER_EXE_64BIT = -64
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MDupdate $*.$(EXT_DEPEND)
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to archive:
+#
+    AR_CXX = $(COMPILER_CXX_NAME)
+    AR_CXX_FLAGS = -J $(NCPUS) -ar -o
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = -J $(NCPUS) -LANG:std -mips4 $(COMPILER_EXE_FORMAT)
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_FORSHARED =
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -lCsup -lC -lCio 
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = so_locations
+    COMPILER_CXX_DISTCLEAN = $(PROJ_TMPDIR)/ii_files
+#
+# End of file

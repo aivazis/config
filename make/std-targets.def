@@ -1,0 +1,157 @@
+# -*- Makefile -*-
+#
+#--------------------------------------------------------------------------
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2003 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+
+#
+# This file contains frequently used standard makefile targets
+#
+
+#
+# Build the project library
+#
+
+project_library : tag_projlib product_dirs
+	@$(MM) -f $(DIR_CONFIG)/make/std-builds.def
+
+
+# Create the product directory structure
+
+product_dirs: $(BLD_BINDIR) $(BLD_LIBDIR) $(BLD_INCDIR) $(BLD_TMPDIR) \
+    $(PROJ_INCDIR) $(PROJ_LIBDIR) $(PROJ_TMPDIR) $(PROJ_DOCDIR)
+
+$(BLD_BINDIR):
+	@$(MKDIR) $(MKPARENTS) $(BLD_BINDIR)
+
+$(BLD_LIBDIR):
+	@$(MKDIR) $(MKPARENTS) $(BLD_LIBDIR)
+
+$(BLD_INCDIR):
+	@$(MKDIR) $(MKPARENTS) $(BLD_INCDIR)
+
+$(BLD_TMPDIR):
+	@$(MKDIR) $(MKPARENTS) $(BLD_TMPDIR)
+
+$(BLD_TMPDIR)/.std-macros.def: $(BLD_TMPDIR)
+	@$(PYTHON) $(DIR_CONFIG)/make/std-macros.py > $@ || $(RM_F) $@
+
+$(PROJ_DOCDIR):
+	@$(MKDIR) $(MKPARENTS) $(PROJ_DOCDIR)
+
+ifneq ($(BLD_TMPDIR), $(PROJ_TMPDIR))
+$(PROJ_TMPDIR):
+	@$(MKDIR) $(MKPARENTS) $(PROJ_TMPDIR)
+endif
+
+$(PROJ_TMPDIR)/.config: $(PROJ_TMPDIR)
+	@echo "TARGET_BUILT = $(TARGET_TAG)" > $@
+
+ifneq ($(BLD_INCDIR), $(PROJ_INCDIR))
+$(PROJ_INCDIR):
+	@$(MKDIR) $(MKPARENTS) $(PROJ_INCDIR)
+endif
+
+ifneq ($(BLD_LIBDIR), $(PROJ_LIBDIR))
+$(PROJ_LIBDIR):
+	@$(MKDIR) $(MKPARENTS) $(PROJ_LIBDIR)
+endif
+
+#---------------------------------------------------------------------------
+#
+# Cleaning up
+#
+
+tidy::
+	@-$(RM_RF) $(PROJ_TIDY)
+
+clean::
+	@-$(RM_RF) $(COMPILER_CLEAN) $(PROJ_CLEAN)
+
+distclean::
+	@-$(RM_RF) $(COMPILER_DISTCLEAN) $(PROJ_DISTCLEAN)
+
+wipe::
+	@-$(RM_RF) $(BLD_BINDIR) $(BLD_LIBDIR) $(BLD_INCDIR) $(BLD_TMPDIR)
+
+# Target to just build the TAGS file
+
+tags:: 
+	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $(PROJ_SRCS) \
+	$(EXPORT_HEADERS) $(EXPORT_PROJ_HEADERS)
+
+#---------------------------------------------------------------------------
+#
+# Backup
+#
+
+
+backup::
+	@-$(TAR) $(TAR_FLAGS) -f $(TAR_FILE) $(SAVE)
+
+
+#---------------------------------------------------------------------------
+#
+# Recurse into platform-specific subdirectory, if it exists
+#
+platform_dir:
+	@if [ -d $(STANDARD_TARGET) ]; then \
+            { cd $(STANDARD_TARGET); $(MM); }\
+	fi
+
+#---------------------------------------------------------------------------
+#
+# Recurse into a list of subdirectories
+#
+
+MM_STOP ?= 0
+ifeq ($(MM_STOP),1)
+MAYBE_EXIT := || exit 1
+else
+MAYBE_EXIT :=
+endif
+
+define MM_RECURSE
+@$(call LOGEMIT_NEWDIR_START,$(1))
+@cd $(1); $(MM) $(BLD_ACTION)$(MAYBE_EXIT); cd ..
+@$(call LOGEMIT_NEWDIR_END,$(1))
+
+endef
+
+FOUND_RECURSE_DIRS := $(wildcard $(RECURSE_DIRS))
+MISSING_RECURSE_DIRS := $(filter-out $(FOUND_RECURSE_DIRS),$(RECURSE_DIRS))
+
+recurse:
+ifneq ($(RECURSE_DIRS),)
+	@$(foreach dir,$(FOUND_RECURSE_DIRS),$(call MM_RECURSE,$(dir)))
+endif
+ifneq ($(MISSING_RECURSE_DIRS),)
+	@$(foreach dir,$(MISSING_RECURSE_DIRS),$(call LOGEMIT_MISSING_DIR,$(dir));)
+endif
+
+#---------------------------------------------------------------------------
+#
+# Recurse into package-specific subdirectories, if they exist
+#
+subpackages:
+ifneq ($(SUBPACKAGES),)
+	@for x in $(SUBPACKAGES); do { \
+            if [ -d $$x ]; then { \
+                (cd $$x; $(MM);); \
+            }; else { \
+                echo "Subpackage '$$x' not found"; \
+            }; fi; \
+        } done
+endif
+
+#---------------------------------------------------------------------------
+
+# version
+# $Id: std-targets.def,v 1.61 2013/04/08 18:04:21 mga Exp $
+
+#
+# End of file

@@ -1,0 +1,83 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: target.def,v $
+# Revision 1.5  2000/09/15 01:31:29  cummings
+# Switched C++ compiler for this target from the GNU compiler
+# to the native HP compiler aCC.  I am now able to build a
+# 64-bit version of vtf3d-el.exe on the HP V-class machine
+# using the three HP compilers.  Because I switched to using
+# 64-bit compilation, it will be non-trivial to switch this
+# target back to using the g++ compiler.  I plan to introduce
+# support in the build system for selecting 64-bit or 32-bit
+# compilation in the near future.  Anyway, using the native
+# compiler should result in better code performance.
+#
+# Revision 1.4  2000/09/14 18:55:21  cummings
+# Changed target C++ compiler designation from gnu-2.95 to gcc-2.95.2,
+# since gnu-2.95 compiler target has been removed.  Also added HPaCC
+# compiler target, but it is commented out for now, since this compiler
+# has troubles compiling cpt.
+#
+# Revision 1.3  2000/08/14 23:33:38  aivazis
+# Changed the default compilers
+#
+# Revision 1.2  2000/05/17 23:37:27  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.1  2000/03/02 01:38:05  rapa
+# added HPUX-11.1_hppa
+#
+# Revision 1.2  1999/06/20 16:32:05  aivazis
+# Added header
+#
+
+#
+# Identify this build target
+#
+    TARGET_ID = HPUX-11.1_hppa
+#
+# Pick an operating system and compilers
+#
+    TARGET_PLATFORM = HPUX-11.1
+#
+# The list of compilers to use
+#
+    TARGET_CC = HPC-2.0
+    TARGET_CXX = HPaCC-A.03
+#    TARGET_CXX = gcc-2.95.2
+    TARGET_F77 = HPF90-2.4
+#
+# Here are the build-specific flags
+#
+#
+# C
+#
+    TARGET_CC_FLAGS =
+    TARGET_CC_DEFINES =
+    TARGET_CC_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCC_FLAGS =
+    TARGET_LCC_LIBPATH =
+#
+# C++
+#
+    TARGET_CXX_FLAGS = 
+    TARGET_CXX_DEFINES =
+    TARGET_CXX_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LCXX_FLAGS =
+    TARGET_LCXX_LIBPATH =
+#
+# FORTRAN
+#
+    TARGET_F77_FLAGS =
+    TARGET_F77_DEFINES =
+    TARGET_F77_INCLUDES = $(DIR_TARGET)/$(TARGET_ID)
+    TARGET_LF77_FLAGS =
+    TARGET_LF77_LIBPATH =
+#
+# END OF FILE

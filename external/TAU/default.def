@@ -1,0 +1,47 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 2001 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# Prevent use of combined makedepends/compile commands.
+
+    NO_MAKEDEPENDS_COMBINED = true
+
+#
+# Read the platform-specific settings
+#
+
+    include TAU/$(TARGET_PLATFORM).def
+
+#
+# Set some Tau-specific macros
+#
+
+    PDTCXXPARSE = $(PDTDIR)/$(PDTARCHDIR)/bin/cxxparse
+    PDTCCPARSE = $(PDTDIR)/$(PDTARCHDIR)/bin/cparse
+    PDTF90PARSE = $(PDTDIR)/$(PDTARCHDIR)/bin/f90parse
+    PDTF95PARSE = $(PDTDIR)/$(PDTARCHDIR)/bin/f95parse
+    TAUINSTR = $(TAUROOTDIR)/$(CONFIG_ARCH)/bin/tau_instrumentor
+
+#
+# Adjust the target-specific and external variables to include TAU
+#
+
+    TARGET_CXX_FLAGS += $(TAU_INCLUDE) $(TAU_DEFS)
+    TARGET_CC_FLAGS += $(TAU_INCLUDE) $(TAU_DEFS)
+    ifeq (mpi, ${findstring mpi, $(BLD_USER_TARGET)})
+        EXTERNAL_LIBS += $(TAU_MPI_LIBS)
+    endif
+    EXTERNAL_LIBS += $(TAU_LIBS)
+
+#
+# Adjust clean-up macro to remove Tau-specific byproducts
+#
+
+    PROJ_CLEAN += *.inst.$(EXT_CXX)
+
+#
+# End of file

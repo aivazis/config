@@ -1,0 +1,69 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: c.def,v $
+# Revision 1.15  2000/07/12 18:39:56  rapa
+# changed optimization options to maximize both optimization level and accuracy
+#
+# Revision 1.14  2000/07/12 02:40:04  rapa
+# flags optimized for nirvana for the BIG RUN
+#
+# Revision 1.13  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.12  1999/07/01 23:54:18  aivazis
+# Added n32 and mips4 to the compiler command line
+#
+# Revision 1.11  1999/06/24 22:18:13  aivazis
+# Added headers
+#
+
+#
+# Definitions for MIPSPro 7.2 C compiler
+#
+    CC_ID = MIPSpro-7.2
+#
+# The name of the binary
+#
+    COMPILER_CC_NAME = cc
+#
+# Command line options
+#
+    COMPILER_CC_FLAGS = -64 #-n32 -mips4
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+    COMPILER_CC_SOFLAGS = -shared
+#
+    CC_OPT_FLAGS = -Ofast -OPT:roundoff=2     # Optimization flags
+    CC_DEBUG_FLAGS = -g     # Debug flags
+#
+# When using the C compiler to preprocess
+#
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+#
+# When using the C compiler to make dependencies
+#
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -M
+#
+# When using the C compiler to link
+#
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS =
+    COMPILER_LCC_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_CC_CLEAN = so_locations
+    COMPILER_CC_DISTCLEAN =
+#
+# Mixed language linking
+#
+    COMPILER_LCC_FORTRAN = -lftn
+#
+# End of file

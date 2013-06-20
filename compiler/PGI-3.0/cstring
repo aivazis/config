@@ -1,0 +1,63 @@
+// -*- C++ -*-
+//
+//--------------------------------------------------------------------------
+//
+//
+//                       Michael A.G. Aivazis
+//                California Institute of Technology
+//                   (C) 1999 All Rights Reserved
+//
+//--------------------------------------------------------------------------
+
+// $Log: cstring,v $
+// Revision 1.2  2001/06/12 19:40:00  cummings
+// Added include guards to these replacement header files.
+//
+// Revision 1.1  2001/04/20 01:43:16  cummings
+// Original source for remaining replacement files for new-style
+// C header files, copied from the MIPSpro-7.3 area and modified
+// for Linux86.
+//
+//
+
+#if !defined(__config_compiler_cstring__)
+#define __config_compiler_cstring__
+
+//
+// Deficiency file: route cstring to string.h
+// and import symbols into namespace std
+//
+
+#include <string.h>
+
+namespace std {
+  /* Standard C library string functions */
+  using ::size_t;
+  using ::memcpy;
+  using ::memmove;
+  using ::strcpy;
+  using ::strncpy;
+  using ::strcat;
+  using ::strncat;
+  using ::memccpy;
+  using ::memcmp;
+  using ::strcmp;
+  using ::strcoll;
+  using ::strncmp;
+  using ::strxfrm;
+  using ::memchr;
+  using ::strchr;
+  using ::strcspn;
+  using ::strpbrk;
+  using ::strrchr;
+  using ::strspn;
+  using ::strstr;
+  using ::strtok;
+  using ::memset;
+  using ::strerror;
+  using ::strlen;
+}
+
+#endif
+
+// End of file

@@ -1,0 +1,55 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: f77.def,v $
+# Revision 1.6  2000/05/17 23:37:26  aivazis
+# Major update in the way defines and include paths are handled
+#
+# Revision 1.5  1999/06/24 22:18:12  aivazis
+# Added headers
+#
+
+#
+# Definitions for DigitalFortran 5.0 FORTRAN compiler
+#
+#
+    F77_ID = DigitalFortran-5.0
+#
+# The name of the binary
+#
+    COMPILER_F77_NAME = f77
+#
+# Command line options
+#
+    COMPILER_F77_FLAGS =
+    COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
+    COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
+#
+    F77_OPT_FLAGS = -O2      # Optimization flags
+    F77_DEBUG_FLAGS = -g     # Debug flags
+#
+# When using the FORTRAN compiler to preprocess
+#
+    COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E	
+#
+# When using the FORTRAN compiler to make dependencies
+#
+    COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -M
+#
+# When using the FORTRAN compiler to link
+#
+    COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
+#
+# Clean up
+#
+    COMPILER_F77_CLEAN =
+    COMPILER_F77_DISTCLEAN =
+#
+# End of file

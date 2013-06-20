@@ -1,0 +1,21 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log: Win32-4.0.def,v $
+# Revision 1.1  1999/06/09 01:30:37  mga
+# Original source
+#
+
+#
+# Win32 settings for GLUT
+#
+
+GLUT_LIB = $(TOOLS_LIBDIR)/glut32.lib
+
+#
+# End of file

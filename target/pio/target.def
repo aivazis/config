@@ -1,0 +1,17 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+# $Log $
+
+#
+# Add parallel I/O switch
+#
+EXTERNAL_DEFINES += ENABLE_PARALLEL_IO
+
+#
+# END OF FILE

@@ -1,0 +1,77 @@
+#--------------------------------------------------------------------------
+#
+#                       Michael A.G. Aivazis
+#                California Institute of Technology
+#                   (C) 1999 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for IBM Visual Age C++ compiler
+#
+    CXX_ID = IBM-5.1.1
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = xlC_r
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = $(COMPILER_EXE_FORMAT) -qrtti=all
+    COMPILER_CXX_INSTFLAGS = 
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS =
+#
+    CXX_OPT_FLAGS = -O2 -qstrict_induction -Q -qmaxmem=8192
+    CXX_DEBUG_FLAGS = -g   # Debug flags
+    CXX_PROF_FLAGS = -pg   # Profiling flags
+#
+# Format flags
+#
+    COMPILER_EXE_32BIT = -q32
+    COMPILER_EXE_64BIT = -q64
+    COMPILER_LIB_32BIT = -X32
+    COMPILER_LIB_64BIT = -X64
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -P -M
+    CXX_MAKEDEPENDS_FILE = true
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -M
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+    EXT_DEPEND = u
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS = # -bmaxdata:0x70000000 -bmaxstack:0x10000000
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -G
+    COMPILER_LCXX_FORSHARED = -brtl
+#
+# Clean up
+#
+    COMPILER_CXX_CLEAN = so_locations
+    COMPILER_CXX_DISTCLEAN =
+#
+# Archive flag
+#
+    AR_CXX = ar $(COMPILER_LIB_FORMAT)
+#
+# This compiler does not support precompiler headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# End of file

@@ -1,0 +1,12 @@
+#
+# Default settings for C++ wrappers for HDF5 library
+#
+
+# C++ wrapper library for HDF5 (depends on hdf5.a)
+    EXTERNAL_LIBS += -lhdf5_cpp
+
+# include and library paths are the same as in public HDF5 definitions
+    include HDF5/default.def
+
+#
+# End of file

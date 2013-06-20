@@ -1,0 +1,64 @@
+#--------------------------------------------------------------------------
+#
+#                       VTF Development Team
+#                California Institute of Technology
+#                   (C) 2002 All Rights Reserved
+#
+#--------------------------------------------------------------------------
+
+#
+# Definitions for Intel C++ compiler
+#
+    CXX_ID = Intel7beta
+#
+# The name of the binary
+#
+    COMPILER_CXX_NAME = ecpc
+#
+# Command line options
+#
+    COMPILER_CXX_FLAGS = -Wall
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+    COMPILER_CXX_SOFLAGS = -fpic
+#
+# Optimization flags
+    CXX_OPT_FLAGS = -O2 -Ob1 -ansi_alias
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -p      # Profiling flags
+#
+# Recognize non-standard extensions
+#
+    COMPILER_CXX_ISCXX =
+#
+# When using the C++ compiler to preprocess
+#
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+#
+# When using the C++ compiler to make dependencies
+#
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+#
+# When using the C++ compiler to link:
+#
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_FORSHARED = -Xlinker -export-dynamic
+#
+# Mixed language support (FORTRAN linking with C++)
+#
+    COMPILER_LF77_CXX = -limf -lm -lirc -lcprts -lcxa -lunwind -lc
+#
+# This compiler does not support precompiled headers
+#
+    COMPILER_CXXPRECOMP_FLAGS = 
+#
+# End of file

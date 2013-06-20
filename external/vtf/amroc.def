@@ -1,0 +1,52 @@
+# -*- Makefile -*-
+#
+#-----------------------------------------------------------------------------
+#
+#                              VTF Development Team
+#                       California Institute of Technology
+#                          (C) 2003 All Rights Reserved
+#
+# <LicenseText>
+#
+#-----------------------------------------------------------------------------
+#
+
+# dagh support
+include vtf/dagh.def
+
+# use dagh defines
+AMROC_DEFINES = $(DAGH_DEFINES)
+
+# hds and amroc include directories
+AMROC_INCLUDES = $(AMROC_DIR)/hds $(AMROC_DIR)/amr
+
+# hds and amroc libraries
+AMROC_LIBNAMES = hds amroc
+
+AMROC_LIBRARIES = \
+${addprefix $(BLD_LIBDIR)/lib, ${addsuffix .$(EXT_LIB), $(AMROC_LIBNAMES)}}
+
+AMROC_LIBFLAGS = ${addprefix -l, $(AMROC_LIBNAMES)}
+
+# add shared objects and shared linker flags for shared target
+ifeq (shared, ${findstring shared, $(BLD_USER_TARGET)})
+
+PROJ_LCXX_FLAGS += $(COMPILER_LCXX_FORSHARED)
+
+ifneq (AIX, ${findstring AIX, $(PLATFORM_ID)})
+AMROC_SHLIBNAMES = hds-shared amroc-shared
+
+AMROC_LIBRARIES += \
+${addprefix $(BLD_LIBDIR)/lib, ${addsuffix .$(EXT_SO), $(AMROC_SHLIBNAMES)}}
+
+AMROC_LIBFLAGS += ${addprefix -l, $(AMROC_SHLIBNAMES)}
+endif
+
+endif
+
+
+# version
+# $Id: amroc.def,v 1.3 2004/01/24 04:14:13 cummings Exp $
+
+#
+# End of file

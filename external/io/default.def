@@ -1,0 +1,12 @@
+#
+# Default settings for I/O library
+#
+
+    EXTERNAL_LIBS += $(BLD_LIBDIR)/io.a
+    EXTERNAL_DEFINES += WITH_VTFIO
+
+# the default I/O format is HDF5
+    include HDF5/default.def
+
+#
+# End of file
