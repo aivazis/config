@@ -1,0 +1,15 @@
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2013 all rights reserved
+#
+
+
+# Adjust the external variables to include NUMPY
+
+   EXTERNAL_DEFINES += WITH_NUMPY
+
+   EXTERNAL_INCLUDES += $(NUMPY_INCDIR)
+   EXTERNAL_LIBS += ${addprefix -L, $(NUMPY_LIBDIR)} ${addprefix -l, $(NUMPY_LIBRARIES)}
+
+# end of file
