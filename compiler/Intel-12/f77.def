@@ -18,8 +18,8 @@
 #
 # Command line options
 #
-    COMPILER_F77_FLAGS = -cm -w95 -I.
-    COMPILER_F90_FLAGS = -cm
+    COMPILER_F77_FLAGS = -c 
+    COMPILER_F90_FLAGS = -c
     COMPILER_F77_INCLUDES =
     COMPILER_F77_DEFINES =
 # Position-independent code
