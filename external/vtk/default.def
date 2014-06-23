@@ -12,11 +12,19 @@
 
 VTK_INCLUDES = $(VTK_INCDIR)
 
-# the library set
-VTK_LIBS = -lvtkIO -lvtkFiltering -lvtkCommon -lvtksys
+# on 6.1
+ifeq (6.1, $(VTK_VERSION))
+    # the library set
+    VTK_LIBS = -lvtkCommonCore -lvtkIOXML -lvtkCommonDataModel
+endif
+# on 5.x
+ifeq (5., ${findstring 5., $(VTK_VERSION)})
+    # the library set
+    VTK_LIBS = -lvtkIO -lvtkFiltering -lvtkCommon -lvtksys
+endif
 
 # some installations have more libraries
-ifeq ($(shell test -f $(VTK_LIBDIR)/libvtkzlib.a ; echo $$?), 0)
+ifeq ($(shell ls -l $(VTK_LIBDIR)/libvtkzlib* ; echo $$?), 0)
     VTK_LIBS += -lvtkzlib
 endif
 
