@@ -1,0 +1,42 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# orthologue
+# (C) 1998-2014 all rights reserved
+#
+
+# adjust the temporary directory:
+# if we only have a rivial definition of the project tmp directory
+ifeq ($(strip $(PROJ_TMPDIR)), "")
+    # and a non-trivial project name
+    ifneq ($(strip $(PROJECT)), "")
+        # set the temporary directory
+        PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)
+        # check whether the package had a non-trivial value
+        ifneq ($(strip $(PACKAGE)), "")
+            # in which case, include it in building the name of the tmp directory
+            PROJ_TMPDIR += /$(PACKAGE)
+        # done
+        endif
+    # done
+    endif
+# done
+endif
+
+# adjust the clean target when building python modules:
+# if we are building a python mdoule
+ifdef EXPORT_PYTHON_MODULES
+    # and we have a list of python source files
+    ifneq ($(strip $(EXPORT_PYTHON_MODULES)), "")
+        # and we know the package name
+        ifneq ($(strip $(PACKAGE)), "")
+            # adjust the clean tartget list
+            PROJ_CLEAN += $(EXPORT_MODULEDIR)/$(PACKAGE)
+        # done
+        endif
+    # done
+    endif
+# done
+endif
+
+# end of file

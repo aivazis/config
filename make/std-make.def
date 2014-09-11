@@ -50,6 +50,9 @@ mm-dummy-target:
 # Read the developer preferences; this will scan the include and find the first match
 -include $(DEVELOPER).def
 
+# make any necessary adjustments
+include std-adjustments.def
+
 # Read the compiler configuration
 include $(TARGET_CC)/c.def
 include $(TARGET_CXX)/cpp.def
