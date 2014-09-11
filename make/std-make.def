@@ -44,11 +44,11 @@ include $(TARGET_PLATFORM)/platform.def
 mm-dummy-target:
 	@true
 
-# Get the project preferences
--include $(BLD_ROOT)/$(PROJECT).def
+# Get the project preferences; this will scan the include and find the first match
+-include $(PROJECT).def
 
-# Read the developer preferences
--include $(BLD_ROOT)/$(DEVELOPER).def
+# Read the developer preferences; this will scan the include and find the first match
+-include $(DEVELOPER).def
 
 # Read the compiler configuration
 include $(TARGET_CC)/c.def
