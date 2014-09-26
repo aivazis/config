@@ -20,11 +20,6 @@ endif
 # on 6.0
 ifeq (6.0, $(VTK_VERSION))
     # the library set
-    VTK_LIBS = -lvtkCommonCore-6.0 -lvtkIOXML-6.0 -lvtkCommonDataModel-6.0
-endif
-# on 6.1
-ifeq (6.1, $(VTK_VERSION))
-    # the library set
     VTK_LIBS = -lvtkCommonCore -lvtkIOXML -lvtkCommonDataModel
 endif
 # on 5.x
