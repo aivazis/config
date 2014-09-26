@@ -8,7 +8,7 @@
 
 # Use PETSc common makefile variables
 # User should define PETSC_DIR and PETSC_ARCH in their environment
-include $(PETSC_DIR)/bmake/common/variables
+include $(PETSC_DIR)/conf/variables
 
 #
 # Adjust the external variables to include PETSc
@@ -16,9 +16,9 @@ include $(PETSC_DIR)/bmake/common/variables
 
     EXTERNAL_DEFINES += WITH_PETSC
     EXTERNAL_DEFINES += PETSC_USE_EXTERN_CXX
-    EXTERNAL_INCLUDES += ${subst -I,,$(PETSC_INCLUDE)}
-    EXTERNAL_LIBPATH += -L$(PETSC_LIB_DIR)
-    EXTERNAL_LIBS += $(PETSC_LIB_BASIC) $(PETSC_FORTRAN_LIB_BASIC) $(PETSC_EXTERNAL_LIB_BASIC)
+    EXTERNAL_INCLUDES += ${subst -I,,$(PETSC_CC_INCLUDES)}
+    EXTERNAL_LIBPATH += $(PETSC_LIB_DIR)
+    EXTERNAL_LIBS += $(PETSC_LIB_BASIC)  $(PETSC_EXTERNAL_LIB_BASIC)
 
 #
 # End of file
