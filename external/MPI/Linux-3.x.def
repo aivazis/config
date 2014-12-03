@@ -11,14 +11,14 @@
 #
 
 MPI_INCLUDES = $(MPI_INCDIR)
-MPI_CPPDEFS = 
+MPI_CPPDEFS =
 MPI_LIBPATH = $(MPI_LIBDIR)
 MPI_LIBS = -lmpich
 MPI_F90LIBS = -lmpichf90
 
 # Opteron platform (shc)
 
-ifeq (Linux-3.x_x86_64, $(TARGET_ID))
+ifeq (x86, ${findstring x86, $(TARGET_ID)})
     ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
         ifeq (mpich-shmem, ${findstring mpich-shmem, $(MPI_VERSION)})
             MPI_INCLUDES += $(MPI_INCDIR)/mpi2c++
@@ -43,17 +43,17 @@ ifeq (Linux-3.x_x86_64, $(TARGET_ID))
         MPI_CPPDEFS = OMPI_WANT_CXX_BINDINGS
         MPI_LIBS = -lmpi -lopen-pal -lopen-rte -lmpi_cxx
         MPI_CPPLIBS = -lmpi_cxx
-        MPI_F90LIBS = 
+        MPI_F90LIBS =
     endif
     ifeq (lampi, ${findstring lampi, $(MPI_VERSION)})
         MPI_LIBS = -lmpi
-        MPI_F90LIBS = 
+        MPI_F90LIBS =
     endif
     ifeq (hpmpi, ${findstring hpmpi, $(MPI_VERSION)})
         MPI_LIBPATH = -L$(MPI_LIBDIR)/linux_amd64
         MPI_LIBS = -lhpmpio -lhpmpi
         MPI_CPPLIBS = -lmpiCC
-        MPI_F90LIBS = 
+        MPI_F90LIBS =
     endif
     ifeq (gm, ${findstring gm, $(MPI_VERSION)})
         MPI_LIBPATH += -L/usr/lib64
