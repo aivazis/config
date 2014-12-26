@@ -57,6 +57,8 @@
     LN = ln
     LN_S = ln -s
     LNFLAGS = -sf
+    RSYNC = rsync
+    RSYNCFLAGS = -ruavz --progress --stats
 
 # File attributes
 
@@ -73,7 +75,7 @@
 # TAGS
 
     TAGS = true
-    TAGS_FLAGS = 
+    TAGS_FLAGS =
     TAGS_DIR = $(BLD_ROOT)
     TAGS_FILE = $(TAGS_DIR)/TAGS
 
