@@ -30,6 +30,9 @@ $(EXPORT_MODULEDIR):
 $(EXPORT_ETCDIR):
 	@$(MKDIR) $(MKPARENTS) $(EXPORT_ETCDIR)
 
+$(EXPORT_WEBDIR):
+	@$(MKDIR) $(MKPARENTS) $(EXPORT_WEBDIR)
+
 #---------------------------------------------------------------------------
 #
 # Export targets make stuff available for other local packages
@@ -131,6 +134,14 @@ release-binaries:: $(PROJ_BINDIR) $(EXPORT_BINDIR)
 	@for x in $(EXPORT_BINS); do { \
             if [ -f $$x ]; then { \
                 $(CP_F) $$x $(EXPORT_BINDIR); \
+            } fi; \
+        } done
+
+# Copy web files to export web dir
+export-web:: $(EXPORT_WEBDIR)
+	for x in $(EXPORT_WEB); do { \
+            if [ -e $$x ]; then { \
+                $(CP_FR) $$x $(EXPORT_WEBDIR); \
             } fi; \
         } done
 

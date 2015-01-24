@@ -43,6 +43,7 @@ space:= $(empty) $(empty)
     EXPORT_MODULEDIR = $(EXPORT_ROOT)/packages/$(PROJECT)
     EXPORT_ETCDIR = $(EXPORT_ROOT)/defaults
     EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
+    EXPORT_WEBDIR = $(EXPORT_ROOT)/web/$(PROJECT)
 
 # Some reasonable default values for PYTHON variables (user can override)
 -include $(BLD_TMPDIR)/.std-macros.def
@@ -69,7 +70,7 @@ endif
     COMPILER_CLEAN = $(COMPILER_CC_CLEAN) $(COMPILER_CXX_CLEAN) \
 		   $(COMPILER_F77_CLEAN)
     COMPILER_DISTCLEAN = $(COMPILER_CC_DISTCLEAN) $(COMPILER_CXX_DISTCLEAN) \
-		       $(COMPILER_F77_DISTCLEAN) 
+		       $(COMPILER_F77_DISTCLEAN)
 
 # Compiler falgs
 
@@ -122,11 +123,11 @@ endif
 
 # these macros may be redefined locally
 
-    SUBPACKAGES = 
-    RECURSE_DIRS = 
-    EXPORT_HEADERS = 
-    EXPORT_PKG_HEADERS = 
-    EXPORT_PROJ_HEADERS = 
+    SUBPACKAGES =
+    RECURSE_DIRS =
+    EXPORT_HEADERS =
+    EXPORT_PKG_HEADERS =
+    EXPORT_PROJ_HEADERS =
 
 # version
 # $Id: std-macros.def,v 1.70 2013/04/17 01:03:32 mga Exp $

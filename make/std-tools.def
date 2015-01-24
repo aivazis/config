@@ -45,6 +45,7 @@
     CP = cp
     CP_F = cp -f
     CP_R = cp -r
+    CP_FR = cp -fr
     MV = mv
     MV_F = mv -f
     MKDIR = mkdir
