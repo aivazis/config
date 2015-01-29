@@ -41,7 +41,7 @@ space:= $(empty) $(empty)
     EXPORT_LIBDIR = $(EXPORT_ROOT)/lib
     EXPORT_BINDIR = $(EXPORT_ROOT)/bin
     EXPORT_MODULEDIR = $(EXPORT_ROOT)/packages/$(PROJECT)
-    EXPORT_ETCDIR = $(EXPORT_ROOT)/defaults
+    EXPORT_ETCDIR = $(EXPORT_ROOT)/$(PACKAGE)
     EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
     EXPORT_WEBDIR = $(EXPORT_ROOT)/web/$(PROJECT)
 
