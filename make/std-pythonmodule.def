@@ -33,6 +33,12 @@ PROJ_ALL_LIBRARIES = \
     $(PROJ_LIBRARIES) \
     $(EXTERNAL_LIBS)
 
+# the pile of things to clean
+PROJ_CLEAN += \
+    $(PROJ_CXX_LIB) \
+    $(PROJ_DLL) \
+    $(MODULE_DLL) \
+    $(EXPORT_BINDIR)/$(MODULE).abi3.$(EXT_SO)
 
 all: product_dirs $(PROJ_EXTERNAL_PACKAGES) proj-cxx-lib bindings export
 
