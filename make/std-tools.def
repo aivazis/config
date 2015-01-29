@@ -63,6 +63,7 @@
     RSYNCFLAGS = -ruavz --progress --stats
     SSH = ssh
     SCP = scp
+    SCP_R = $(SCP) -r
 
 # File attributes
 
