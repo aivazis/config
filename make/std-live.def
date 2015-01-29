@@ -38,13 +38,13 @@ live-bin:
 live-etc:
 	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
-	$(SCP) $(EXPORT_ETC) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+	$(SCP_R) $(EXPORT_ETC) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
 
 # web site management
 live-web:
 	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
-	$(SCP) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
 
 # place the apache configuration files in the right spot
 LIVE_APACHE_CONF = /etc/apache2/sites-available/$(PROJECT).conf

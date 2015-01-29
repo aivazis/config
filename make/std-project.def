@@ -32,6 +32,8 @@
     PROJ_LIVE_USERURL = $(PROJ_LIVE_USER)@$(PROJ_LIVE_HOST)
     PROJ_LIVE_ADMIN = root
     PROJ_LIVE_ADMINURL = $(PROJ_LIVE_ADMIN)@$(PROJ_LIVE_HOST)
+# apache
+    PROJ_LIVE_APACHE_USER = www-data
 # the identity with login provileges
     PROJ_LIVE_IDENTITY = $(HOME)/.ssh/$(PROJECT).rsa
 # the layout of live installations: the remote root directory
