@@ -1,0 +1,71 @@
+# -*- Makefile -*-
+#
+# michael aivazis
+# orthologue
+# (c) 1998-2015 all rights reserved
+#
+
+# support for publishing projects to a live host
+
+# libraries and their headers
+live-headers:
+	$(SCP) $(EXPORTED_HEADERS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_INCDIR)
+
+live-package-headers:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_INCDIR)/$(PACKAGE)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_INCDIR)/$(PACKAGE)'
+	$(SCP) $(EXPORTED_PKG_HEADERS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_INCDIR)/$(PACKAGE)
+
+live-libraries:
+	$(SCP) $(EXPORT_LIBS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_LIBDIR)
+
+# python packages
+live-python-modules:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PKGDIR)/$(PROJECT)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PKGDIR)/$(PROJECT)'
+	$(SCP) $(EXPORT_MODULEDIR)/*.py[cod] $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PKGDIR)/$(PROJECT)
+
+live-package-python-modules:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PKGDIR)/$(PROJECT)/$(PACKAGE)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PKGDIR)/$(PROJECT)/$(PACKAGE)'
+	$(SCP) $(EXPORT_MODULEDIR)/$(PACKAGE)/*.py[cod] $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PKGDIR)/$(PROJECT)/$(PACKAGE)
+
+# installation of binaries
+live-bin:
+	$(SCP) $(EXPORT_BINS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+
+# installation of extra files
+live-etc:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
+	$(SCP) $(EXPORT_ETC) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+
+# web site management
+live-web:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
+	$(SCP) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+
+# place the apache configuration files in the right spot
+LIVE_APACHE_CONF = /etc/apache2/sites-available/$(PROJECT).conf
+LIVE_SITE_CONF = $(PROJ_LIVE_PCKGDIR)/$(PROJ_LIVE_APACHE_CONF)
+
+live-apache-conf:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
+	$(SCP) $(PROJ_LIVE_APACHE_CONF) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+
+live-apache-site-enable:
+	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_F) $(LIVE_APACHE_CONF)'
+	$(SSH) $(PROJ_LIVE_ADMINURL) '$(LN_S) $(LIVE_SITE_CONF) $(LIVE_APACHE_CONF)'
+	$(SSH) $(PROJ_LIVE_ADMINURL) 'a2ensite $(PROJECT)'
+
+live-apache-restart:
+	$(SSH) $(PROJ_LIVE_ADMINURL) 'service apache2 restart'
+
+live-apache: live-apache-conf live-apache-site-enable live-apache-restart
+
+# create the overall directory layout on the remore host
+live-dirs:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DIRS)'
+
+# end of file

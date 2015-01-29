@@ -26,6 +26,42 @@
     PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)
     PROJ_INCDIR = $(BLD_INCDIR)/$(PROJECT)
 
+# support for deployment
+    PROJ_LIVE_HOST = localhost
+    PROJ_LIVE_USER = $(USER)
+    PROJ_LIVE_USERURL = $(PROJ_LIVE_USER)@$(PROJ_LIVE_HOST)
+    PROJ_LIVE_ADMIN = root
+    PROJ_LIVE_ADMINURL = $(PROJ_LIVE_ADMIN)@$(PROJ_LIVE_HOST)
+# the identity with login provileges
+    PROJ_LIVE_IDENTITY = $(HOME)/.ssh/$(PROJECT).rsa
+# the layout of live installations: the remote root directory
+    PROJ_LIVE_DIR = /home/projects/$(PROJECT)
+    PROJ_LIVE_HOMEDIR = $(PROJ_LIVE_DIR)/live
+    PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_HOMEDIR)/$(PACKAGE)
+# and its subdirectories
+    PROJ_LIVE_BINDIR = $(PROJ_LIVE_HOMEDIR)/bin
+    PROJ_LIVE_DEFDIR = $(PROJ_LIVE_HOMEDIR)/defaults
+    PROJ_LIVE_ETCDIR = $(PROJ_LIVE_HOMEDIR)/etc
+    PROJ_LIVE_INCDIR = $(PROJ_LIVE_HOMEDIR)/include/$(PROJECT)
+    PROJ_LIVE_LIBDIR = $(PROJ_LIVE_HOMEDIR)/lib
+    PROJ_LIVE_PKGDIR = $(PROJ_LIVE_HOMEDIR)/packages
+    PROJ_LIVE_TPLDIR = $(PROJ_LIVE_HOMEDIR)/templates
+    PROJ_LIVE_VARDIR = $(PROJ_LIVE_HOMEDIR)/var
+    PROJ_LIVE_WEBDIR = $(PROJ_LIVE_HOMEDIR)/web
+# pile them together
+    PROJ_LIVE_DIRS = \
+        $(PROJ_LIVE_BINDIR) \
+        $(PROJ_LIVE_DEFDIR) \
+        $(PROJ_LIVE_ETCDIR) \
+        $(PROJ_LIVE_INCDIR) \
+        $(PROJ_LIVE_LIBDIR) \
+        $(PROJ_LIVE_PKGDIR) \
+        $(PROJ_LIVE_TPLDIR) \
+        $(PROJ_LIVE_VARDIR) \
+        $(PROJ_LIVE_WEBDIR) \
+# the name of the apachec configuration file
+    PROJ_LIVE_APACHE_CONF = $(PROJECT).conf
+
 # The list of objects in the project library
 
     PROJ_OBJS = ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_OBJ}, ${basename ${PROJ_SRCS}}}}
@@ -36,9 +72,9 @@
     PROJ_DEPENDENCIES += ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_DEPEND}, ${basename ${PROJ_SRCS}}}}
 
 # the list of additional dependecies that various targets for this project mighthave
-    PROJ_OTHER_DEPENDENCIES = 
+    PROJ_OTHER_DEPENDENCIES =
 
-# Backwards compatibility 
+# Backwards compatibility
 
     PROJ_DEPENDS = empty.def
 
@@ -83,12 +119,12 @@
 
     PROJ_TIDY = core *~ .*~ *.bak *.pyc __pycache__
     PROJ_CLEAN = $(PROJ_LIB) $(PROJ_CXX_LIB) $(PROJ_OBJS) $(PROJ_DEPENDENCIES) $(PROJ_TIDY)
-    PROJ_DISTCLEAN = $(PROJ_DEPENDENCIES) $(PROJ_CLEAN) $(PROJ_TMPDIR) $(PROJ_INCDIR) 
+    PROJ_DISTCLEAN = $(PROJ_DEPENDENCIES) $(PROJ_CLEAN) $(PROJ_TMPDIR) $(PROJ_INCDIR)
 
     PROJ_TAU_GROUP = 0
     PROJ_TAU_SELECT = $(BLD_CONFIG)/external/TAU/select
 
-    PROJ_EXTERNAL_PACKAGES = 
+    PROJ_EXTERNAL_PACKAGES =
 
 #
 # End of file

@@ -1,12 +1,9 @@
 # -*- Makefile -*-
 #
-#--------------------------------------------------------------------------
+# michael aivazis
+# orthologue
+# (c) 1998-2015 all rights reserved
 #
-#                       VTF Development Team
-#                California Institute of Technology
-#                   (C) 2003 All Rights Reserved
-#
-#--------------------------------------------------------------------------
 
 #
 # Support for exporting header files and products
@@ -41,8 +38,6 @@ $(EXPORT_WEBDIR):
 #
 
 export:: $(EXPORT_ROOT)
-
-release:: $(EXPORT_ROOT)
 
 # Add proper directory prefix to export header filenames
 
@@ -94,17 +89,6 @@ export-package-dir::
 export-project-headers::
 	EXPORT_PROJ_HEADERS=$(EXPORT_PROJ_HEADERS) $(MM) export-project-headers
 
-# Place headers in project-specific export include dir
-release-headers:: $(EXPORT_INCDIR) $(EXPORTED_HEADERS)
-	@-$(CP_F) $(EXPORTED_HEADERS) $(EXPORT_INCDIR)
-
-# Place headers in package-specific subdir of export include dir
-release-package-headers:: release-package-dir $(EXPORTED_PKG_HEADERS)
-	-$(CP_F) $(EXPORTED_PKG_HEADERS) $(EXPORT_INCDIR)/$(PACKAGE)
-
-release-package-dir:
-	-$(MKDIR) $(MKPARENTS) $(EXPORT_INCDIR)/$(PACKAGE)
-
 # Copy libraries to export lib dir
 export-libraries:: $(EXPORT_LIBDIR)
 	@for x in $(EXPORT_LIBS); do { \
@@ -113,24 +97,8 @@ export-libraries:: $(EXPORT_LIBDIR)
             } fi; \
         } done
 
-# Copy libraries from build-specific lib dir to export libdir
-release-libraries:: $(EXPORT_LIBDIR)
-	@for x in $(EXPORT_LIBS); do { \
-            if [ -f $$x ]; then { \
-                $(CP_F) $$x $(EXPORT_LIBDIR); \
-            } fi; \
-        } done
-
 # Copy binaries to export bin dir
 export-binaries:: $(EXPORT_BINDIR)
-	@for x in $(EXPORT_BINS); do { \
-            if [ -f $$x ]; then { \
-                $(CP_F) $$x $(EXPORT_BINDIR); \
-            } fi; \
-        } done
-
-# Copy binaries from build-specific bin dir to export bindir
-release-binaries:: $(PROJ_BINDIR) $(EXPORT_BINDIR)
 	@for x in $(EXPORT_BINS); do { \
             if [ -f $$x ]; then { \
                 $(CP_F) $$x $(EXPORT_BINDIR); \
@@ -148,20 +116,8 @@ export-web:: $(EXPORT_WEBDIR)
 # target to force the creation of the etc directory for $PROJECTs that need it
 export-etcdir: $(EXPORT_ETCDIR)
 
-release-etcdir: $(EXPORT_ETCDIR)
-
 # Compile python scripts and move all modules to project-specific export dir
 export-python-modules:: $(EXPORT_MODULEDIR)
-	@$(PYTHON) $(PYTHON_FLAGS) -m compileall -l `pwd` $(PYTHON_PYCFLAGS)
-	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py
-	@for x in $(EXPORT_PYTHON_MODULES); do { \
-            if [ -f $$x ]; then { \
-                $(MV_F) $$x[cod] $(EXPORT_MODULEDIR); \
-                $(CHMOD_WRITE) $(EXPORT_MODULEDIR)/$$x[cod]; \
-            } fi; \
-        } done
-
-release-python-modules:: $(EXPORT_MODULEDIR)
 	@$(PYTHON) $(PYTHON_FLAGS) -m compileall -l `pwd` $(PYTHON_PYCFLAGS)
 	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py
 	@for x in $(EXPORT_PYTHON_MODULES); do { \
@@ -183,40 +139,10 @@ export-package-python-modules:: export-package-moduledir
             } fi; \
         } done
 
-release-package-python-modules:: release-package-moduledir
-	@$(PYTHON) $(PYTHON_FLAGS) -m compileall -l `pwd` $(PYTHON_PYCFLAGS)
-	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py
-	@for x in $(EXPORT_PYTHON_MODULES); do { \
-            if [ -f $$x ]; then { \
-                $(MV_F) $$x[cod] $(EXPORT_MODULEDIR)/$(PACKAGE); \
-                $(CHMOD_WRITE) $(EXPORT_MODULEDIR)/$(PACKAGE)/$$x[cod]; \
-            } fi; \
-        } done
-
 export-etc:: export-etcdir
 	@-$(CP_F) $(EXPORT_ETC) $(EXPORT_ETCDIR)
-
-export-package-etc:: export-package-etcdir
-	@-$(CP_F) $(EXPORT_ETC) $(EXPORT_ETCDIR)/$(PACKAGE)
 
 export-package-moduledir::
 	@-$(MKDIR) $(MKPARENTS) $(EXPORT_MODULEDIR)/$(PACKAGE)
 
-export-package-etcdir::
-	@-$(MKDIR) $(MKPARENTS) $(EXPORT_ETCDIR)/$(PACKAGE)
-
-release-etc:: release-package-etcdir
-	@-$(CP_F) $(EXPORT_ETC) $(EXPORT_ETCDIR)
-
-release-package-moduledir::
-	@-$(MKDIR) $(MKPARENTS) $(EXPORT_MODULEDIR)/$(PACKAGE)
-
-release-package-etcdir::
-	@-$(MKDIR) $(MKPARENTS) $(EXPORT_ETCDIR)/$(PACKAGE)
-
-
-# version
-# $Id: std-export.def,v 1.27 2013/05/25 23:42:21 mga Exp $
-
-#
-# End of file
+# end of file

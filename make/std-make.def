@@ -1,14 +1,12 @@
 # -*- Makefile -*-
 #
-#--------------------------------------------------------------------------
-#                       Michael A.G. Aivazis
-#                California Institute of Technology
-#                   (C) 1999 All Rights Reserved
+# michael a.g. aivazis
+# orthologue
+# (C) 1998-2015 all rights reserved
 #
-#--------------------------------------------------------------------------
 
 #
-# The top-level makefile 
+# The top-level makefile
 #
 # Requires:
 #
@@ -60,7 +58,7 @@ include $(TARGET_F77)/f77.def
 include $(TARGET_CUCC)/cu.def
 
 # Restrict make's implicit rules to these extensions
-.SUFFIXES : 
+.SUFFIXES :
 #.SUFFIXES : .$(EXT_C) .$(EXT_CU) .$(EXT_CXX) .$(EXT_F77) .$(EXT_OBJ) .$(EXT_LIB) .$(EXT_SO) .$(EXT_YACC) .$(EXT_DEPEND)
 
 # Get the implicit rules
@@ -76,6 +74,7 @@ include std-docs.def
 # Get the standard targets
 include std-targets.def
 include std-export.def
+include std-live.def
 include std-test.def
 
 # Initialize the error reporting mechanism
@@ -84,8 +83,4 @@ include std-markers.def
 # Get the target-overrides definition
 -include ${addsuffix /override.def, $(TARGETS)}
 
-# version
-# $Id: std-make.def,v 1.28 2013/03/08 00:15:24 mga Exp $
-
-#
-# END OF FILE
+# end of file

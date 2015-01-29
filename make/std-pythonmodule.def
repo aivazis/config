@@ -48,6 +48,8 @@ EXPORT_BINDIR = $(EXPORT_MODULEDIR)/$(PACKAGE)
 EXPORT_BINS = $(MODULE_DLL)
 export:: export-binaries
 
+PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_PKGDIR)/$(PROJECT)/$(PACKAGE)
+live: live-bin
 
 #--------------------------------------------------------------------------
 #

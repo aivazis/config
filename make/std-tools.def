@@ -50,6 +50,7 @@
     MV_F = mv -f
     MKDIR = mkdir
     MKPARENTS = -p
+    MKDIRP = $(MKDIR) $(MKPARENTS)
     RM = rm
     RM_F = rm -f
     RM_R = rm -r
@@ -60,9 +61,15 @@
     LNFLAGS = -sf
     RSYNC = rsync
     RSYNCFLAGS = -ruavz --progress --stats
+    SSH = ssh
+    SCP = scp
 
 # File attributes
 
+    CHOWN = chown
+    CHOWN_R = $(CHOWN) -R
+    CHGRP = chgrp
+    CHGRP_R = $(CHGRP) -R
     CHMOD = chmod
     CHMOD_R = $(CHMOD) -R
     CHMOD_WRITE = $(CHMOD) +w
