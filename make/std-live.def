@@ -34,8 +34,8 @@ live-package-python-modules:
 live-bin:
 	$(SCP) $(EXPORT_BINS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
 
-# installation of extra files
-live-etc:
+# installation of extra files and application runtime directories
+live-etc live-var:
 	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
 	$(SCP_R) $(EXPORT_ETC) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
