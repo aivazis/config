@@ -37,19 +37,19 @@
 # the identity with login provileges
     PROJ_LIVE_IDENTITY = $(HOME)/.ssh/$(PROJECT).rsa
 # the layout of live installations: the remote root directory
-    PROJ_LIVE_DIR = /home/projects/$(PROJECT)
-    PROJ_LIVE_HOMEDIR = $(PROJ_LIVE_DIR)/live
-    PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_HOMEDIR)/$(PACKAGE)
+    PROJ_LIVE_HOME = /home/projects/$(PROJECT)
+    PROJ_LIVE_ROOT = $(PROJ_LIVE_HOME)/live
+    PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_ROOT)/$(PACKAGE)
 # and its subdirectories
-    PROJ_LIVE_BINDIR = $(PROJ_LIVE_HOMEDIR)/bin
-    PROJ_LIVE_DEFDIR = $(PROJ_LIVE_HOMEDIR)/defaults
-    PROJ_LIVE_ETCDIR = $(PROJ_LIVE_HOMEDIR)/etc
-    PROJ_LIVE_INCDIR = $(PROJ_LIVE_HOMEDIR)/include/$(PROJECT)
-    PROJ_LIVE_LIBDIR = $(PROJ_LIVE_HOMEDIR)/lib
-    PROJ_LIVE_PKGDIR = $(PROJ_LIVE_HOMEDIR)/packages
-    PROJ_LIVE_TPLDIR = $(PROJ_LIVE_HOMEDIR)/templates
-    PROJ_LIVE_VARDIR = $(PROJ_LIVE_HOMEDIR)/var
-    PROJ_LIVE_WEBDIR = $(PROJ_LIVE_HOMEDIR)/web
+    PROJ_LIVE_BINDIR = $(PROJ_LIVE_ROOT)/bin
+    PROJ_LIVE_DEFDIR = $(PROJ_LIVE_ROOT)/defaults
+    PROJ_LIVE_ETCDIR = $(PROJ_LIVE_ROOT)/etc
+    PROJ_LIVE_INCDIR = $(PROJ_LIVE_ROOT)/include/$(PROJECT)
+    PROJ_LIVE_LIBDIR = $(PROJ_LIVE_ROOT)/lib
+    PROJ_LIVE_PKGDIR = $(PROJ_LIVE_ROOT)/packages
+    PROJ_LIVE_TPLDIR = $(PROJ_LIVE_ROOT)/templates
+    PROJ_LIVE_VARDIR = $(PROJ_LIVE_ROOT)/var
+    PROJ_LIVE_WEBDIR = $(PROJ_LIVE_ROOT)/web
 # pile them together
     PROJ_LIVE_DIRS = \
         $(PROJ_LIVE_BINDIR) \
