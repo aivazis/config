@@ -43,7 +43,7 @@ space:= $(empty) $(empty)
     EXPORT_MODULEDIR = $(EXPORT_ROOT)/packages/$(PROJECT)
     EXPORT_ETCDIR = $(EXPORT_ROOT)/$(PACKAGE)
     EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
-    EXPORT_WEBDIR = $(EXPORT_ROOT)/web/$(PROJECT)
+    EXPORT_WEBDIR = $(EXPORT_ROOT)/web/www/$(PROJECT)
 
 # Some reasonable default values for PYTHON variables (user can override)
 -include $(BLD_TMPDIR)/.std-macros.def

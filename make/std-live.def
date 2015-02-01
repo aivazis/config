@@ -42,9 +42,9 @@ live-etc live-var:
 
 # web site management
 live-web:
-	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)'
-	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
-	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
+	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)/$(PROJECT)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)/$(PROJECT)'
+	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)/$(PROJECT)
 
 # place the apache configuration files in the right spot
 LIVE_APACHE_CONF = /etc/apache2/sites-available/$(PROJECT).conf
@@ -67,5 +67,8 @@ live-apache: live-apache-conf live-apache-site-enable live-apache-restart
 # create the overall directory layout on the remore host
 live-dirs:
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DIRS)'
+
+live-vardir:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_VARDIR)'
 
 # end of file
