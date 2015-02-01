@@ -61,7 +61,7 @@
         $(PROJ_LIVE_TPLDIR) \
         $(PROJ_LIVE_VARDIR) \
         $(PROJ_LIVE_WEBDIR) \
-# the name of the apachec configuration file
+# the name of the apache configuration file
     PROJ_LIVE_APACHE_CONF = $(PROJECT).conf
 
 # The list of objects in the project library
