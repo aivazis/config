@@ -41,8 +41,12 @@ live-etc live-var:
 	$(SCP_R) $(EXPORT_ETC) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
 
 # web site management
+
+# N.B.: live-web removes the target direcories on the remote machine by loggin in as root; the
+# reason for that is that apache builds a cache as {www-data} and uses its user's umask, making
+# the target folder impossible to delete as the remote project user
 live-web:
-	$(SSH) $(PROJ_LIVE_USERURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)/$(PROJECT)'
+	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_PCKGDIR)/$(PROJECT)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)/$(PROJECT)'
 	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)/$(PROJECT)
 

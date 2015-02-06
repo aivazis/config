@@ -73,7 +73,7 @@
     PROJ_DEPENDENCIES = empty.def
     PROJ_DEPENDENCIES += ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_DEPEND}, ${basename ${PROJ_SRCS}}}}
 
-# the list of additional dependecies that various targets for this project mighthave
+# the list of additional dependecies that various targets for this project might have
     PROJ_OTHER_DEPENDENCIES =
 
 # Backwards compatibility

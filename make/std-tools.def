@@ -40,12 +40,16 @@
     LD_OUTPUT_FLAG = -o
     LD_SHARED_FLAG = -shared
 
-# cp, mkdir, mv
+# shell stuff: cp, mkdir, mv, etc
 
+    CD = cd
     CP = cp
     CP_F = cp -f
     CP_R = cp -r
     CP_FR = cp -fr
+    LN = ln
+    LN_S = ln -s
+    LNFLAGS = -sf
     MV = mv
     MV_F = mv -f
     MKDIR = mkdir
@@ -56,9 +60,6 @@
     RM_R = rm -r
     RM_RF = rm -rf
     RMFLAGS = -rf
-    LN = ln
-    LN_S = ln -s
-    LNFLAGS = -sf
     RSYNC = rsync
     RSYNCFLAGS = -ruavz --progress --stats
     SSH = ssh
