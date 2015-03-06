@@ -21,13 +21,13 @@ def complain(msg):
     # if there is journal
     try:
         # use it
-        import journal 
+        import journal
         journal.error('mm').log(msg)
     # otherwise
     except ImportError:
         # print the error message
         print('mm:', msg, file=sys.stderr)
-    # return 
+    # return
     return
 
 # uniq
@@ -62,7 +62,7 @@ class Shell:
         result = None
         # make a pipe
         with subprocess.Popen(**settings) as pipe:
-            # grab the output 
+            # grab the output
             result = pipe.stdout.read().strip()
         # otherwise, return a blank string
         return result
@@ -92,13 +92,15 @@ class Options(dict):
 
     # public data
     args = None
-    options = { 
+    options = {
         # command that affect the build
         'bldroot', 'prefix', 'target', 'makefile',
         # display
         'dry', 'env', 'show', 'quiet',
         # utilities for setting up the user environment
         'paths',
+        # installation control
+        'host', 'home', 'root',
         # internal and not yet implemented
         'recursive', 'xml'
         }
@@ -146,7 +148,7 @@ class Options(dict):
         self.args = tuple(args)
         # all done
         return
-    
+
 
 class Make:
     """The build tool"""
@@ -157,7 +159,7 @@ class Make:
     @property
     def command(self):
         return " ".join(self.argv)
-        
+
 
     # meta methods
     def __init__(self):
@@ -189,7 +191,7 @@ class User:
 class Host:
     """Host information"""
     system, name, release, version, architecture, processor = platform.uname()
-    
+
 
 class Project:
     """Project information"""
@@ -219,7 +221,7 @@ class Project:
     def __init__(self):
         # self.name = Shell.str(
             # settings={
-                # 'args': ['bzr', 'nick'], 
+                # 'args': ['bzr', 'nick'],
                 # 'executable': 'bzr',
                 # 'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE,
                 # 'universal_newlines': True,
@@ -236,7 +238,7 @@ class Project:
                 # use it as the project name
                 self.name = Shell.str(
                     settings={
-                        'args': ['bzr', 'nick'], 
+                        'args': ['bzr', 'nick'],
                         'executable': 'bzr',
                         'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE,
                         'universal_newlines': True,
@@ -251,7 +253,7 @@ class Project:
         else:
             # use the root directory name
             _, self.name = os.path.split(self.root)
-            
+
         # all done
         return
 
@@ -311,13 +313,29 @@ class Build:
             targets = os.environ.get('TARGET')
         # the setting should be a comma separated list of options
         return (targets or cls.defaultTarget).split(',')
-    
+
 
     def __init__(self, user, host, options):
         self.machine = self.getStandardTarget(host)
         self.user = self.getUserTargets(options)
         return
-        
+
+
+class Installer:
+    """Information about the installation target"""
+
+    host = None
+    user = None
+    home = None
+    root = None
+
+    def __init__(self, options):
+        self.host = options.get('host')
+        self.user = options.get('user')
+        self.home = options.get('home')
+        self.root = options.get('root')
+        return
+
 
 class Builder:
     """The {mm} wrapper"""
@@ -347,6 +365,7 @@ class Builder:
     compiler = Compiler()
     project = Project()
     build = Build(user, host, options)
+    installer = Installer(options)
 
     # support
     def getLocalMakefile(self):
@@ -384,7 +403,7 @@ class Builder:
             return options['bldroot']
         # if it failed, no worries
         except KeyError: pass
-            
+
         # next, check for an environment variable
         try:
             return os.environ['BLD_ROOT']
@@ -404,7 +423,7 @@ class Builder:
             if self.user.home:
                 # push the build products in a subdirectory
                 return os.path.join(*filter(None, (self.user.home, 'builds', self.project.name)))
-        # just give up    
+        # just give up
         if not self.quiet:
             complain(msg='error: could not figure out where to place the build products')
         # and return an empty string
@@ -445,7 +464,7 @@ class Builder:
             if self.user.home:
                 # push the build products in a subdirectory
                 return os.path.join(*filter(None, (self.user.home, 'tools', self.project.name)))
-        # just give up    
+        # just give up
         if not self.quiet:
             msg = 'error: could not figure out where to install the build products'
             complain(msg)
@@ -464,7 +483,7 @@ class Builder:
             # we have no requirements
             return {}
         # otherwise, build the path to the requirements file
-        reqfile = os.path.join(project.root, project.marker, 'project.py') 
+        reqfile = os.path.join(project.root, project.marker, 'project.py')
         # and load the symbols
         symbols = self._loadSymbols(path=reqfile)
         # attempt to
@@ -488,12 +507,12 @@ class Builder:
         # if we know where the source root is
         if project.root:
             # build the path to the platform options
-            optfile = os.path.join(project.root, project.marker, 'platforms.py') 
+            optfile = os.path.join(project.root, project.marker, 'platforms.py')
             # look for the platform specific file and have it decorate the build
             self._decorate(optfile, category='platform')
         # all done
-        return 
-        
+        return
+
 
     def loadProjectOptions(self):
         """
@@ -504,12 +523,12 @@ class Builder:
         # if we know where the source root is
         if project.root:
             # build the path to the platform options
-            optfile = os.path.join(project.root, project.marker, 'project.py') 
+            optfile = os.path.join(project.root, project.marker, 'project.py')
             # look for the project file and have it decorate the build
             self._decorate(optfile, category='project')
         # all done
-        return 
-        
+        return
+
 
     def loadHostOptions(self):
         """
@@ -520,12 +539,12 @@ class Builder:
         # if we know where the source root is
         if project.root:
             # build the path to the host options
-            optfile = os.path.join(project.root, project.marker, 'hosts.py') 
+            optfile = os.path.join(project.root, project.marker, 'hosts.py')
             # look for the host file and have it decorate the build
             self._decorate(optfile, category='host')
         # all done
         return
-        
+
 
     def loadDeveloperOptions(self):
         """
@@ -536,21 +555,21 @@ class Builder:
         # if we know where the user's home directory is
         if user.home:
             # build the path to the developer defaults
-            optfile = os.path.join(user.home, '.mm', user.name+'.py') 
+            optfile = os.path.join(user.home, '.mm', user.name+'.py')
             # look for the developer specific file and have it decorate the build
             self._decorate(optfile, category='developer')
-            
+
         # get the project
         project = self.project
         # if we know where the source root is
         if project.root:
             # build the path to the developer options
-            optfile = os.path.join(project.root, project.marker, 'developers.py') 
+            optfile = os.path.join(project.root, project.marker, 'developers.py')
             # look for the developer specific file and have it decorate the build
             self._decorate(optfile, category='developer')
         # all done
         return
-        
+
 
     def createDirectories(self):
         """
@@ -564,7 +583,7 @@ class Builder:
 
             if not self.quiet:
                 complain(msg='warning: creating bldroot directory at {!r}'.format(bldroot))
-            if not self.dry: 
+            if not self.dry:
                 os.makedirs(bldroot)
             else:
                 if not self.quiet: complain(msg='info: dry run')
@@ -576,13 +595,13 @@ class Builder:
             if not self.quiet:
                 complain(msg='warning: creating prefix directory at {!r}'.format(prefix))
             # if this is a dry run
-            if not self.dry: 
+            if not self.dry:
                 os.makedirs(prefix)
             else:
                 if not self.quiet: complain(msg='info: dry run')
         # all done
         return
-            
+
 
     def setEnvironment(self):
         """
@@ -609,6 +628,13 @@ class Builder:
         env['TARGET'] = ','.join(self.build.user)
         env['TARGETS'] = ' '.join([self.build.machine] + self.build.user)
         env['TARGET_TAG'] = self.build.machine + '-' + ','.join(self.build.user)
+
+        # install/live target control
+        if self.installer.host: env['PROJ_LIVE_HOST'] = self.installer.host
+        if self.installer.user: env['PROJ_LIVE_USER'] = self.installer.user
+        if self.installer.home: env['PROJ_LIVE_HOME'] = self.installer.home
+        if self.installer.root: env['PROJ_LIVE_ROOT'] = self.installer.root
+
         # {mm} control
         env['MM_STOP'] = '1'
         # env['XML']
@@ -780,13 +806,13 @@ class Builder:
                 complain(msg='info: dry run')
             # and return
             return 0
-            
+
         # create the necessary directories
         self.createDirectories()
 
         # set up the subprocess settings
         settings = {
-            'args': self.make.argv, 
+            'args': self.make.argv,
             'executable': self.make.gnumake,
             'universal_newlines': True,
             'shell': False
@@ -834,7 +860,7 @@ class Builder:
             if not os.path.exists(os.path.join(self.home, 'target', target)):
                 # complain
                 complain(msg='error: target {!r} is not supported by config'.format(target))
-            
+
         # adjust {makefile}
         self.makefile = self.getLocalMakefile()
         # set up the build directory
@@ -933,7 +959,7 @@ def run():
         print('  external requirements:')
         for requirement in builder.requirements:
             print('    {}'.format(requirement))
-    
+
     # run
     return builder.run()
 
@@ -946,4 +972,4 @@ if __name__ == '__main__':
     sys.exit(status)
 
 
-# end of file 
+# end of file
