@@ -12,6 +12,11 @@
 
 VTK_INCLUDES = $(VTK_INCDIR)
 
+# on 6.2
+ifeq (6.2, $(VTK_VERSION))
+    # the library set
+    VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
+endif
 # on 6.1
 ifeq (6.1, $(VTK_VERSION))
     # the library set
