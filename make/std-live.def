@@ -9,6 +9,7 @@
 
 # libraries and their headers
 live-headers:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_INCDIR)/$(PACKAGE)'
 	$(SCP) $(EXPORTED_HEADERS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_INCDIR)
 
 live-package-headers:
@@ -17,6 +18,7 @@ live-package-headers:
 	$(SCP) $(EXPORTED_PKG_HEADERS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_INCDIR)/$(PACKAGE)
 
 live-libraries:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_LIBDIR)'
 	$(SCP) $(EXPORT_LIBS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_LIBDIR)
 
 # python packages
@@ -32,6 +34,7 @@ live-package-python-modules:
 
 # installation of binaries
 live-bin:
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_PCKGDIR)'
 	$(SCP) $(EXPORT_BINS) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_PCKGDIR)
 
 # installation of extra files and application runtime directories
