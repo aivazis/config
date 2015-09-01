@@ -39,12 +39,11 @@
 # the layout of live installations: the remote root directory
     PROJ_LIVE_HOME = /home/projects/$(PROJECT)
     PROJ_LIVE_ROOT = $(PROJ_LIVE_HOME)/live
-    PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_ROOT)/$(PACKAGE)
 # and its subdirectories
     PROJ_LIVE_BINDIR = $(PROJ_LIVE_ROOT)/bin
     PROJ_LIVE_DEFDIR = $(PROJ_LIVE_ROOT)/defaults
     PROJ_LIVE_ETCDIR = $(PROJ_LIVE_ROOT)/etc
-    PROJ_LIVE_INCDIR = $(PROJ_LIVE_ROOT)/include/$(PROJECT)
+    PROJ_LIVE_INCDIR = $(PROJ_LIVE_ROOT)/include
     PROJ_LIVE_LIBDIR = $(PROJ_LIVE_ROOT)/lib
     PROJ_LIVE_PKGDIR = $(PROJ_LIVE_ROOT)/packages
     PROJ_LIVE_TPLDIR = $(PROJ_LIVE_ROOT)/templates
