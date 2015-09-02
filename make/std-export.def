@@ -107,7 +107,7 @@ export-binaries:: $(EXPORT_BINDIR)
 
 # Copy web files to export web dir
 export-web:: $(EXPORT_WEBDIR)
-	for x in $(EXPORT_WEB); do { \
+	@for x in $(EXPORT_WEB); do { \
             if [ -e $$x ]; then { \
                 $(CP_FR) $$x $(EXPORT_WEBDIR); \
             } fi; \
