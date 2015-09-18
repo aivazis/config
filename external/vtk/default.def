@@ -1,10 +1,8 @@
-#--------------------------------------------------------------------------
 #
-#                          Jarek Knap
-#                California Institute of Technology
-#                   (C) 2004 All Rights Reserved
+# michael a.g. aïvázis
+# parasim
+# (C) 1998-2015 all rights reserved
 #
-#--------------------------------------------------------------------------
 
 #
 # Default settings for VTK
@@ -12,23 +10,12 @@
 
 VTK_INCLUDES = $(VTK_INCDIR)
 
-# on 6.2
-ifeq (6.2, $(VTK_VERSION))
+# on 6.x
+ifeq (6., ${findstring 6., $(VTK_VERSION)})
     # the library set
     VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
-endif
-# on 6.1
-ifeq (6.1, $(VTK_VERSION))
-    # the library set
-    VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
-endif
-# on 6.0
-ifeq (6.0, $(VTK_VERSION))
-    # the library set
-    VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
-endif
 # on 5.x
-ifeq (5., ${findstring 5., $(VTK_VERSION)})
+else ifeq (5., ${findstring 5., $(VTK_VERSION)})
     # the library set
     VTK_LIBS = -lvtkIO -lvtkFiltering -lvtkCommon -lvtksys
 endif
