@@ -44,11 +44,11 @@ endif
 
 # when using the C++ compiler to link:
     COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
-    COMPILER_LCXX_FLAGS = 
+    COMPILER_LCXX_FLAGS =
     COMPILER_LCXX_LIBPATH =
     COMPILER_LCXX_SARFLAGS = -dynamiclib -flat_namespace -Wl,-undefined,suppress -single_module
     COMPILER_LCXX_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress
-    COMPILER_LCXX_FORSHARED = 
+    COMPILER_LCXX_FORSHARED =
 
 # mixed language support (FORTRAN linking with C++)
     COMPILER_LF77_CXX = -lstdc++ -lm -lgcc -lc -lgcc
@@ -57,7 +57,8 @@ endif
     COMPILER_CXXPRECOMP_FLAGS = -no-cpp-precomp
 
 # clean up
-    COMPILER_CXX_CLEAN = *.dSYM
+    COMPILER_CXX_TIDY = *.dSYM
+    COMPILER_CXX_CLEAN =
     COMPILER_CXX_DISTCLEAN =
 
 # end of file

@@ -67,7 +67,7 @@ endif
 #
 
 tidy::
-	@-$(RM_RF) $(PROJ_TIDY)
+	@-$(RM_RF) $(COMPILER_TIDY) $(PROJ_TIDY)
 
 clean::
 	@-$(RM_RF) $(COMPILER_CLEAN) $(PROJ_CLEAN)
@@ -80,7 +80,7 @@ wipe::
 
 # Target to just build the TAGS file
 
-tags:: 
+tags::
 	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) $(PROJ_SRCS) \
 	$(EXPORT_HEADERS) $(EXPORT_PROJ_HEADERS)
 
