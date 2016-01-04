@@ -6,6 +6,6 @@
 #
 
 # use the latest version of the Intel C compiler
-include Intel-12/c.def
+include Intel-16/c.def
 
 # end of file

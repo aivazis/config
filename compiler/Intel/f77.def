@@ -6,6 +6,6 @@
 #
 
 # use the latest version of the Intel C compiler
-include Intel-12/f77.def
+include Intel-16/f77.def
 
 # end of file
