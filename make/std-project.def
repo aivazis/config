@@ -7,7 +7,6 @@
 
 
 # Default settings for all project variables
-#
     PROJECT =
     PACKAGE =
     PROJ_LIB =
@@ -19,7 +18,6 @@
 # project-specific directories for output files
 # binary and library directories are not project-specific because
 # the binary and library names should be project-specific already
-
     PROJ_BINDIR = $(BLD_BINDIR)
     PROJ_LIBDIR = $(BLD_LIBDIR)
     PROJ_DOCDIR = $(BLD_DOCDIR)/$(PROJECT)
@@ -32,8 +30,6 @@
     PROJ_LIVE_USERURL = $(PROJ_LIVE_USER)@$(PROJ_LIVE_HOST)
     PROJ_LIVE_ADMIN = root
     PROJ_LIVE_ADMINURL = $(PROJ_LIVE_ADMIN)@$(PROJ_LIVE_HOST)
-# apache
-    PROJ_LIVE_APACHE_USER = www-data
 # the identity with login provileges
     PROJ_LIVE_IDENTITY = $(HOME)/.ssh/$(PROJECT).rsa
 # the layout of live installations: the remote root directory
@@ -49,6 +45,8 @@
     PROJ_LIVE_TPLDIR = $(PROJ_LIVE_ROOT)/templates
     PROJ_LIVE_VARDIR = $(PROJ_LIVE_ROOT)/var
     PROJ_LIVE_WEBDIR = $(PROJ_LIVE_ROOT)/web
+    PROJ_LIVE_APACHEDIR = $(PROJ_LIVE_WEBDIR)/apache
+    PROJ_LIVE_DOCROOT = $(PROJ_LIVE_WEBDIR)/www/$(PROJECT)
 # pile them together
     PROJ_LIVE_DIRS = \
         $(PROJ_LIVE_BINDIR) \
@@ -60,31 +58,32 @@
         $(PROJ_LIVE_TPLDIR) \
         $(PROJ_LIVE_VARDIR) \
         $(PROJ_LIVE_WEBDIR) \
+        $(PROJ_LIVE_APACHEDIR) \
+        $(PROJ_LIVE_DOCTROOT) \
+
+# apache
+    PROJ_LIVE_APACHE_USER = www-data
 # the name of the apache configuration file
     PROJ_LIVE_APACHE_CONF = $(PROJECT).conf
+    PROJ_LIVE_APACHE_WSGI =
+# assemble the entire set
+   PROJ_LIVE_APACHE_ALL = $(PROJ_LIVE_APACHE_CONF) $(PROJ_LIVE_APACHE_WSGI)
 
-# The list of objects in the project library
-
+# the list of objects in the project library
     PROJ_OBJS = ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_OBJ}, ${basename ${PROJ_SRCS}}}}
 
-# The list of automatically generated dependency files
-
+# the list of automatically generated dependency files
     PROJ_DEPENDENCIES = empty.def
     PROJ_DEPENDENCIES += ${addprefix ${PROJ_TMPDIR}/, ${addsuffix .${EXT_DEPEND}, ${basename ${PROJ_SRCS}}}}
 
 # the list of additional dependecies that various targets for this project might have
     PROJ_OTHER_DEPENDENCIES =
 
-# Backwards compatibility
-
+# backwards compatibility
     PROJ_DEPENDS = empty.def
 
-#
-# Variables that local.def may override
-#
-
-# Compiler flags
-
+# variables that local.def may override
+# compiler flags
     PROJ_CC_FLAGS =
     PROJ_CXX_FLAGS =
     PROJ_F77_FLAGS =
@@ -117,7 +116,6 @@
     PROJ_LCUCC_LIBS =
 
 # Others
-
     PROJ_TIDY = core *~ .*~ *.bak *.pyc __pycache__
     PROJ_CLEAN = $(PROJ_LIB) $(PROJ_CXX_LIB) $(PROJ_OBJS) $(PROJ_DEPENDENCIES) $(PROJ_TIDY)
     PROJ_DISTCLEAN = $(PROJ_DEPENDENCIES) $(PROJ_CLEAN) $(PROJ_TMPDIR) $(PROJ_INCDIR)
@@ -127,5 +125,4 @@
 
     PROJ_EXTERNAL_PACKAGES =
 
-#
-# End of file
+# end of file

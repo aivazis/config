@@ -42,10 +42,10 @@ include $(TARGET_PLATFORM)/platform.def
 mm-dummy-target:
 	@true
 
-# Get the project preferences; this will scan the include and find the first match
+# Get the project preferences; this will scan the include path and find the first match
 -include $(PROJECT).def
 
-# Read the developer preferences; this will scan the include and find the first match
+# Read the developer preferences; this will scan the include path and find the first match
 -include $(DEVELOPER).def
 
 # make any necessary adjustments

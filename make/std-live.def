@@ -45,26 +45,26 @@ live-etc live-var:
 
 # web site management
 
-# N.B.: live-web removes the target direcories on the remote machine by loggin in as root; the
-# reason for that is that apache builds a cache as {www-data} and uses its user's umask, making
-# the target folder impossible to delete as the remote project user
+# N.B.: live-web removes the target directories on the remote machine by logging in as root;
+# the reason for that is that apache builds a cache as {www-data} and uses its user's umask,
+# making the target folder impossible to delete as the remote project user
 live-web:
-	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_WEBDIR)/$(PROJECT)'
-	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_WEBDIR)/$(PROJECT)'
-	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_WEBDIR)/$(PROJECT)
+	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_DOCROOT)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DOCROOT)'
+	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_DOCROOT)
 
 live-web-package:
-	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_WEBDIR)/$(PROJECT)/$(PACKAGE)'
-	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_WEBDIR)/$(PROJECT)/$(PACKAGE)'
-	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_WEBDIR)/$(PROJECT)/$(PACKAGE)
+	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_DOCROOT)/$(PACKAGE)'
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DOCROOT)/$(PACKAGE)'
+	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_DOCROOT)/$(PACKAGE)
 
 # place the apache configuration files in the right spot
 LIVE_APACHE_CONF = /etc/apache2/sites-available/$(PROJECT).conf
-LIVE_SITE_CONF = $(PROJ_LIVE_WEBDIR)/apache/$(PROJ_LIVE_APACHE_CONF)
+LIVE_SITE_CONF = $(PROJ_LIVE_APACHEDIR)/$(PROJ_LIVE_APACHE_CONF)
 
 live-apache-conf:
-	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_WEBDIR)/apache'
-	$(SCP) $(PROJ_LIVE_APACHE_ALL) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_WEBDIR)/apache
+	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_APACHEDIR)'
+	$(SCP) $(PROJ_LIVE_APACHE_ALL) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_APACHEDIR)
 
 live-apache-site-enable:
 	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_F) $(LIVE_APACHE_CONF)'
