@@ -17,7 +17,8 @@ include Python/default.def
 # common project settings
 # the module initialization file
 MODULE_INIT_FILE ?= $(MODULE).$(EXT_CXX)
-MODULE_DLL = $(BLD_BINDIR)/$(MODULE).abi3.$(EXT_SO)
+MODULE_SUFFIX = $(shell $(PYTHON)-config --extension-suffix)
+MODULE_DLL = $(BLD_BINDIR)/$(MODULE)$(MODULE_SUFFIX)
 
 PROJ_CLEAN += $(PROJ_DLL)
 PROJ_CXX_LIB = $(BLD_LIBDIR)/lib$(MODULE)module.$(EXT_AR)
@@ -38,7 +39,7 @@ PROJ_CLEAN += \
     $(PROJ_CXX_LIB) \
     $(PROJ_DLL) \
     $(MODULE_DLL) \
-    $(EXPORT_BINDIR)/$(MODULE).abi3.$(EXT_SO)
+    $(EXPORT_BINDIR)/$(MODULE)$(MODULE_SUFFIX)
 
 all: product_dirs $(PROJ_EXTERNAL_PACKAGES) proj-cxx-lib bindings export
 
