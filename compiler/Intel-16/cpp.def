@@ -6,7 +6,7 @@
 #
 
 # definitions for Intel C++ compiler
-    CXX_ID = Intel-12
+    CXX_ID = Intel-16
 
 # the name of the binary
     COMPILER_CXX_NAME = icpc

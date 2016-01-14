@@ -6,7 +6,7 @@
 #
 
 # Definitions for the Intel FORTRAN compiler
-    F77_ID = Intel-12
+    F77_ID = Intel-16
 
 # the name of the binary
     COMPILER_F77_NAME = ifort
