@@ -44,7 +44,7 @@ ifeq (Linux-2.0_x86_64, $(TARGET_ID))
     ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
         MPI_INCLUDES += $(MPI_INCDIR)/openmpi
         MPI_CPPDEFS = OMPI_WANT_CXX_BINDINGS
-        MPI_LIBS = -lmpi -lopen-pal -lopen-rte -lmpi_cxx
+        MPI_LIBS = -lmpi -lmpi_cxx
         MPI_CPPLIBS = -lmpi_cxx
         MPI_F90LIBS = 
     endif
