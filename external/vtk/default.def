@@ -21,7 +21,7 @@ else ifeq (5., ${findstring 5., $(VTK_VERSION)})
 endif
 
 # some installations have more libraries
-ifeq ($(shell test -f $(VTK_LIBDIR)/libvtkzlib* ; echo $$?), 0)
+ifeq ($(shell test -f $(VTK_LIBDIR)/libvtkzlib\* ; echo $$?), 0)
     VTK_LIBS += -lvtkzlib
 endif
 
