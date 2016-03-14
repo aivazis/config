@@ -1,0 +1,12 @@
+;
+; michael a.g. aïvázis
+; orthologue
+; (c) 1998-2016 all rights reserved
+;
+
+grant:
+  repository = /home/projects/config/repository
+  readers = jiao.lin, raul.radovitzky
+  writers = alec.aivazis, leif.strand, michael.aivazis
+
+; end of file
