@@ -10,8 +10,12 @@
 
 VTK_INCLUDES = $(VTK_INCDIR)
 
+# on 7.x
+ifeq (7., ${findstring 7., $(VTK_VERSION)})
+    # the library set
+    VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
 # on 6.x
-ifeq (6., ${findstring 6., $(VTK_VERSION)})
+else ifeq (6., ${findstring 6., $(VTK_VERSION)})
     # the library set
     VTK_LIBS = -lvtkCommonCore-$(VTK_VERSION) -lvtkIOXML-$(VTK_VERSION) -lvtkCommonDataModel-$(VTK_VERSION)
 # on 5.x
