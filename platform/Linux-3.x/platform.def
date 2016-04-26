@@ -47,6 +47,7 @@
 #
 # OS-specific definitions
 #
+    ARFLAGS = rvU
     RANLIB = true
     RANFLAGS =
 
