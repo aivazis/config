@@ -25,7 +25,7 @@
     COMPILER_CXX_STD11 = -std=c++11
 
 # optimization flags
-    CXX_OPT_FLAGS = -O3 -funroll-loops -faltivec
+    CXX_OPT_FLAGS = -O3 -funroll-loops
     CXX_DEBUG_FLAGS = -g     # Debug flags
     CXX_PROF_FLAGS = -pg     # Profiling flags
 
