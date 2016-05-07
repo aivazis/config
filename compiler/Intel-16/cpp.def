@@ -20,6 +20,8 @@
 # language support
     COMPILER_CXX_STD98 = -std=c++98
     COMPILER_CXX_STD11 = -std=c++11
+    COMPILER_CXX_STD14 = -std=c++14
+    COMPILER_CXX_STD17 = -std=c++17
 
 # code generation
     COMPILER_CXX_SOFLAGS = -fpic
@@ -50,9 +52,9 @@ endif
     COMPILER_LCXX_FORSHARED = -Xlinker -export-dynamic
 
 # mixed language support (FORTRAN linking with C++)
-    COMPILER_LF77_CXX = 
+    COMPILER_LF77_CXX =
 
 # this compiler does not support precompiled headers
-    COMPILER_CXXPRECOMP_FLAGS = 
+    COMPILER_CXXPRECOMP_FLAGS =
 
 # end of file
