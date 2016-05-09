@@ -2,12 +2,10 @@
 # Default settings for HDF5 library
 #
 
-# define HDF5 public include directory (must be target dependent)
-    HDF5_INCDIR = $(BLD_INCDIR)/hdf5
-
-    EXTERNAL_DEFINES += WITH_HDF5
-    EXTERNAL_INCLUDES += $(HDF5_INCDIR)
-    EXTERNAL_LIBS += -L$(HDF5_LIBDIR) -lhdf5
+EXTERNAL_DEFINES += WITH_HDF5
+EXTERNAL_INCLUDES += $(HDF5_INCDIR)
+EXTERNAL_LIBPATH += $(HDF5_LIBDIR)
+EXTERNAL_LIBS += -L$(HDF5_LIBDIR) -lhdf5
 
 # enable Parallel IO support
 ifneq ($(findstring pio,$(TARGETS),),)

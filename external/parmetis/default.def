@@ -1,0 +1,11 @@
+#
+# Default settings for PARMETIS library
+#
+
+EXTERNAL_DEFINES += WITH_PARMETIS
+EXTERNAL_INCLUDES += $(PARMETIS_INCDIR)
+EXTERNAL_LIBPATH += $(PARMETIS_LIBDIR)
+EXTERNAL_LIBS += -L$(PARMETIS_LIBDIR) -lparmetis -lmetis
+
+#
+# End of file
