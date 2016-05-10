@@ -16,6 +16,7 @@ PUBLIC_KEYS = $(wildcard *.pub)
 
 # standard targets
 all: tidy
+
 # make the autorized keys file
 authorized_keys: $(PUBLIC_KEYS) grant.py grant.pfg Make.mm
 	./grant.py
