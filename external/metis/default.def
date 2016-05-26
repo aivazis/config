@@ -1,0 +1,11 @@
+#
+# Default settings for METIS library
+#
+
+EXTERNAL_DEFINES += WITH_METIS
+EXTERNAL_INCLUDES += $(METIS_INCDIR)
+EXTERNAL_LIBPATH += $(METIS_LIBDIR)
+EXTERNAL_LIBS += -L$(METIS_LIBDIR) -lmetis
+
+#
+# End of file
