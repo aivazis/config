@@ -19,7 +19,7 @@
     COMPILER_F77_DEFINES =
 
 # code generation
-    COMPILER_F77_SOFLAGS = -fpic
+    COMPILER_F77_SOFLAGS = -fPIC
 
 # optimization flags
     F77_OPT_FLAGS = -O3 -Zp16 -ip -pad -funroll-loops -fno-alias -safe_cray_ptr

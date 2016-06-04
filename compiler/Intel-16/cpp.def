@@ -24,7 +24,7 @@
     COMPILER_CXX_STD17 = -std=c++17
 
 # code generation
-    COMPILER_CXX_SOFLAGS = -fpic
+    COMPILER_CXX_SOFLAGS = -fPIC
     CXX_OPT_FLAGS = -O3
     CXX_DEBUG_FLAGS = -g
     CXX_PROF_FLAGS = -pg

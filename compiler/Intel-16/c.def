@@ -17,7 +17,7 @@
     COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
 
 # code generation
-    COMPILER_CC_SOFLAGS = -fpic
+    COMPILER_CC_SOFLAGS = -fPIC
     CC_OPT_FLAGS = -O3 -Zp16 -ip -ansi_alias  # Optimization flags
     CC_DEBUG_FLAGS = -g -O0 -C -DDEBUG        # Debug flags
     CC_PROF_FLAGS = -p                        # Profiling flags
