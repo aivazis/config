@@ -21,7 +21,7 @@ MODULE_SUFFIX = $(shell $(PYTHON)-config --extension-suffix)
 MODULE_DLL = $(BLD_BINDIR)/$(MODULE)$(MODULE_SUFFIX)
 
 PROJ_CLEAN += $(PROJ_DLL)
-PROJ_CXX_LIB = $(BLD_LIBDIR)/lib$(MODULE)module.$(EXT_AR)
+PROJ_CXX_LIB = $(BLD_LIBDIR)/lib$(PROJECT)$(MODULE)module.$(EXT_AR)
 PROJ_CXX_SRCLIB ?=
 
 PROJ_CXX_FLAGS += $(CXX_SOFLAGS)
@@ -51,6 +51,7 @@ bindings: $(MODULE_DLL)
 # export
 
 EXPORT_BINDIR = $(EXPORT_MODULEDIR)/$(PACKAGE)
+EXPORT_INCDIR = $(EXPORT_ROOT)/include/$(PROJECT)/$(PACKAGE)
 
 EXPORT_BINS = $(MODULE_DLL)
 export:: export-binaries
