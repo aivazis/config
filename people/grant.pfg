@@ -6,7 +6,7 @@
 
 grant:
   repository = /home/projects/config/repository
-  readers = jiao.lin, eric.gurrola, marco.lavalle
+  readers = jiao.lin, eric.gurrola, marco.lavalle, piyush.agram, cohen.joshua
   writers = alec.aivazis, leif.strand, michael.aivazis, raul.radovitzky, khai.pham
 
 ; end of file
