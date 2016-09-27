@@ -1,0 +1,60 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# orthologue
+# (c) 1998-2016 all rights reserved
+#
+
+# definitions for Intel C++ compiler
+    CXX_ID = Intel-17
+
+# the name of the binary
+    COMPILER_CXX_NAME = icpc
+
+# command line options
+    COMPILER_CXX_FLAGS = -Wall
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+# language support
+    COMPILER_CXX_STD98 = -std=c++98
+    COMPILER_CXX_STD11 = -std=c++11
+    COMPILER_CXX_STD14 = -std=c++14
+    COMPILER_CXX_STD17 = -std=c++17
+
+# code generation
+    COMPILER_CXX_SOFLAGS = -fPIC
+    CXX_OPT_FLAGS = -O3
+    CXX_DEBUG_FLAGS = -g
+    CXX_PROF_FLAGS = -pg
+
+# recognize non-standard extensions
+    COMPILER_CXX_ISCXX =
+
+# when using the C++ compiler to preprocess
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+
+# when using the C++ compiler to make dependencies
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+
+# when using the C++ compiler to link:
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SOFLAGS =
+    COMPILER_LCXX_SOFLAGS = -shared
+    COMPILER_LCXX_SARFLAGS = -shared
+    COMPILER_LCXX_FORSHARED = -Xlinker -export-dynamic
+
+# mixed language support (FORTRAN linking with C++)
+    COMPILER_LF77_CXX =
+
+# this compiler does not support precompiled headers
+    COMPILER_CXXPRECOMP_FLAGS =
+
+# end of file

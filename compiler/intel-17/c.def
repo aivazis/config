@@ -1,0 +1,46 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# orthologue
+# (c) 1998-2016 all rights reserved
+#
+
+# definitions for Intel C compiler
+    CC_ID = Intel-17
+
+# the name of the binary
+    COMPILER_CC_NAME = icc
+
+# command line options
+    COMPILER_CC_FLAGS =  -std=c99
+    COMPILER_CC_INCLUDES = $(DIR_COMPILER)/$(CC_ID)
+    COMPILER_CC_DEFINES = CC_ID="$(CC_ID)"
+
+# code generation
+    COMPILER_CC_SOFLAGS = -fPIC
+    CC_OPT_FLAGS = -O3 -Zp16 -ip -ansi_alias  # Optimization flags
+    CC_DEBUG_FLAGS = -g -O0 -C -DDEBUG        # Debug flags
+    CC_PROF_FLAGS = -p                        # Profiling flags
+
+# when using the C compiler to preprocess
+    COMPILER_CC_PREPROCESS = $(COMPILER_CC_NAME) -E
+
+# when using the C compiler to make dependencies
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CC_DEPENDS = $(COMPILER_CC_NAME) -MMD
+    CC_MAKEDEPENDS_COMBINED = true
+endif
+
+# when using the C compiler to link
+    COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
+    COMPILER_LCC_FLAGS =
+    COMPILER_LCC_LIBPATH =
+    COMPILER_LCC_SOFLAGS =
+    COMPILER_LCC_FORSHARED = -Xlinker -export-dynamic
+
+# clean up
+    COMPILER_CC_CLEAN =
+    COMPILER_CC_DISTCLEAN =
+
+# end of file
