@@ -64,6 +64,10 @@ space:= $(empty) $(empty)
     COMPILER_LCXX_SARFLAGS = $(COMPILER_LCXX_SOFLAGS)
     COMPILER_LF77_SARFLAGS = $(COMPILER_LF77_SOFLAGS)
 
+# python flags
+
+    PYTHON_FLAGS = $(TARGET_PYTHON_FLAGS)
+
 # File extensions
 
     EXT_C = c
