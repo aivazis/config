@@ -6,8 +6,7 @@
 
 
     SUMMIT_LIBPATH = $(SUMMIT_LIBDIR)
-    SUMMIT_LIBRARIES = fem elements fem mesh materials mathlib solvers fem \
-		       mathlib solvers utils systems weakforms io restart parallel
+    SUMMIT_LIBRARIES = summit tetra metis
 
 # Adjust the external variables to include SUMMIT
 
