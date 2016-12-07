@@ -18,8 +18,8 @@
 #      Add logic for high level settings, e.g.: --with-threads, --with-exceptions, etc.
 #
 
-
-
+# check whether there is a project configuration file
+include config.def
 # Get the default values for the internal macros
 include std-tools.def
 include std-macros.def
@@ -41,9 +41,6 @@ include $(TARGET_PLATFORM)/platform.def
 # dummy target in case there was no local makefile
 mm-dummy-target:
 	@true
-
-# Get the project preferences; this will scan the include path and find the first match
--include $(PROJECT).def
 
 # Read the developer preferences; this will scan the include path and find the first match
 -include $(DEVELOPER).def
