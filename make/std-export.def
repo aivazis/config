@@ -122,8 +122,8 @@ export-python-modules:: $(EXPORT_MODULEDIR)
 	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py
 	@for x in $(EXPORT_PYTHON_MODULES); do { \
             if [ -f $$x ]; then { \
-                $(MV_F) $$x[cod] $(EXPORT_MODULEDIR); \
-                $(CHMOD_WRITE) $(EXPORT_MODULEDIR)/$$x[cod]; \
+                $(CP_F) $$x $(EXPORT_MODULEDIR); \
+                $(RM_F) $$x[cod]; \
             } fi; \
         } done
 
@@ -134,8 +134,8 @@ export-package-python-modules:: export-package-moduledir
 	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py
 	@for x in $(EXPORT_PYTHON_MODULES); do { \
             if [ -f $$x ]; then { \
-                $(MV_F) $$x[cod] $(EXPORT_MODULEDIR)/$(PACKAGE); \
-                $(CHMOD_WRITE) $(EXPORT_MODULEDIR)/$(PACKAGE)/$$x[cod]; \
+                $(CP_F) $$x $(EXPORT_MODULEDIR)/$(PACKAGE); \
+                $(RM_F) $$x[cod]; \
             } fi; \
         } done
 
