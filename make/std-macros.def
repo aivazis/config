@@ -45,22 +45,6 @@ space:= $(empty) $(empty)
     EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
     EXPORT_WEBDIR = $(EXPORT_ROOT)/web/www/$(PROJECT)
 
-# Some reasonable default values for PYTHON variables (user can override)
--include $(BLD_TMPDIR)/.std-macros.def
-ifndef PYTHON
-    PYTHON_DIR = /usr
-    PYTHON_EXECDIR = $(PYTHON_DIR)
-    PYTHON_VERSION = 2.5
-    PYTHON_INCDIR = $(PYTHON_DIR)/include/python$(PYTHON_VERSION)
-    PYTHON_LIBDIR = $(PYTHON_EXECDIR)/lib/python$(PYTHON_VERSION)
-    PYTHON_SCRIPTDIR = $(PYTHON_LIBDIR)
-    PYTHON_BINDIR = $(PYTHON_EXECDIR)/bin
-    PYTHON_LCXX_FLAGS =
-    PYTHON_LIB = $(PYTHON_LIBDIR)/config/libpython$(PYTHON_VERSION).$(EXT_AR)
-    PYTHON = $(PYTHON_BINDIR)/python
-endif
-    PYTHON_FLAGS = $(TARGET_PYTHON_FLAGS)
-
 # Date
 
     DATE_STAMP = `date +"%y-%m-%d"`
