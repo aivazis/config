@@ -187,6 +187,24 @@ class User:
     home = os.environ.get('HOME') or os.path.expanduser('~')
     environment = {}
 
+    @property
+    def mm(self):
+        """
+        Build and return the path to the user's {.mm} directory
+        """
+        # get my home
+        home = self.home
+        # if i don't know where that is, bail
+        if not home: return None
+        # assemble the location
+        mm = os.path.join(home, '.mm')
+        # if the directory exists
+        if os.path.isdir(mm):
+            # return it
+            return mm
+        # bail
+        return None
+
 
 class Host:
     """Host information"""
@@ -751,6 +769,10 @@ class Builder:
         # place the project {.mm} directory on the path
         argv.append('-I')
         argv.append(os.path.join(self.project.root, self.project.marker))
+        # place the user's {.mm} directory on the path
+        if self.user.mm:
+            argv.append('-I')
+            argv.append(self.user.mm)
         # add the include directives to the command line
         for directory in self.includes:
             argv.append('-I')
