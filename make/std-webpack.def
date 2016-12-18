@@ -1,0 +1,25 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# orthologue
+# (c) 1998-2016  all rights reserved
+#
+
+
+# main targets
+webpack.deps: $(PROJ_TMPDIR)/node_modules
+
+webpack.build: $(PROJ_TMPDIR)/build
+
+# implementation
+$(PROJ_TMPDIR)/node_modules: $(PROJ_TMPDIR) package.json
+	@$(CP_R) package.json $(PROJ_TMPDIR); \
+         $(CD) $(PROJ_TMPDIR); \
+         npm i
+
+$(PROJ_TMPDIR)/build: $(PROJ_TMPDIR)
+	@$(CP_R) config src $(PROJ_TMPDIR); \
+         $(CD) $(PROJ_TMPDIR); \
+         npm run build
+
+# end of file

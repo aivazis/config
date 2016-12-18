@@ -67,6 +67,7 @@ include std-latex.def
 include std-rules.def
 include std-builds.def
 include std-docs.def
+include std-webpack.def
 
 # Get the standard targets
 include std-targets.def
