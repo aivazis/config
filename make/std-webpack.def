@@ -17,8 +17,8 @@ $(PROJ_TMPDIR)/node_modules: $(PROJ_TMPDIR) package.json
          $(CD) $(PROJ_TMPDIR); \
          npm i
 
-$(PROJ_TMPDIR)/build: $(PROJ_TMPDIR)
-	@$(CP_R) config src $(PROJ_TMPDIR); \
+$(PROJ_TMPDIR)/build: $(PROJ_TMPDIR) $(PROJ_WEBPACK) $(PROJ_TMPDIR)/node_modules
+	@$(CP_R) $(PROJ_WEBPACK) $(PROJ_TMPDIR); \
          $(CD) $(PROJ_TMPDIR); \
          npm run build
 
