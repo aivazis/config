@@ -407,8 +407,13 @@ class Builder:
         # if it's not in this directory
         if location != cwd and not self.quiet:
             # let the user know
-            msg = 'error: no makefile {!r} in {!r}'.format(makefile, cwd)
+            msg = 'warning: no makefile {!r} in {!r}'.format(makefile, cwd)
             complain(msg)
+            # if we have found one
+            if location:
+                # tell the user what we are doing
+                msg = 'warning: found one in {!r}; launching the build from there'.format(location)
+                complain(msg)
 
         # return it
         return (location, makefile) if location else (None,'')
