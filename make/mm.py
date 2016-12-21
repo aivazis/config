@@ -233,7 +233,7 @@ class Project:
             # otherwise, split the path and try again
             candidate, _ = os.path.split(candidate)
         # if we get here, the search has failed
-        return ''
+        return os.path.sep
 
     # meta methods
     def __init__(self):
@@ -361,6 +361,7 @@ class Builder:
     mm = "{} {}".format(sys.executable, sys.argv[0])
     mmdef = os.path.split(__file__)[0]
     home = os.path.abspath(os.path.join(mmdef, os.pardir))
+    directory = os.getcwd()
     makefile = 'Make.mm'
     includes = ['make', 'target', 'compiler', 'platform', 'external']
 
@@ -387,28 +388,47 @@ class Builder:
 
     # support
     def getLocalMakefile(self):
-        """Deduce the name of the {mm} makefile in the current directory"""
+        """Deduce the name and location of the local makefile"""
         # get the options
         options = self.options
         # first, check the command line
         try:
-            candidate = options['makefile']
+            makefile = options['makefile']
         # if the lookup failed
         except KeyError:
             # check for an environment setting
-            candidate = os.environ.get('LOCAL_MAKEFILE', self.makefile)
-        # if the file exists
-        if os.path.exists(candidate):
-            # return it
-            return candidate
-        # otherwise doesn't exist, let the user know but continue; this let's certain targets
-        # run successfully even in directories that do not have a valid makefile
-        if not self.quiet:
-            msg = 'error: no makefile {!r} in {!r}'.format(candidate, os.getcwd())
-            complain(msg)
-        # return
-        return ''
+            makefile = os.environ.get('LOCAL_MAKEFILE', self.makefile)
 
+        # get the cwd directory
+        cwd = os.getcwd()
+        # locate the makefile
+        location = self.locate(target=makefile)
+
+        # if it's not in this directory
+        if location != cwd and not self.quiet:
+            # let the user know
+            msg = 'error: no makefile {!r} in {!r}'.format(makefile, cwd)
+            complain(msg)
+
+        # return it
+        return (location, makefile) if location else (None,'')
+
+
+    def locate(self, target):
+        # initialize the candidate directory
+        candidate = os.getcwd()
+        # get the root of the project
+        root = self.project.root
+        # loop until we reach the root of the project
+        while candidate.startswith(root):
+            # if the magic file is here
+            if os.path.exists(os.path.join(candidate, target)):
+                # got it
+                return candidate
+            # otherwise, split the path and try again
+            candidate, _ = os.path.split(candidate)
+        # if we get here, the search has failed
+        return
 
     def getBuildRoot(self):
         """
@@ -829,6 +849,9 @@ class Builder:
             # and return
             return 0
 
+        # go to the correct directory
+        if self.directory: os.chdir(self.directory)
+
         # create the necessary directories
         self.createDirectories()
 
@@ -884,7 +907,7 @@ class Builder:
                 complain(msg='error: target {!r} is not supported by config'.format(target))
 
         # adjust {makefile}
-        self.makefile = self.getLocalMakefile()
+        self.directory, self.makefile = self.getLocalMakefile()
         # set up the build directory
         self.bldroot = os.path.abspath(os.path.expanduser(self.getBuildRoot()))
         # set up the installation directory
