@@ -7,7 +7,7 @@
 
 # sphinx configuration
 SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build-3.5
+SPHINXBUILD   = sphinx-build
 PAPER         = letter
 BUILDDIR      = $(EXPORT_DOCDIR)/$(PROJECT)
 
