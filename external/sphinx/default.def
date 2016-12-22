@@ -9,7 +9,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         = letter
-BUILDDIR      = $(EXPORT_DOCDIR)/$(PROJECT)
+BUILDDIR      = $(PROJ_DOCDIR)
 
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
@@ -18,7 +18,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 # allow the user to override the location of the html pages
-SPHINX_HTMLDIR = $(BUILDDIR)/html
+SPHINX_HTMLDIR = $(EXPORT_DOCDIR)
 
 # targets
 .PHONY: html
