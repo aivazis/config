@@ -663,6 +663,8 @@ class Builder:
         env['BLD_CONFIG'] = self.home
         env['BLD_ROOT'] = self.bldroot
         env['EXPORT_ROOT'] = self.prefix
+        env['PROJ_ROOT'] = self.project.root
+        env['PROJ_CONFIG'] = os.path.join(self.project.root, self.project.marker)
         # the user
         env['DEVELOPER'] = self.user.name
         # the targets
