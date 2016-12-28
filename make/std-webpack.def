@@ -7,18 +7,18 @@
 
 
 # main targets
-webpack.deps: $(PROJ_TMPDIR)/node_modules
+webpack.deps: $(PROJ_WEBPACK_NODE_MODULES)
 
-webpack.build: $(PROJ_TMPDIR)/build
+webpack.build: $(PROJ_WEBPACK_BUILD)
 
 # implementation
-$(PROJ_TMPDIR)/node_modules: $(PROJ_TMPDIR) package.json
-	@$(CP_R) package.json $(PROJ_TMPDIR); \
+$(PROJ_WEBPACK_NODE_MODULES): $(PROJ_TMPDIR) $(PROJ_WEBPACK_DEPENDS)
+	@$(CP_R) $(PROJ_WEBPACK_DEPENDS) $(PROJ_TMPDIR); \
          $(CD) $(PROJ_TMPDIR); \
          npm i
 
-$(PROJ_TMPDIR)/build: $(PROJ_TMPDIR) $(PROJ_WEBPACK) $(PROJ_TMPDIR)/node_modules
-	@$(CP_R) $(PROJ_WEBPACK) $(PROJ_TMPDIR); \
+$(PROJ_TMPDIR)/build: $(PROJ_TMPDIR) $(PROJ_WEBPACK_SOURCES) $(PROJ_WEBPACK_NODE_MODULES)
+	@$(CP_R) $(PROJ_WEBPACK_SOURCES) $(PROJ_TMPDIR); \
          $(CD) $(PROJ_TMPDIR); \
          npm run build
 

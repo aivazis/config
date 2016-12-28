@@ -116,7 +116,11 @@
     PROJ_LCUCC_LIBS =
 
 # webpack
-    PROJ_WEBPACK =
+    PROJ_WEBPACK_DEPENDS = package.json
+    PROJ_WEBPACK_SOURCES =
+    PROJ_WEBPACK_CONFIG = config
+    PROJ_WEBPACK_BUILD = $(PROJ_TMPDIR)/build
+    PROJ_WEBPACK_NODE_MODULES = $(PROJ_TMPDIR)/node_modules
 
 # Others
     PROJ_TIDY = core *~ .*~ *.bak *.pyc __pycache__
