@@ -10,15 +10,38 @@
 # Place the "project" objects into the "project" library
 #
 
-ifeq ($(PROJ_OBJS),)
-$(PROJ_LIB):
-	@echo $(PROJ_LIB): nothing further to do
+ifeq (, $(PROJ_LIB))
+proj-lib:
 else
-$(PROJ_LIB): $(PROJ_LIB)($(PROJ_OBJS))
-	@$(RANLIB) $(RANFLAGS) $@
+proj-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
+	@$(LOGEMIT_ARCHIVING_START)
+	@$(AR_CREATE) $(PROJ_LIB) $(PROJ_OBJS)
+	@$(RANLIB) $(RANFLAGS) $(PROJ_LIB)
+	@$(LOGEMIT_ARCHIVING_END)
+
+clean-lib:
+	$(RM_F) $(PROJ_LIB)
+
+clean::
+	$(AR) $(AR_REMOVE_FLAGS) $(PROJ_LIB) $(PROJ_OBJS)
+
 endif
 
-proj-lib: tag_projlib_start product_dirs $(PROJ_LIB) tag_projlib_end
+ifeq (, $(PROJ_CXX_LIB))
+proj-cxx-lib:
+else
+proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
+	@$(LOGEMIT_ARCHIVING_START)
+	@$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_OBJS)
+	@$(RANLIB) $(RANFLAGS) $(PROJ_CXX_LIB)
+	@$(LOGEMIT_ARCHIVING_END)
+
+clean-cxx-lib:
+	$(RM_F) $(PROJ_LIB)
+
+clean::
+	$(AR) $(AR_REMOVE_FLAGS) $(PROJ_CXX_LIB) $(PROJ_OBJS)
+endif
 
 # Special rule for prelinking C++ template library objects
 
@@ -33,11 +56,7 @@ proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS)
 	@$(RANLIB) $(RANFLAGS) $(PROJ_CXX_LIB)
 	@$(LOGEMIT_ARCHIVING_END)
 	@$(LOGEMIT_PROJLIB_END)
-else
-$(PROJ_CXX_LIB): $(PROJ_CXX_LIB)($(PROJ_OBJS))
-	@$(RANLIB) $(RANFLAGS) $@
 
-proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_CXX_LIB) tag_projlib_end
 endif
 
 ifeq (Win32, ${findstring Win32, $(PLATFORM_ID)})
