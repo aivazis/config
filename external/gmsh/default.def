@@ -7,7 +7,7 @@
     EXTERNAL_DEFINES += WITH_GMSH
     EXTERNAL_INCLUDES += $(GMSH_INCDIR)  
     EXTERNAL_LIBPATH += $(GMSH_LIBDIR)
-    EXTERNAL_LIBS += -lGmsh -lgl2ps
+    EXTERNAL_LIBS += -lgmsh -lgl2ps
 
 
 # end of file
