@@ -15,7 +15,7 @@ proj-lib:
 else
 proj-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
 	@$(LOGEMIT_ARCHIVING_START)
-	@$(AR_CREATE) $(PROJ_LIB) $(PROJ_OBJS)
+	$(AR_CREATE) $(PROJ_LIB) $(PROJ_OBJS)
 	@$(RANLIB) $(RANFLAGS) $(PROJ_LIB)
 	@$(LOGEMIT_ARCHIVING_END)
 
@@ -32,7 +32,7 @@ proj-cxx-lib:
 else
 proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
 	@$(LOGEMIT_ARCHIVING_START)
-	@$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_OBJS)
+	$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_OBJS)
 	@$(RANLIB) $(RANFLAGS) $(PROJ_CXX_LIB)
 	@$(LOGEMIT_ARCHIVING_END)
 
