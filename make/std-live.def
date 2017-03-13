@@ -47,8 +47,10 @@ live-etc live-var:
 
 # N.B.: live-web used to remove the target directories on the remote machine by logging in as
 # root; the reason for that is that apache builds a cache as {www-data} and uses its user's
-# umask, making the target folder impossible to delete as the remote project user we don't do
-# this any more; if you still need this behavior, please clean up the target area explictly
+# umask, making the target folder impossible to delete as the remote project user
+
+# we don't do this any more; if you still need this behavior, please clean up the target area
+# explictly
 live-web:
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DOCROOT)'
 	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_DOCROOT)
