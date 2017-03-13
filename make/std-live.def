@@ -45,17 +45,16 @@ live-etc live-var:
 
 # web site management
 
-# N.B.: live-web removes the target directories on the remote machine by logging in as root;
-# the reason for that is that apache builds a cache as {www-data} and uses its user's umask,
-# making the target folder impossible to delete as the remote project user
+# N.B.: live-web used to remove the target directories on the remote machine by logging in as
+# root; the reason for that is that apache builds a cache as {www-data} and uses its user's
+# umask, making the target folder impossible to delete as the remote project user we don't do
+# this any more; if you still need this behavior, please clean up the target area explictly
 live-web:
-	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_DOCROOT)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DOCROOT)'
 	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_DOCROOT)
-	$(SSH) $(PROJ_LIVE_USERURL) 'cd $(PROJ_LIVE_DOCROOT); $(LN_S) $(PROJECT).html index.html'
+	$(SSH) $(PROJ_LIVE_USERURL) 'cd $(PROJ_LIVE_DOCROOT); $(RM) index.html; $(LN_S) $(PROJECT).html index.html'
 
 live-web-package:
-	$(SSH) $(PROJ_LIVE_ADMINURL) '$(RM_RF) $(PROJ_LIVE_DOCROOT)/$(PACKAGE)'
 	$(SSH) $(PROJ_LIVE_USERURL) '$(MKDIRP) $(PROJ_LIVE_DOCROOT)/$(PACKAGE)'
 	$(SCP_R) $(EXPORT_WEB) $(PROJ_LIVE_USERURL):$(PROJ_LIVE_DOCROOT)/$(PACKAGE)
 
