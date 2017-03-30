@@ -21,7 +21,9 @@ all: tidy
 authorized_keys: $(PUBLIC_KEYS) grant.py grant.pfg Make.mm
 	./grant.py
 
-live: authorized_keys
-	$(SCP) $< $(PROJ_LIVE_ADMIN)@$(PROJ_LIVE_HOST):$(PROJ_LIVE_HOME)/.ssh
+keys: authorized_keys
+
+live: keys
+	$(SCP) authorized_keys $(PROJ_LIVE_ADMIN)@$(PROJ_LIVE_HOST):$(PROJ_LIVE_HOME)/.ssh
 
 # end of file
