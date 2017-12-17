@@ -682,6 +682,9 @@ class Builder:
         env['MM_STOP'] = '1'
         # env['XML']
 
+        # machine info
+        env['MM_ARCH'] = self.host.architecture
+        env['MM_HOSTNAME'] = self.host.name
         # project specific variables
         env.update(self.project.environment)
         # developer specific variables
