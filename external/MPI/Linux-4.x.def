@@ -62,5 +62,15 @@ ifeq (x86, ${findstring x86, $(TARGET_ID)})
 endif
 
 
+ifeq (ppc64, ${findstring ppc64, $(TARGET_ID)})
+    ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
+        MPI_INCLUDES += $(MPI_INCDIR)/openmpi
+        MPI_CPPDEFS = OMPI_WANT_CXX_BINDINGS
+        MPI_LIBS = -lmpi_cxx -lmpi
+        MPI_CPPLIBS = -lmpi_cxx
+        MPI_F90LIBS =
+    endif
+endif
+
 #
 # End of file
