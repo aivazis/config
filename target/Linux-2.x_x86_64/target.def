@@ -7,11 +7,11 @@
 #
 # Identify this build target
 #
-    TARGET_ID = Linux-2.0_x86
+    TARGET_ID = Linux-2.x_x86_64
 #
 # Pick an operating system and compilers
 #
-    TARGET_PLATFORM = Linux-2.0
+    TARGET_PLATFORM = Linux-2.x
     TARGET_COMPILER = gcc
 #
 # The list of compilers to use
@@ -23,6 +23,7 @@
 #
 # Here are the build-specific flags
 #
+
 #
 # C
 #
