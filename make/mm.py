@@ -310,12 +310,10 @@ class Build:
         # for linux
         if host.system == 'Linux':
             # get the version
-            version = '2.0' if host.release[0] == '2' else '3.x'
+            version = '{series}.x'.format(series=host.release[0])
             # build the platform marker
-            if host.architecture == 'x86_64':
-                marker = 'x86_64'
-            else:
-                marker = 'x86'
+            marker = host.architecture
+            # build the platform marker
             return 'Linux-{}_{}'.format(version, marker)
         # otherwise
         return 'unknown'
