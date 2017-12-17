@@ -4,17 +4,31 @@
 # (c) 1998-2012 all rights reserved
 #
 
+# prime
+GSL_LIBPATH = $(GSL_LIBDIR)
+GSL_LIBRARIES = gsl
 
+# if we have atlas
+ifdef ATLAS_DIR
+    GSL_LIBPATH += $(ATLAS_LIBDIR)
+    GSL_LIBRARIES += satlas atlas
+# otherwise
+else
+ifdef OPENBLAS_DIR
+    GSL_LIBPATH += $(OPENBLAS_LIBDIR)
+    GSL_LIBRARIES += blas
+# otherwise
+else
 # if we have MKL
 ifdef MKL_DIR
-    GSL_LIBPATH = $(GSL_LIBDIR) $(MKL_DIR)
-    GSL_LIBRARIES = gsl mkl_intel_lp64 mkl_sequential mkl_core pthread m
+    GSL_LIBPATH += $(MKL_DIR)
+    GSL_LIBRARIES = mkl_intel_lp64 mkl_sequential mkl_core pthread m
 # otherwise use what comes with gsl
 else
-    GSL_LIBPATH = $(GSL_LIBDIR)
-    GSL_LIBRARIES = gsl gslcblas
+    GSL_LIBRARIES += gslcblas m
 endif
-
+endif
+endif
 
 # Adjust the external variables to include GSL
 
