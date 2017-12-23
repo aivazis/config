@@ -1,0 +1,66 @@
+# -*- Makefile -*-
+#
+# michael a.g. aivazis
+# parasim
+# (c) 1998-2017 all rights reserved
+#
+
+# required definitions
+# PROJECT
+# PACKAGE
+# MODULE
+
+
+# python
+include Python/default.def
+
+# cython
+CYTHON = cython
+CYTHON_FLAGS = -3 --cplus --line-directives
+
+
+# common project settings
+# the module initialization file
+MODULE_INIT_FILE ?= $(MODULE).$(EXT_PYX)
+# the platform specific file extension
+MODULE_SUFFIX = $(shell $(PYTHON)-config --extension-suffix)
+# the complete name of the
+MODULE_DLL = $(BLD_BINDIR)/$(MODULE)$(MODULE_SUFFIX)
+
+PROJ_CLEAN += $(PROJ_DLL)
+
+PROJ_CXX_FLAGS += $(CXX_SOFLAGS)
+PROJ_LCXX_FLAGS += $(LCXX_SOFLAGS)
+
+PROJ_ALL_LIBRARIES = \
+    $(PROJ_LIBRARIES) \
+    $(EXTERNAL_LIBS)
+
+# the pile of things to clean
+PROJ_CLEAN += \
+    $(MODULE).$(EXT_CXX) \
+    $(MODULE_DLL) \
+    $(EXPORT_BINDIR)/$(MODULE)$(MODULE_SUFFIX)
+
+all: product_dirs $(PROJ_EXTERNAL_PACKAGES) proj-cxx-lib bindings export
+
+.PHONY: bindings
+bindings: $(MODULE_DLL)
+
+# export
+EXPORT_BINDIR = $(EXPORT_MODULEDIR)/$(PACKAGE)
+EXPORT_INCDIR = $(EXPORT_ROOT)/include/$(PROJECT)/$(PACKAGE)
+EXPORT_BINS = $(MODULE_DLL)
+export:: export-binaries
+
+PROJ_LIVE_PCKGDIR = $(PROJ_LIVE_PKGDIR)/$(PROJECT)/$(PACKAGE)
+live: live-bin
+
+# build
+$(MODULE).$(EXT_CXX): $(MODULE_INIT_FILE) $(MODULE_CYTHON_PXD) $(MODULE_CYTHON_PYX)
+	$(CYTHON) $(CYTHON_FLAGS) $(MODULE_INIT_FILE) -o $(MODULE).$(EXT_CXX)
+
+$(MODULE_DLL): $(MODULE).$(EXT_CXX) $(PROJ_OTHER_DEPENDENCIES)
+	$(CXX) $(CXXFLAGS) -o $@ $(MODULE).$(EXT_CXX) $(LCXXFLAGS) $(PROJ_ALL_LIBRARIES)
+
+# end of file

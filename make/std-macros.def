@@ -83,6 +83,8 @@ space:= $(empty) $(empty)
     EXT_F90 = f90
     EXT_FF90 = F90
     EXT_FH = h
+    EXT_PYX = pyx
+    EXT_PYD = pyd
 
     EXT_DEPEND = d
     EXT_OBJ = o
