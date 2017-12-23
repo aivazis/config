@@ -49,7 +49,6 @@ bindings: $(MODULE_DLL)
 
 # export
 EXPORT_BINDIR = $(EXPORT_MODULEDIR)/$(PACKAGE)
-EXPORT_INCDIR = $(EXPORT_ROOT)/include/$(PROJECT)/$(PACKAGE)
 EXPORT_BINS = $(MODULE_DLL)
 export:: export-binaries
 
