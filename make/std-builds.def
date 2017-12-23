@@ -13,7 +13,7 @@
 ifeq (, $(PROJ_LIB))
 proj-lib:
 else
-proj-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
+proj-lib: tag_projlib_start product_dirs proj-objs tag_projlib_end
 	@$(LOGEMIT_ARCHIVING_START)
 	$(AR_CREATE) $(PROJ_LIB) $(PROJ_OBJS)
 	@$(RANLIB) $(RANFLAGS) $(PROJ_LIB)
@@ -30,7 +30,7 @@ endif
 ifeq (, $(PROJ_CXX_LIB))
 proj-cxx-lib:
 else
-proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS) tag_projlib_end
+proj-cxx-lib: tag_projlib_start product_dirs proj-objs tag_projlib_end
 	@$(LOGEMIT_ARCHIVING_START)
 	$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_OBJS)
 	@$(RANLIB) $(RANFLAGS) $(PROJ_CXX_LIB)
@@ -48,7 +48,7 @@ endif
 ifdef CXX_PRELINK_CMD
 $(PROJ_CXX_LIB):
 
-proj-cxx-lib: tag_projlib_start product_dirs $(PROJ_OBJS)
+proj-cxx-lib: tag_projlib_start product_dirs proj-objs
 	@$(LOGEMIT_ARCHIVING_START)
 	@$(CXX_PRELINK_CMD) $(PROJ_TMPDIR)/*.$(EXT_OBJ)
 	@$(AR_CXX_CREATE) $(PROJ_CXX_LIB) $(PROJ_TMPDIR)/*.$(EXT_OBJ) \
@@ -61,14 +61,16 @@ endif
 
 ifeq (Win32, ${findstring Win32, $(PLATFORM_ID)})
 # Special rule for building Cygwin DLL
-$(PROJ_DLL) $(PROJ_SAR): product_dirs $(PROJ_OBJS)
+$(PROJ_DLL) $(PROJ_SAR): product_dirs proj-objs
 	@$(CXX) $(LCXX_SARFLAGS) -Wl,--out-implib=$(PROJ_SAR) \
 	-o $(PROJ_DLL) $(PROJ_OBJS) $(LCXXFLAGS)
 else
 # Usual rule for building shared archive
-$(PROJ_DLL) $(PROJ_SAR): product_dirs $(PROJ_OBJS)
+$(PROJ_DLL) $(PROJ_SAR): product_dirs proj-objs
 	$(CXX) $(LCXX_SARFLAGS) -o $@ $(PROJ_TMPDIR)/*.${EXT_OBJ} $(LCXXFLAGS)
 endif
+
+proj-objs: product_dirs $(PROJ_OBJS)
 
 # Preserve PROJ_OBJS after compilation by implicit rule
 .SECONDARY: $(PROJ_OBJS)
