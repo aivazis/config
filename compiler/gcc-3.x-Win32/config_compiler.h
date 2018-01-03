@@ -4,7 +4,7 @@
  *
  *                             Julian C. Cummings
  *                      California Institute of Technology
- *                      (C) 1998-2004  All Rights Reserved
+ *                      (C) 1998-2018  All Rights Reserved
  *
  * <LicenseText>
  *

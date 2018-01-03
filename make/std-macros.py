@@ -4,7 +4,7 @@
 #
 #                             Michael A.G. Aivazis
 #                      California Institute of Technology
-#                      (C) 1998-2008  All Rights Reserved
+#                      (C) 1998-2018  All Rights Reserved
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #

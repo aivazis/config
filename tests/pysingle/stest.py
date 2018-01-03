@@ -3,7 +3,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 #                               Michael A.G. Aivazis
-#                        (C) 1998-2001 All Rights Reserved
+#                        (C) 1998-2018 All Rights Reserved
 # 
 #  <LicenseText>
 # 

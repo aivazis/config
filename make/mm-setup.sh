@@ -2,7 +2,7 @@
 #
 # michael a.g. aïvázis
 # california institute of technology
-# (c) 1998-2012 all rights reserved
+# (c) 1998-2018 all rights reserved
 
 # modify this to point to your location
 alias mm='python3 ${HOME}/dv/config/make/mm.py'

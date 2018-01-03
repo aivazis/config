@@ -2,7 +2,7 @@
 #
 # michael a.g. aïvázis
 # orthologue
-# (c) 1998-2016 all rights reserved
+# (c) 1998-2018 all rights reserved
 #
 
 # add this to the clean pile
