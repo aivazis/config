@@ -314,9 +314,9 @@ class Build:
         # for linux
         if host.system == 'Linux':
             # get the version
-            version = '{series}.x'.format(series=host.release[0])
+            version = host.release.split('.')[0]
             # build the platform marker
-            return 'Linux-{}_{}'.format(version, host.architecture)
+            return 'Linux-{}.x_{}'.format(version, host.architecture)
         # otherwise
         return 'unknown'
 
