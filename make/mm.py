@@ -305,16 +305,18 @@ class Build:
 
         # for darwin
         if host.system == 'Darwin':
+            # get the version and architecture
+            release, _, arch = platform.mac_ver()
+            # reduce the version down to its essentials
+            family = release.split('.')[0]
             # it all gets handled by the same target file
-            return 'Darwin-8.x_x86'
+            return 'Darwin-{}.x_{}'.format(family, arch)
         # for linux
         if host.system == 'Linux':
             # get the version
             version = '{series}.x'.format(series=host.release[0])
             # build the platform marker
-            marker = host.architecture
-            # build the platform marker
-            return 'Linux-{}_{}'.format(version, marker)
+            return 'Linux-{}_{}'.format(version, host.architecture)
         # otherwise
         return 'unknown'
 

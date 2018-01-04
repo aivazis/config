@@ -1,0 +1,37 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# parasim
+# (c) 1998-2018 all rights reserved
+#
+
+#
+# Darwin settings for MPI
+#
+
+MPI_CPPDEFS = HAVE_MPI_CPP
+
+ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
+    MPI_INCLUDES = $(MPI_INCDIR)/mpi2c++ $(MPI_INCDIR)
+    MPI_LIBS = -lmpich -lpmpich -lmpich
+    MPI_CPPLIBS = -lpmpich++
+    MPI_F90LIBS = -lmpichf90
+    MPI_LIBPATH = $(MPI_LIBDIR)
+    ifeq (gcc, ${findstring gcc, $(TARGET_F77)})
+        MPI_F90LIBS = -lfmpich
+    endif
+
+    ifeq (gm, ${findstring gm, $(MPI_VERSION)})
+        MPI_LIBPATH = $(MPI_LIBDIR) $(GM_LIBDIR)
+        MPI_LIBS = -Wl,-multiply_defined,suppress -Wl,-u,_gmpi_macosx_malloc_hack -lmpich -lpmpich -lmpich -lgm
+    endif
+endif
+
+ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
+    MPI_INCLUDES = $(MPI_INCDIR)
+    MPI_LIBS = -lmpi -lmpi_cxx
+    MPI_LIBPATH = $(MPI_LIBDIR)
+endif
+
+#
+# end of file

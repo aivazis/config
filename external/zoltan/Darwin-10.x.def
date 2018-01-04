@@ -1,0 +1,13 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# parasim
+# (c) 1998-2018 all rights reserved
+#
+
+# Platform-specific settings for Darwin
+
+    ZOLTAN_LIBDIR = $(ZOLTAN_DIR)/Obj_gcc
+
+#
+# end of file

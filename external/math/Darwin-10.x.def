@@ -1,0 +1,13 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# parasim
+# (c) 1998-2018 all rights reserved
+#
+
+# Darwin 10.x settings for math
+#
+
+MATH_LIBS = -Wl,-framework -Wl,vecLib
+
+# end of file
