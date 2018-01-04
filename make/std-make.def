@@ -55,7 +55,7 @@ include std-adjustments.def
 include $(TARGET_CC)/c.def
 include $(TARGET_CXX)/cpp.def
 include $(TARGET_F77)/f77.def
-include $(TARGET_CUCC)/cu.def
+include $(TARGET_NVCC)/cu.def
 
 # Restrict make's implicit rules to these extensions
 .SUFFIXES :

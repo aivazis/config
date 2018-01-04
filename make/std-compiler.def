@@ -20,16 +20,20 @@
     COMPILER_F77_CLEAN =
     COMPILER_F77_DISTCLEAN =
 
-    COMPILER_CUCC_TIDY =
-    COMPILER_CUCC_CLEAN =
-    COMPILER_CUCC_DISTCLEAN =
+    COMPILER_NVCC_TIDY =
+    COMPILER_NVCC_CLEAN =
+    COMPILER_NVCC_DISTCLEAN =
+
+    COMPILER_NVCXX_TIDY =
+    COMPILER_NVCXX_CLEAN =
+    COMPILER_NVCXX_DISTCLEAN =
 
 # Turn the provisional compiler names into the actual ones (unless someone overrides)
 
     CC = $(COMPILER_CC_NAME)
     F77 = $(COMPILER_F77_NAME)
     CXX = $(COMPILER_CXX_NAME)
-    CUCC = $(COMPILER_CUCC_NAME) --compiler-bindir $(COMPILER_CUCC_CC_NAME)
+    NVCC = $(COMPILER_NVCC_NAME)
 
 # Command line generation
 
@@ -53,7 +57,7 @@
     FORT_OPT_FLAGS = $(F77_OPT_FLAGS)
 
 # These macros get used by std-c.def to build the C command line
-    CUCC_BUILD_DEFINES = ${addprefix -D, $(CUCC_DEFINES)}
-    CUCC_BUILD_INCLUDES = ${addprefix -I, $(CUCC_INCLUDES)}
+    NVCC_BUILD_DEFINES = ${addprefix -D, $(NVCC_DEFINES)}
+    NVCC_BUILD_INCLUDES = ${addprefix -I, $(NVCC_INCLUDES)}
 
 # end of file
