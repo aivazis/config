@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 # michael a.g. aïvázis
-# california institute of technology
+# parasim
 # (c) 1998-2018  all rights reserved
 #
 
@@ -42,11 +42,11 @@ endif
     COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
     COMPILER_LCC_FLAGS =
     COMPILER_LCC_LIBPATH =
-    COMPILER_LCC_SOFLAGS = -shared 
+    COMPILER_LCC_SOFLAGS = -shared
     COMPILER_LCC_FORSHARED = -Xlinker -export-dynamic
 
 # clean up
-    COMPILER_CC_CLEAN = 
+    COMPILER_CC_CLEAN =
     COMPILER_CC_DISTCLEAN =
 
 # end of file

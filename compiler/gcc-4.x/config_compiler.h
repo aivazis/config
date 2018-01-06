@@ -1,12 +1,8 @@
 /* -*- C -*-
  *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- *                             michael a.g. aïvázis
- *                      california institute of technology
- *                      (c) 1998-2018  all rights reserved
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * michael a.g. aïvázis
+ * parasim
+ * (c) 1998-2018  all rights reserved
  *
  */
 

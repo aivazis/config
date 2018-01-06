@@ -2,8 +2,9 @@
  * -*- C -*-
  *
  * michael a.g. aivazis
- * california institute of technology
+ * parasim
  * (c) 1998-2018  all rights reserved
+ *
  */
 
 #if !defined(__config_f77_h__)

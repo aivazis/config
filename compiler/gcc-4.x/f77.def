@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 # michael a.g. aïvázis
-# california institute of technology
+# parasim
 # (c) 1998-2018  all rights reserved
 #
 
@@ -36,7 +36,7 @@
 # When using the FORTRAN compiler to preprocess
 #
     COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E -cpp
-    COMPILER_F77_PREPFLAG = 
+    COMPILER_F77_PREPFLAG =
 #
 # When using the FORTRAN compiler to make dependencies
 #

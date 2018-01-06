@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 # michael a.g. aïvázis
-# california institute of technology
+# parasim
 # (c) 1998-2018  all rights reserved
 #
 
@@ -40,7 +40,7 @@ endif
 
 # when using the C compiler to link
     COMPILER_LCC_NAME = $(COMPILER_CC_NAME)
-    COMPILER_LCC_FLAGS = 
+    COMPILER_LCC_FLAGS =
     COMPILER_LCC_LIBPATH =
     COMPILER_LCC_SARFLAGS = -dynamiclib -flat_namespace -Wl,-undefined,suppress -single_module
     COMPILER_LCC_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress

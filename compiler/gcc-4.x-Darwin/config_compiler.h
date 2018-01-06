@@ -1,15 +1,10 @@
 /*
  * -*- C -*-
  *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * michael a.g. aïvázis
+ * parasim
+ * (c) 1998-2018  all rights reserved
  *
- *                             Julian C. Cummings
- *                      California Institute of Technology
- *                      (C) 1998-2018  All Rights Reserved
- *
- * <LicenseText>
- *
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 #if !defined(__config_compiler_h__)
@@ -24,7 +19,4 @@
 
 #endif
 
-/* Version */
-/* $Id: config_compiler.h,v 1.1 2005/03/14 22:00:37 cummings Exp $ */
-
-/* End of file */
+/* end of file */

@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 # michael a.g. aïvázis
-# california institute of technology
+# parasim
 # (c) 1998-2018  all rights reserved
 #
 
@@ -28,7 +28,7 @@
     COMPILER_CXX_SOFLAGS = -fPIC
 
 # optimization flags
-    CXX_OPT_FLAGS = -O3 -fno-default-inline -funroll-loops 
+    CXX_OPT_FLAGS = -O3 -fno-default-inline -funroll-loops
     CXX_DEBUG_FLAGS = -g     # Debug flags
     CXX_PROF_FLAGS = -pg     # Profiling flags
 
@@ -56,6 +56,6 @@ endif
     COMPILER_LF77_CXX = -lstdc++ -lm -lgcc -lc -lgcc
 
 # do not use precompiled headers (for now)
-    COMPILER_CXXPRECOMP_FLAGS = 
+    COMPILER_CXXPRECOMP_FLAGS =
 
 # end of file

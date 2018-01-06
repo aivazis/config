@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 # michael a.g. aïvázis
-# california institute of technology
+# parasim
 # (c) 1998-2018  all rights reserved
 #
 
@@ -10,21 +10,19 @@
 #
 #
     F77_ID = gcc-4.x-Darwin
-#
+
 # The name of the binary
-#
     COMPILER_F77_NAME = gfortran
     COMPILER_F90_NAME = gfortran
-#
+
 # Command line options
-#
     COMPILER_F77_FLAGS = -fno-second-underscore
     COMPILER_F90_FLAGS = -fno-second-underscore
     COMPILER_F77_INCLUDES = $(DIR_COMPILER)/$(F77_ID)
     COMPILER_F77_DEFINES = F77_ID="$(F77_ID)"
 
-    COMPILER_F77_SOFLAGS = -fPIC 
-#
+    COMPILER_F77_SOFLAGS = -fPIC
+
 # Optimization flags
     F77_OPT_FLAGS = -O3 -funroll-loops
     F77_DEBUG_FLAGS = -g -fbounds-check -DDEBUG -Wall     # Debug flags
@@ -33,41 +31,35 @@
     F77_PROF_FLAGS = -pg     # Profiling flags
     F77_MODULE_FLAGS = -I
     F77_MODULE_PLACEMENT_FLAG = -J
-#
+
 # When using the FORTRAN compiler to preprocess
-#
     COMPILER_F77_PREPROCESS = $(COMPILER_F77_NAME) -E -cpp
-#
+
 # When using the FORTRAN compiler to make dependencies
-#
     F77_MAKEDEPENDS_COMBINED = true
     COMPILER_F77_DEPENDS = $(COMPILER_F77_NAME) -c -cpp -dI
-#
+
 # Extensions: input format, etc
-#
     COMPILER_F77_VAX_TABS = -fvxt
     COMPILER_F77_STATIC_LOCALS = -fno-automatic
     COMPILER_F77_LONGLINES = -ffixed-line-length-none
     COMPILER_F77_NORANGECHECK = -fno-range-check
-#
+
 # When using the FORTRAN compiler to link
-#
     COMPILER_LF77_NAME = $(COMPILER_F77_NAME)
-    COMPILER_LF77_FLAGS = 
-    COMPILER_LF77_LIBPATH = 
+    COMPILER_LF77_FLAGS =
+    COMPILER_LF77_LIBPATH =
     COMPILER_LF77_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress -lcc_dynamic
     COMPILER_LF77_SARFLAGS = -dynamiclib -flat_namespace -Wl,-undefined,suppress -single_module -lcc_dynamic
-#
+
 # Mixed language linking
-#
     COMPILER_LF90_LIBPATH = $(COMPILER_LF77_LIBPATH)
     COMPILER_LF77_LIBRARIES = -lgfortran
     COMPILER_LF90_LIBRARIES = $(COMPILER_LF77_LIBRARIES)
     COMPILER_LCC_FORTRAN = $(COMPILER_LF90_LIBRARIES)
     COMPILER_LCXX_FORTRAN = $(COMPILER_LF90_LIBRARIES)
-#
+
 # Clean up
-#
     COMPILER_F77_CLEAN = *.mod
     COMPILER_F77_DISTCLEAN =
 

@@ -1,14 +1,12 @@
-#--------------------------------------------------------------------------
+# -*- Makefile -*-
 #
-#                       Michael A.G. Aivazis
-#                California Institute of Technology
-#                   (C) 1999 All Rights Reserved
+# michael a.g. aivazis
+# parasim
+# (c) 1998-2018 all rights reserved
 #
-#--------------------------------------------------------------------------
 
-#
-# Use the latest version of the GNU Fortran compiler
-#
+
+# use the latest version of the GNU Fortran compiler
 include gcc-4.x/f77.def
-#
-# End of file
+
+# end of file
