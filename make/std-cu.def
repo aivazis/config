@@ -1,19 +1,13 @@
 # -*- Makefile -*-
 #
-#--------------------------------------------------------------------------
-#                       Michael A.G. Aivazis
-#                California Institute of Technology
-#                   (C) 1999 All Rights Reserved
-#
-#--------------------------------------------------------------------------
-
-#
-# Default settings for C compilation
+# michael a.g. aivazis
+# parasim
+# (c) 1998-2018 all rights reserved
 #
 
+# Default settings for NVCC compilation
 
 # Developer preferences
-
     DEV_NVCC_FLAGS ?=
     DEV_NVCC_INCLUDES ?=
     DEV_NVCC_DEFINES ?=
@@ -22,10 +16,9 @@
 
 
 # Construction of compiler command line
-
     NVCC_FLAGS = $(PLATFORM_NVCC_FLAGS) $(COMPILER_NVCC_FLAGS) $(TARGET_NVCC_FLAGS) \
 	     $(DEV_NVCC_FLAGS) $(PROJ_NVCC_FLAGS)
-    NVCC_INCLUDES = $(PLATFORM_NVCC_INCLUDES) $(DIR_COMPILER)/$(NVCC_ID) \
+    NVCC_INCLUDES = $(PLATFORM_NVCC_INCLUDES) \
 		$(COMPILER_NVCC_INCLUDES) $(TARGET_NVCC_INCLUDES) \
 		$(DEV_NVCC_INCLUDES) $(PROJ_NVCC_INCLUDES) $(EXTERNAL_INCLUDES) \
 		$(BLD_INCDIR)

@@ -5,46 +5,38 @@
 # (c) 1998-2018 all rights reserved
 #
 
-#
 # Definitions for the nVidia CUDA compiler
-#
     NVCC_ID = nvcc
-#
+
 # The name of the binary
-#
     COMPILER_NVCC_NAME = nvcc
-#
+
 # Command line options
-#
     COMPILER_NVCC_FLAGS =
-    COMPILER_NVCC_INCLUDES = $(DIR_COMPILER)/$(NVCC_ID)
+    COMPILER_NVCC_INCLUDES = $(DIR_COMPILER)/$(NVCC_ID) $(DIR_COMPILER)/$(CXX_ID)
     COMPILER_NVCC_DEFINES = NVCC_ID="$(NVCC_ID)"
 
-    COMPILER_NVCC_SOFLAGS = -fPIC
-#
+    COMPILER_NVCC_SOFLAGS = -Xcompiler -fPIC
+
 # Optimization flags
     NVCC_OPT_FLAGS = -O3 -funroll-loops
     NVCC_DEBUG_FLAGS = -g     # Debug flags
     NVCC_PROF_FLAGS = -pg     # Profiling flags
-#
+
 # When using the C compiler to preprocess
-#
     COMPILER_NVCC_PREPROCESS = $(COMPILER_NVCC_NAME) -E
-#
+
 # When using the C compiler to make dependencies
-#
     COMPILER_NVCC_DEPENDS = $(NVCC) --generate-dependencies
-#
+
 # When using the C compiler to link
-#
     COMPILER_LNVCC_NAME = $(COMPILER_NVCC_NAME)
     COMPILER_LNVCC_FLAGS =
     COMPILER_LNVCC_LIBPATH =
     COMPILER_LNVCC_SOFLAGS = -shared
     COMPILER_LNVCC_FORSHARED =
-#
+
 # Clean up
-#
     COMPILER_NVCC_CLEAN =
     COMPILER_NVCC_DISTCLEAN =
 
