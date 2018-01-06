@@ -2,15 +2,13 @@
 #
 #
 # michael a.g. aivazis
-# california institute of technology
+# parasim
 # (c) 1998-2018 all rights reserved
 #
 
 # Default settings for FORTRAN compilation
 
-
 # Developer preferences
-
     DEV_F77_FLAGS ?=
     DEV_F77_DEFINES ?=
     DEV_F77_INCLUDES ?=
@@ -19,7 +17,6 @@
 
 
 # Construction of compiler command lines
-
     F77_FLAGS = $(PLATFORM_F77_FLAGS) $(COMPILER_FORT_FLAGS) \
 	      $(TARGET_F77_FLAGS) $(DEV_F77_FLAGS) $(PROJ_F77_FLAGS)
     F77_INCLUDES = $(PLATFORM_F77_INCLUDES) $(COMPILER_F77_INCLUDES) \
@@ -42,7 +39,7 @@
     endif
 
     F77FLAGS =  $(F77_BUILD_DEFINES) $(F77_BUILD_INCLUDES) \
-	     $(F90_BUILD_MODULES) $(F77_FLAGS) 
+	     $(F90_BUILD_MODULES) $(F77_FLAGS)
     LF77FLAGS = $(LF77_FLAGS) $(LF77_LIBPATH)
 
     F90_MODULES = $(PROJ_F90_MODULES) $(EXTERNAL_F90_MODULES)
@@ -52,7 +49,6 @@
 
 
 # Compile FORTRAN source
-
 ifdef F77_MAKEDEPENDS_COMBINED
 
 F77_COMPILE_COMMAND = $(COMPILER_F77_DEPENDS) $(F77FLAGS) -o $@ $<
@@ -100,7 +96,7 @@ $(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF90)
 
 else # no combined make depends
 
-F77_COMPILE_COMMAND = $(F77) $(F77FLAGS)-o $@ $< 
+F77_COMPILE_COMMAND = $(F77) $(F77FLAGS)-o $@ $<
 F77_MAKEDEPEND = $(COMPILER_F77_DEPENDS) $(F77FLAGS) $<
 
 F90_COMPILE_COMMAND = $(F77_COMPILE_COMMAND)
@@ -155,6 +151,4 @@ $(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_FF90)
 	@$(LOGEMIT_COMPILING_END)
 endif
 
-
-#
 # end of file

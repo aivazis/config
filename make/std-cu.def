@@ -73,5 +73,4 @@ ifdef USE_NVCCPRECOMP_HEADERS
 $(NVCCPPRECOMP_HEADERS)
 endif
 
-#
-# End of file
+# end of file

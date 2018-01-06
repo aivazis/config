@@ -1,11 +1,8 @@
 # -*- Makefile -*-
 #
-#--------------------------------------------------------------------------
-#                       Julian C. Cummings
-#                California Institute of Technology
-#                   (C) 2004 All Rights Reserved
-#
-#--------------------------------------------------------------------------
+# michael a.g. aivazis
+# parasim
+# (c) 1998-2018 all rights reserved
 #
 
 # Switch Fortran defaults from F77 to F90
@@ -14,9 +11,4 @@
     FORT_DEBUG_FLAGS = $(F90_DEBUG_FLAGS)
     FORT_OPT_FLAGS = $(F90_OPT_FLAGS)
 
-
-# version
-# $Id: std-f90.def,v 1.1 2004/01/17 02:21:37 cummings Exp $
-
-#
-# End of file
+# end of file

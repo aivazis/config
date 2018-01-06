@@ -1,19 +1,13 @@
 # -*- Makefile -*-
 #
-#--------------------------------------------------------------------------
-#                       Michael A.G. Aivazis
-#                California Institute of Technology
-#                   (C) 1999 All Rights Reserved
+# michael a.g. aivazis
+# parasim
+# (c) 1998-2018 all rights reserved
 #
-#--------------------------------------------------------------------------
 
-#
 # Default settings for C compilation
-#
-
 
 # Developer preferences
-
     DEV_CC_FLAGS ?=
     DEV_CC_INCLUDES ?=
     DEV_CC_DEFINES ?=
@@ -22,7 +16,6 @@
 
 
 # Construction of compiler command line
-
     CC_FLAGS = $(PLATFORM_CC_FLAGS) $(COMPILER_CC_FLAGS) $(TARGET_CC_FLAGS) \
 	     $(DEV_CC_FLAGS) $(PROJ_CC_FLAGS)
     CC_INCLUDES = $(PLATFORM_CC_INCLUDES) $(DIR_COMPILER)/$(F77_ID) \
@@ -40,13 +33,12 @@
     CC_SOFLAGS = $(COMPILER_CC_SOFLAGS)
     LCC_SOFLAGS = $(COMPILER_LCC_SOFLAGS) $(EXTERNAL_SOFLAGS)
 
-    CFLAGS = $(CC_BUILD_DEFINES) $(CC_BUILD_INCLUDES) $(CC_FLAGS) 
+    CFLAGS = $(CC_BUILD_DEFINES) $(CC_BUILD_INCLUDES) $(CC_FLAGS)
     LCFLAGS = $(LCC_FLAGS) ${addprefix -L, $(LCC_LIBPATH)}
     LCC_FORTRAN = $(COMPILER_LCC_FORTRAN)
 
 
 # Compile C source
-
 $(PROJ_TMPDIR)/%.$(EXT_OBJ): %.$(EXT_C)
 ifdef CC_MAKEDEPENDS_COMBINED
 	@$(LOGEMIT_COMPILING_START)
@@ -83,7 +75,6 @@ endif
 	@$(LOGEMIT_COMPILING_END)
 
 # Modified C++ compile command when using TAU
-
 ifeq (tau, ${findstring tau, $(BLD_USER_TARGET)})
 ifdef NO_TAU_INSTRUMENTATION
 CC_COMPILE_COMMAND =	$(CC) $(CFLAGS) -c -o $@ $<
@@ -100,7 +91,6 @@ CC_COMPILE_COMMAND =	$(CC) $(CFLAGS) -c -o $@ $<
 endif
 
 # Generate dependencies for C source
-
 ifdef CC_MAKEDEPENDS_FILE
 CC_MAKEDEPEND = $(COMPILER_CC_DEPENDS) $(CC_BUILD_DEFINES) \
 		$(CC_BUILD_INCLUDES) $<
@@ -110,13 +100,8 @@ CC_MAKEDEPEND = $(COMPILER_CC_DEPENDS) $(CC_BUILD_DEFINES) \
 endif
 
 # Generate precompiled headers if supported
-
 ifdef USE_CCPRECOMP_HEADERS
 $(CCPPRECOMP_HEADERS)
 endif
 
-# version
-# $Id: std-c.def,v 1.39 2012/01/24 18:19:11 aivazis Exp $
-
-#
-# End of file
+# end of file
