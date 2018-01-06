@@ -26,11 +26,11 @@ space:= $(empty) $(empty)
 
 # Output generation directories
 
-    BLD_DOCDIR = $(BLD_ROOT)/doc/$(TARGET_TAG)
-    BLD_BINDIR = $(BLD_ROOT)/bin/$(TARGET_TAG)
-    BLD_LIBDIR = $(BLD_ROOT)/lib/$(TARGET_TAG)
-    BLD_INCDIR = $(BLD_ROOT)/include/$(TARGET_TAG)
-    BLD_TMPDIR = $(BLD_ROOT)/tmp/$(TARGET_TAG)
+    BLD_DOCDIR = $(BLD_ROOT)/$(TARGET_TAG)/doc
+    BLD_BINDIR = $(BLD_ROOT)/$(TARGET_TAG)/bin
+    BLD_LIBDIR = $(BLD_ROOT)/$(TARGET_TAG)/lib
+    BLD_INCDIR = $(BLD_ROOT)/$(TARGET_TAG)/include
+    BLD_TMPDIR = $(BLD_ROOT)/$(TARGET_TAG)/tmp
 
 # Exported packages
 # EXPORT_ROOT must be set by user
