@@ -6,7 +6,7 @@
 #
 
 # adjust the temporary directory:
-# if we only have a rivial definition of the project tmp directory
+# if we only have a trivial definition of the project tmp directory
 ifeq (${strip $(PROJ_TMPDIR)}, "")
     # and a non-trivial project name
     ifneq (${strip $(PROJECT)}, "")
