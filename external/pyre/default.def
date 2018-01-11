@@ -1,0 +1,23 @@
+#
+# michael a.g. aïvázis
+# parasim
+# (C) 1998-2018 all rights reserved
+#
+
+# default settings for pyre
+  PYRE_DEFINES = WITH_PYRE
+  PYRE_INCLUDES = $(PYRE_INCDIR)
+  PYRE_LIBPATH = $(PYRE_LIBDIR)
+  PYRE_LIBS = -lpyre -ljournal
+
+# apply to the external settings
+  EXTERNAL_DEFINES += $(PYRE_DEFINES)
+  EXTERNAL_INCLUDES += $(PYRE_INCLUDES)
+  EXTERNAL_LIBPATH += $(PYRE_LIBPATH)
+  EXTERNAL_LIBS += $(PYRE_LIBS)
+
+
+# pull in the real time clock support
+include clock/default.def
+
+# end of file
