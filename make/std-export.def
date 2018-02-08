@@ -30,6 +30,9 @@ $(EXPORT_ETCDIR):
 $(EXPORT_WEBDIR):
 	@$(MKDIR) $(MKPARENTS) $(EXPORT_WEBDIR)
 
+$(EXPORT_MODDIR):
+	@$(MKDIR) $(MKPARENTS) $(EXPORT_MODDIR)
+
 #---------------------------------------------------------------------------
 #
 # Export targets make stuff available for other local packages
@@ -116,7 +119,7 @@ export-web:: $(EXPORT_WEBDIR)
 # target to force the creation of the etc directory for $PROJECTs that need it
 export-etcdir: $(EXPORT_ETCDIR)
 
-# compile python sources to look for syntax errors and copythem to project-specific export dir
+# compile python sources to look for syntax errors and copy them to project-specific export dir
 export-python-modules:: $(EXPORT_MODULEDIR)
 	@$(PYTHON) $(PYTHON_FLAGS) -m compileall -l `pwd` $(PYTHON_PYCFLAGS)
 	@-$(TAGS) $(TAGS_FLAGS) -o $(TAGS_FILE) *.py

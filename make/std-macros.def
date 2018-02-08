@@ -46,6 +46,7 @@ space:= $(empty) $(empty)
     EXPORT_DOCDIR = $(EXPORT_ROOT)/doc
     EXPORT_VARDIR = $(EXPORT_ROOT)/var
     EXPORT_WEBDIR = $(EXPORT_ROOT)/web/www/$(PROJECT)
+    EXPORT_MODDIR = $(EXPORT_ROOT)/modules
 
 # Date
 
