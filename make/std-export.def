@@ -148,4 +148,9 @@ export-etc:: export-etcdir
 export-package-moduledir::
 	@-$(MKDIR) $(MKPARENTS) $(EXPORT_MODULEDIR)/$(PACKAGE)
 
+# modules
+# make the modules files
+export-modules: $(EXPORT_MODDIR) $(PROJ_MODULES)
+
+
 # end of file
