@@ -14,6 +14,7 @@
     PROJ_SRCS =
     PROJ_DLL =
     PROJ_SAR =
+    PROJ_MODULES =
 
 # project-specific directories for output files
 # binary and library directories are not project-specific because
