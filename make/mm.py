@@ -698,9 +698,9 @@ class Builder:
         # adjust the C compiler
         if self.compiler.c: env['TARGET_CC'] = self.compiler.c
         # adjust the C++ compiler
-        if self.compiler.c: env['TARGET_CXX'] = self.compiler.cxx
-        # adjust the C compiler
-        if self.compiler.c: env['TARGET_F77'] = self.compiler.fortran
+        if self.compiler.cxx: env['TARGET_CXX'] = self.compiler.cxx
+        # adjust the fortran compiler
+        if self.compiler.fortran: env['TARGET_F77'] = self.compiler.fortran
 
         # initialize path and ldpath for the project requirements
         reqpath = []
