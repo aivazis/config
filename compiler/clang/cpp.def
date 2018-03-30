@@ -1,0 +1,66 @@
+# -*- Makefile -*-
+#
+# michael a.g. aïvázis
+# parasim
+# (c) 1998-2018  all rights reserved
+#
+
+# definitions for the clang++ compiler
+    CXX_ID = clang
+
+# the name of the binary
+    COMPILER_CXX_NAME = clang++
+
+# command line options
+    COMPILER_CXX_FLAGS = -Wall
+    COMPILER_CXX_INSTFLAGS =
+    COMPILER_CXX_INCLUDES = $(DIR_COMPILER)/$(CXX_ID)
+    COMPILER_CXX_DEFINES = CXX_ID="$(CXX_ID)"
+
+# code generation
+    COMPILER_CXX_SOFLAGS = -fPIC
+
+# language support
+    COMPILER_CXX_STD98 = -std=c++98
+    COMPILER_CXX_STD11 = -std=c++11
+    COMPILER_CXX_STD14 = -std=c++14
+    COMPILER_CXX_STD17 = -std=c++17
+
+# optimization flags
+    CXX_OPT_FLAGS = -O3 -funroll-loops
+    CXX_DEBUG_FLAGS = -g     # Debug flags
+    CXX_PROF_FLAGS = -pg     # Profiling flags
+
+# recognize non-standard extensions
+    COMPILER_CXX_ISCXX =
+
+# when using the C++ compiler to preprocess
+    COMPILER_CXX_PREPROCESS = $(COMPILER_CXX_NAME) -E
+
+# when using the C++ compiler to make dependencies
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MM
+ifndef NO_MAKEDEPENDS_COMBINED
+    COMPILER_CXX_DEPENDS = $(COMPILER_CXX_NAME) -MMD
+    CXX_MAKEDEPENDS_COMBINED = true
+endif
+
+# when using the C++ compiler to link:
+    COMPILER_LCXX_NAME = $(COMPILER_CXX_NAME)
+    COMPILER_LCXX_FLAGS =
+    COMPILER_LCXX_LIBPATH =
+    COMPILER_LCXX_SARFLAGS = -dynamiclib -flat_namespace -Wl,-undefined,suppress -single_module
+    COMPILER_LCXX_SOFLAGS = -bundle -flat_namespace -Wl,-undefined,suppress
+    COMPILER_LCXX_FORSHARED =
+
+# mixed language support (FORTRAN linking with C++)
+    COMPILER_LF77_CXX = -lstdc++ -lm -lc
+
+# this compiler does not support precompiled headers
+    COMPILER_CXXPRECOMP_FLAGS = -no-cpp-precomp
+
+# clean up
+    COMPILER_CXX_TIDY = *.dSYM
+    COMPILER_CXX_CLEAN =
+    COMPILER_CXX_DISTCLEAN =
+
+# end of file
