@@ -1,0 +1,24 @@
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2018 all rights reserved
+#
+
+# initiaize the package layout
+# the user is expected to set these variables to point to the GDAL install directories
+GDAL_DIR ?=
+GDAL_INCDIR ?=
+GDAL_LIBDIR ?=
+
+# prime
+GDAL_LIBPATH = $(GDAL_LIBDIR)
+GDAL_LIBRARIES = gdal
+
+# Adjust the external variables to include GDAL
+
+   EXTERNAL_DEFINES += WITH_GDAL
+
+   EXTERNAL_INCLUDES += $(GDAL_INCDIR)
+   EXTERNAL_LIBS += ${addprefix -L, $(GDAL_LIBPATH)} ${addprefix -l, $(GDAL_LIBRARIES)}
+
+# end of file
