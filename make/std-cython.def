@@ -16,9 +16,9 @@ include Python/default.def
 
 # cython
 ifeq ($(findstring Linux,$(TARGET_PLATFORM)),Linux)
-CYTHON = cython3
+CYTHON ?= cython3
 else
-CYTHON = cython
+CYTHON ?= cython
 endif
 
 CYTHON_FLAGS = -3 --cplus --line-directives
