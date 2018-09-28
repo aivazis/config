@@ -1,0 +1,18 @@
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2018 all rights reserved
+#
+
+# prime
+GTEST_LIBPATH = $(GTEST_LIBDIR)
+GTEST_LIBRARIES = gtest
+
+# Adjust the external variables to include GTEST
+
+   EXTERNAL_DEFINES += WITH_GTEST
+
+   EXTERNAL_INCLUDES += $(GTEST_INCDIR)
+   EXTERNAL_LIBS += ${addprefix -L, $(GTEST_LIBPATH)} ${addprefix -l, $(GTEST_LIBRARIES)}
+
+# end of file
