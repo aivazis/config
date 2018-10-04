@@ -13,5 +13,10 @@ ifneq ($(findstring pio,$(TARGETS),),)
     EXTERNAL_LIBS += $(MPIO_LIBS)
 endif
 
+# pull in any HDF5 dependencies
+ifdef HDF5_FLAVOR
+    -include $(HDF5_FLAVOR)/default.def
+endif
+
 #
 # End of file
