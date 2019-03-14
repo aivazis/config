@@ -4,6 +4,8 @@
 # (c) 1998-2018 all rights reserved
 #
 
+   # the canonical name of the numpy support library
+   NUMPY_LIBRARIES = npymath
 
 # Adjust the external variables to include NUMPY
 
