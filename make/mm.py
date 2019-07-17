@@ -685,6 +685,7 @@ class Builder:
         # env['XML']
 
         # machine info
+        env['MM_PLATFORM'] = self.host.system.lower()
         env['MM_ARCH'] = self.host.architecture
         env['MM_HOSTNAME'] = self.host.name
         # project specific variables
