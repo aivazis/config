@@ -358,7 +358,7 @@ class Installer:
 class Builder:
     """The {mm} wrapper"""
 
-    mm = "{} {}".format(sys.executable, sys.argv[0])
+    mm = "{} {}".format(sys.executable, os.path.abspath(sys.argv[0]))
     mmdef = os.path.split(__file__)[0]
     home = os.path.abspath(os.path.join(mmdef, os.pardir))
     directory = os.getcwd()
