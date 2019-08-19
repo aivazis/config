@@ -746,22 +746,22 @@ class Builder:
         env['LD_LIBRARY_PATH'] = os.pathsep.join(uniq(ldpath))
 
         # adjust the external include path
-        inchome = list(os.environ.get('MM_INCLUDES', '').split())
+        inchome = list(os.environ.get('MM_INCLUDES', '').split(os.pathsep))
         # we deposit header files here
         prodinc = os.path.join(self.prefix, 'include')
         # extend it
         inchome = filter(None, [prodinc] + inchome)
         # trim it and set it
-        env['MM_INCLUDES'] = ' '.join(inchome)
+        env['MM_INCLUDES'] = os.pathsep.join(inchome)
 
         # adjust the external include path
-        libhome = list(os.environ.get('MM_LIBPATH', '').split())
+        libhome = list(os.environ.get('MM_LIBPATH', '').split(os.pathsep))
         # we deposit libraries here
         prodlib = os.path.join(self.prefix, 'lib')
         # extend it
         libhome = filter(None, [prodlib] + libhome)
         # trim it and set it
-        env['MM_LIBPATH'] = ' '.join(libhome)
+        env['MM_LIBPATH'] = os.pathsep.join(libhome)
 
         # print it out
         what = self.show
