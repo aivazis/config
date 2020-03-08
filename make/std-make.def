@@ -20,8 +20,10 @@
 
 # check whether there is a project configuration file
 -include config.def
-# and a host specific one
+# and a host specific one; first, try with the full name given by {mm}
 -include config.${MM_HOSTNAME}.def
+# try again with the short version
+-include config.${firstword ${subst ., ,${MM_HOSTNAME}}}.def
 
 # Get the default values for the internal macros
 include std-tools.def
