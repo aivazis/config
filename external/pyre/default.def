@@ -5,7 +5,7 @@
 #
 
 # default settings for pyre
-  PYRE_DEFINES = WITH_PYRE
+  PYRE_DEFINES = WITH_PYRE WITH_JOURNAL
   PYRE_INCLUDES = $(PYRE_INCDIR)
   PYRE_LIBPATH = $(PYRE_LIBDIR)
   PYRE_LIBS = -lpyre -ljournal
