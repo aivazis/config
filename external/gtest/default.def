@@ -6,7 +6,7 @@
 
 # prime
 GTEST_LIBPATH = $(GTEST_LIBDIR)
-GTEST_LIBRARIES = gtest
+GTEST_LIBRARIES = gtest pthread
 
 # Adjust the external variables to include GTEST
 
