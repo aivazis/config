@@ -1,0 +1,13 @@
+#
+# michael a.g. aivazis
+# california institute of technology
+# (c) 1998-2018 all rights reserved
+#
+
+# Adjust the external variables to CGAL
+    EXTERNAL_DEFINES += WITH_CGAL
+    EXTERNAL_INCLUDES += $(CGAL_INCDIR)  
+    EXTERNAL_LIBPATH += $(CGAL_LIBDIR)
+    EXTERNAL_LIBS += -lCGAL
+
+# end of file
