@@ -22,7 +22,7 @@ def complain(msg):
     try:
         # use it
         import journal
-        journal.error('mm').log(msg)
+        journal.warning('mm').log(msg)
     # otherwise
     except ImportError:
         # print the error message
